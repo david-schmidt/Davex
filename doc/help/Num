@@ -1,0 +1,1 @@
+num -- print a number in decimal and hexsyntax:  num <integer>ex:      num $FF1800         num 65385'num' accepts a number from 0 to 16777215 and prints itin base 10 and base 16.

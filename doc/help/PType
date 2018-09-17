@@ -1,0 +1,1 @@
+ptype -- display a Pascal Text file ($03) (EXTERNAL)syntax:  ptype <pathname>ex:      ptype foo.bar         ptype .61=:$03'ptype' displays the contents of a Pascal Text file (filetype$03).  The first 1024 bytes are ignored; the rest of the fileis plain text except that Ctrl-P ($10) means the next byterepresents a number of blanks.

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Davex" default="xtn-all" basedir="..">
+	<property name="builddir" value="${basedir}/build" />
+	<property file="${builddir}/Davex.properties" />
+	<property file="${builddir}/Davex-default.properties" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="srcdir" value="${basedir}/src" />
+	<property name="projdir" value="${basedir}" />
+	<property name="obj" value="${basedir}/obj" />
+	<property name="obj2dir" value="${obj}/2" />
+	<property name="obj2xtndir" value="${obj}/2/xtn" />
+	<property name="obj3dir" value="${obj}/3" />
+	<property name="obj3xtndir" value="${obj}/3/xtn" />
+	<property name="acJarVersion" value="1.3.5.13-ac" />
+	<property name="acJarPath" value="${builddir}/lib" />
+	<property name="acJar" value="AppleCommander-${acJarVersion}.jar" />
+	<taskdef name="appleCommander" classname="com.webcodepro.applecommander.ui.AntTask" classpath="${acJarPath}/${acJar}"/>
+
+	<target name="xtn-all" description="Bulid everything for externals." depends="xtn-assemble, xtn-builddsk">
+	</target>
+	<target name="xtn-clean">
+		<!--
+		Clean up build artifacts
+		-->
+		<delete dir="${obj}" />
+		<!-- <delete dir="${dist}" /> -->
+	</target>
+
+	<target name="xtn-assemble" description="Assemble external source.">
+		<!--
+		Assemble the Davex externals source
+		-->
+		<echo message="Assembling Davex externals..."/>
+			<mkdir dir="${obj2xtndir}" />
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/alias.asm -o ${obj2xtndir}/alias.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/blist.asm -o ${obj2xtndir}/blist.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/brun.asm -o ${obj2xtndir}/brun.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cal.asm -o ${obj2xtndir}/cal.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cmpf.asm -o ${obj2xtndir}/cmpf.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/conp.asm -o ${obj2xtndir}/conp.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/deschw.asm -o ${obj2xtndir}/deschw.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/doscat.asm -o ${obj2xtndir}/doscat.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/du.asm -o ${obj2xtndir}/du.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dump.asm -o ${obj2xtndir}/dump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ffind.asm -o ${obj2xtndir}/ffind.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/find.asm -o ${obj2xtndir}/find.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fp.asm -o ${obj2xtndir}/fp.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ftdump.asm -o ${obj2xtndir}/ftdump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/gsbuff.asm -o ${obj2xtndir}/gsbuff.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/hdr.asm -o ${obj2xtndir}/hdr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/index.asm -o ${obj2xtndir}/index.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/iw2.asm -o ${obj2xtndir}/iw2.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/modchk.asm -o ${obj2xtndir}/modchk.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mt.asm -o ${obj2xtndir}/mt.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mx80.asm -o ${obj2xtndir}/mx80.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/net.asm -o ${obj2xtndir}/net.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/park.asm -o ${obj2xtndir}/park.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/pset.asm -o ${obj2xtndir}/pset.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ptype.asm -o ${obj2xtndir}/ptype.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/s16alias.asm -o ${obj2xtndir}/s16alias.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setdate.asm -o ${obj2xtndir}/setdate.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setstart.asm -o ${obj2xtndir}/setstart.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/storage.asm -o ${obj2xtndir}/storage.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/strings.asm -o ${obj2xtndir}/strings.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/sysalias.asm -o ${obj2xtndir}/sysalias.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vrestore.asm -o ${obj2xtndir}/vrestore.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vstore.asm -o ${obj2xtndir}/vstore.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
+		<!-- Diassembled Batch -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/barcode.asm -o ${obj2xtndir}/barcode.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/chcase.asm -o ${obj2xtndir}/chcase.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/combine.asm -o ${obj2xtndir}/combine.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/crc.asm -o ${obj2xtndir}/crc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/date.asm -o ${obj2xtndir}/date.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumpdhgr.asm -o ${obj2xtndir}/dumpdhgr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumphgr.asm -o ${obj2xtndir}/dumphgr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fdump.asm -o ${obj2xtndir}/fdump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fi.asm -o ${obj2xtndir}/fi.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ld.asm -o ${obj2xtndir}/ld.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/list.asm -o ${obj2xtndir}/list.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ls.asm -o ${obj2xtndir}/ls.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lsrc.asm -o ${obj2xtndir}/lsrc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lw.asm -o ${obj2xtndir}/lw.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/puzzle.asm -o ${obj2xtndir}/puzzle.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ram3.asm -o ${obj2xtndir}/ram3.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/split.asm -o ${obj2xtndir}/split.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tm.asm -o ${obj2xtndir}/tm.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tr.asm -o ${obj2xtndir}/tr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/upc.asm -o ${obj2xtndir}/upc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewdhr.asm -o ${obj2xtndir}/viewdhr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewhr.asm -o ${obj2xtndir}/viewhr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/wc.asm -o ${obj2xtndir}/wc.o" /></exec>
+
+		<echo message="Linking externals..."/>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o alias -m alias.map -C ${srcdir}/xtn/2/xtn_a000.cfg alias.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o blist -m blist.map -C ${srcdir}/xtn/2/xtn_a000.cfg blist.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o brun -m brun.map -C ${srcdir}/xtn/2/xtn_2000.cfg brun.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o cal -m cal.map -C ${srcdir}/xtn/2/xtn_a000.cfg cal.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o cmpf -m cmpf.map -C ${srcdir}/xtn/2/xtn_a000.cfg cmpf.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o conp -m conp.map -C ${srcdir}/xtn/2/xtn_9800.cfg conp.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o deschw -m deschw.map -C ${srcdir}/xtn/2/xtn_9000.cfg deschw.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o doscat -m doscat.map -C ${srcdir}/xtn/2/xtn_AC00.cfg doscat.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o du -m du.map -C ${srcdir}/xtn/2/xtn_9000.cfg du.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o dump -m dump.map -C ${srcdir}/xtn/2/xtn_a000.cfg dump.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ffind -m ffind.map -C ${srcdir}/xtn/2/xtn_a000.cfg ffind.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o find -m find.map -C ${srcdir}/xtn/2/xtn_a000.cfg find.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o fp -m fp.map -C ${srcdir}/xtn/2/xtn_9800.cfg fp.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ftdump -m ftdump.map -C ${srcdir}/xtn/2/xtn_9000.cfg ftdump.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o fx80 -m fx80.map -C ${srcdir}/xtn/2/xtn_9000.cfg fx80.o" /></exec>
+<!--		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o gsbuff -m gsbuff.map -C ${srcdir}/xtn/2/xtn_a000.cfg gsbuff.o" /></exec> -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o hdr -m hdr.map -C ${srcdir}/xtn/2/xtn_a000.cfg hdr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o index -m index.map -C ${srcdir}/xtn/2/xtn_a000.cfg index.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o iw2 -m iw2.map -C ${srcdir}/xtn/2/xtn_a000.cfg iw2.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o modchk -m modchk.map -C ${srcdir}/xtn/2/xtn_a000.cfg modchk.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o mt -m mt.map -C ${srcdir}/xtn/2/xtn_9000.cfg mt.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o mx80 -m mx80.map -C ${srcdir}/xtn/2/xtn_ae00.cfg mx80.o" /></exec>
+<!--		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o net -m net.map -C ${srcdir}/xtn/2/xtn_9000.cfg net.o" /></exec> -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o park -m park.map -C ${srcdir}/xtn/2/xtn_a000.cfg park.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o pset -m pset.map -C ${srcdir}/xtn/2/xtn_a000.cfg pset.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ptype -m ptype.map -C ${srcdir}/xtn/2/xtn_a000.cfg ptype.o" /></exec>
+<!--		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o s16alias -m s16alias.map -C ${srcdir}/xtn/2/xtn_9000.cfg s16alias.o" /></exec> -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o setdate -m setdate.map -C ${srcdir}/xtn/2/xtn_a000.cfg setdate.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o setstart -m setstart.map -C ${srcdir}/xtn/2/xtn_9000.cfg setstart.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o storage -m storage.map -C ${srcdir}/xtn/2/xtn_a000.cfg storage.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o strings -m strings.map -C ${srcdir}/xtn/2/xtn_a000.cfg strings.o" /></exec>
+<!--		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o sysalias -m sysalias.map -C ${srcdir}/xtn/2/xtn_a000.cfg sysalias.o" /></exec> -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o vrestore -m vrestore.map -C ${srcdir}/xtn/2/xtn_a800.cfg vrestore.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o vstore -m vstore.map -C ${srcdir}/xtn/2/xtn_a800.cfg vstore.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o what -m what.map -C ${srcdir}/xtn/2/xtn_9000.cfg what.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o x10 -m x10.map -C ${srcdir}/xtn/2/xtn_a000.cfg x10.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o xc -m xc.map -C ${srcdir}/xtn/2/xtn_9000.cfg xc.o" /></exec>
+		<!-- Diassembled Batch -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o aaf -m aaf.map -C ${srcdir}/xtn/2/xtn_9000.cfg aaf.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o barcode -m barcode.map -C ${srcdir}/xtn/2/xtn_a000.cfg barcode.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o chcase -m chcase.map -C ${srcdir}/xtn/2/xtn_9000.cfg chcase.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o combine -m combine.map -C ${srcdir}/xtn/2/xtn_ad00.cfg combine.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o crc -m crc.map -C ${srcdir}/xtn/2/xtn_9000.cfg crc.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o date -m date.map -C ${srcdir}/xtn/2/xtn_ac00.cfg date.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o dumpdhgr -m dumpdhgr.map -C ${srcdir}/xtn/2/xtn_a700.cfg dumpdhgr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o dumphgr -m dumphgr.map -C ${srcdir}/xtn/2/xtn_a800.cfg dumphgr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o fdump -m fdump.map -C ${srcdir}/xtn/2/xtn_a000.cfg fdump.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o fi -m fi.map -C ${srcdir}/xtn/2/xtn_a000.cfg fi.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o fx80 -m fx80.map -C ${srcdir}/xtn/2/xtn_9000.cfg fx80.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ld -m ld.map -C ${srcdir}/xtn/2/xtn_9000.cfg ld.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o list -m list.map -C ${srcdir}/xtn/2/xtn_9000.cfg list.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ls -m ls.map -C ${srcdir}/xtn/2/xtn_9000.cfg ls.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o lsrc -m lsrc.map -C ${srcdir}/xtn/2/xtn_9000.cfg lsrc.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o lw -m lw.map -C ${srcdir}/xtn/2/xtn_9000.cfg lw.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o puzzle -m puzzle.map -C ${srcdir}/xtn/2/xtn_a000.cfg puzzle.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o ram3 -m ram3.map -C ${srcdir}/xtn/2/xtn_ac00.cfg ram3.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o split -m split.map -C ${srcdir}/xtn/2/xtn_ac00.cfg split.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o tm -m tm.map -C ${srcdir}/xtn/2/xtn_a000.cfg tm.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o tr -m tr.map -C ${srcdir}/xtn/2/xtn_aa00.cfg tr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o upc -m upc.map -C ${srcdir}/xtn/2/xtn_a000.cfg upc.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o viewdhr -m viewdhr.map -C ${srcdir}/xtn/2/xtn_ac00.cfg viewdhr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o viewhr -m viewhr.map -C ${srcdir}/xtn/2/xtn_ae00.cfg viewhr.o" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o wc -m wc.map -C ${srcdir}/xtn/2/xtn_a000.cfg wc.o" /></exec>
+	</target>
+	<target name="xtn-builddsk">
+		<!--
+		Put the assembled programs on the disk images - ProDOS 5-1/4"
+		-->
+		<echo message="Copying external files to ProDOS 5.25 disk image..."/>
+		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${dist}/DavexProDOS.dsk" filename="xtn/alias" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${dist}/DavexProDOS.dsk" filename="xtn/du" type="p8c" address="32769"/>
+		<echo message="ProDOS 5.25 disk externals complete."/>
+		<!--
+		Put the assembled programs on the disk images - ProDOS 3-1/2"
+		-->
+		<echo message="Copying external files to ProDOS 3.5 disk image..."/>
+		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${dist}/DavexProDOS.po" filename="xtn/alias" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/blist" imagename="${dist}/DavexProDOS.po" filename="xtn/blist" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/brun" imagename="${dist}/DavexProDOS.po" filename="xtn/brun" type="sys" address="8192"/>
+		<appleCommander command="p" input="${obj2xtndir}/cal" imagename="${dist}/DavexProDOS.po" filename="xtn/cal" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/cmpf" imagename="${dist}/DavexProDOS.po" filename="xtn/cmpf" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/conp" imagename="${dist}/DavexProDOS.po" filename="xtn/conp" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/deschw" imagename="${dist}/DavexProDOS.po" filename="xtn/deschw" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/doscat" imagename="${dist}/DavexProDOS.po" filename="xtn/doscat" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${dist}/DavexProDOS.po" filename="xtn/du" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dump" imagename="${dist}/DavexProDOS.po" filename="xtn/dump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ffind" imagename="${dist}/DavexProDOS.po" filename="xtn/ffind" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/find" imagename="${dist}/DavexProDOS.po" filename="xtn/find" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fp" imagename="${dist}/DavexProDOS.po" filename="xtn/fp" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ftdump" imagename="${dist}/DavexProDOS.po" filename="xtn/ftdump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${dist}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/gsbuff" imagename="${dist}/DavexProDOS.po" filename="xtn/gsbuff" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/hdr" imagename="${dist}/DavexProDOS.po" filename="xtn/hdr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/index" imagename="${dist}/DavexProDOS.po" filename="xtn/index" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/iw2" imagename="${dist}/DavexProDOS.po" filename="xtn/iw2" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/modchk" imagename="${dist}/DavexProDOS.po" filename="xtn/modchk" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/mt" imagename="${dist}/DavexProDOS.po" filename="xtn/mt" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/mx80" imagename="${dist}/DavexProDOS.po" filename="xtn/mx80" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/net" imagename="${dist}/DavexProDOS.po" filename="xtn/net" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/park" imagename="${dist}/DavexProDOS.po" filename="xtn/park" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/pset" imagename="${dist}/DavexProDOS.po" filename="xtn/pset" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ptype" imagename="${dist}/DavexProDOS.po" filename="xtn/ptype" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/s16alias" imagename="${dist}/DavexProDOS.po" filename="xtn/s16alias" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/setdate" imagename="${dist}/DavexProDOS.po" filename="xtn/setdate" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/setstart" imagename="${dist}/DavexProDOS.po" filename="xtn/setstart" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/storage" imagename="${dist}/DavexProDOS.po" filename="xtn/storage" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/strings" imagename="${dist}/DavexProDOS.po" filename="xtn/strings" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/sysalias" imagename="${dist}/DavexProDOS.po" filename="xtn/sysalias" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/vrestore" imagename="${dist}/DavexProDOS.po" filename="xtn/vrestore" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/vstore" imagename="${dist}/DavexProDOS.po" filename="xtn/vstore" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/what" imagename="${dist}/DavexProDOS.po" filename="xtn/what" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/x10" imagename="${dist}/DavexProDOS.po" filename="xtn/x10" type="p8c" address="32769"/>
+		<!-- Diassembled Batch -->
+		<appleCommander command="p" input="${obj2xtndir}/aaf" imagename="${dist}/DavexProDOS.po" filename="xtn/aaf" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/barcode" imagename="${dist}/DavexProDOS.po" filename="xtn/barcode" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/chcase" imagename="${dist}/DavexProDOS.po" filename="xtn/chcase" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/combine" imagename="${dist}/DavexProDOS.po" filename="xtn/combine" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/crc" imagename="${dist}/DavexProDOS.po" filename="xtn/crc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/date" imagename="${dist}/DavexProDOS.po" filename="xtn/date" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dumpdhgr" imagename="${dist}/DavexProDOS.po" filename="xtn/dumpdhgr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dumphgr" imagename="${dist}/DavexProDOS.po" filename="xtn/dumphgr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fdump" imagename="${dist}/DavexProDOS.po" filename="xtn/fdump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fi" imagename="${dist}/DavexProDOS.po" filename="xtn/fi" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${dist}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ld" imagename="${dist}/DavexProDOS.po" filename="xtn/ld" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/list" imagename="${dist}/DavexProDOS.po" filename="xtn/list" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ls" imagename="${dist}/DavexProDOS.po" filename="xtn/ls" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/lsrc" imagename="${dist}/DavexProDOS.po" filename="xtn/lsrc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/lw" imagename="${dist}/DavexProDOS.po" filename="xtn/lw" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/puzzle" imagename="${dist}/DavexProDOS.po" filename="xtn/puzzle" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ram3" imagename="${dist}/DavexProDOS.po" filename="xtn/ram3" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/split" imagename="${dist}/DavexProDOS.po" filename="xtn/split" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/tm" imagename="${dist}/DavexProDOS.po" filename="xtn/tm" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/tr" imagename="${dist}/DavexProDOS.po" filename="xtn/tr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/upc" imagename="${dist}/DavexProDOS.po" filename="xtn/upc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/viewdhr" imagename="${dist}/DavexProDOS.po" filename="xtn/viewdhr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/viewhr" imagename="${dist}/DavexProDOS.po" filename="xtn/viewhr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/wc" imagename="${dist}/DavexProDOS.po" filename="xtn/wc" type="p8c" address="32769"/>
+
+		<echo message="ProDOS 3.5 disk externals complete."/>
+	</target>
+</project>

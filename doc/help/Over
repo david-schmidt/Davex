@@ -1,0 +1,1 @@
+over -- move to another directory    Alias for:  up;prefixsyntax:  over <pathname>ex:      over that         over a/bChanges prefix to another directory at the same level.  'over'does an 'up' and then does 'down <path>'.(see also:  up, down, prefix, origin)

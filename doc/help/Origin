@@ -1,0 +1,1 @@
+origin | or -- set prefix to the volume Davex is running from               Alias for "%;top"syntax:   originex:       origin          orThis is just an alias for "%;top"--it sets your prefix to thetop directory of the disk Davex is running from.(see also:  prefix, over, top, up)

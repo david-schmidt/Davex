@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Davex-xtn" default="all" basedir="..">
+	<property name="builddir" value="${basedir}/build" />
+	<property file="${builddir}/Davex.properties" />
+	<property file="${builddir}/Davex-default.properties" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="srcdir" value="${basedir}/src" />
+	<property name="projdir" value="${basedir}" />
+	<property name="obj" value="${basedir}/obj" />
+	<property name="obj2dir" value="${obj}/2" />
+	<property name="obj2xtndir" value="${obj}/2/xtn" />
+	<property name="obj3dir" value="${obj}/3" />
+	<property name="obj3xtndir" value="${obj}/3/xtn" />
+	<property name="acJarVersion" value="1.3.5.13-ac" />
+	<property name="acJarPath" value="${builddir}/lib" />
+	<property name="acJar" value="AppleCommander-${acJarVersion}.jar" />
+	<taskdef name="appleCommander" classname="com.webcodepro.applecommander.ui.AntTask" classpath="${acJarPath}/${acJar}"/>
+	<import file="build-xtn.xml"/>
+	<target name="all" description="Bulid everything." depends="clean, assemble, builddsk, xtns"></target>
+	<target name="clean">
+		<!--
+		Clean up build artifacts
+		-->
+		<delete dir="${obj}" />
+		<!-- <delete dir="${dist}" /> -->
+	</target>
+
+	<target name="assemble" description="Assemble source.">
+		<!--
+		Assemble the Dav3x source
+		-->
+		<echo message="Assembling Dav3x source..."/>
+		<mkdir dir="${obj3xtndir}" />
+		<exec dir="${obj3dir}" executable="${assemblerPath}/ca65">
+			<arg line="-t none -I . -l ${srcdir}/Shell/3/dav3x.asm -o ${obj3dir}/dav3x.o" />
+		</exec>
+		<echo message="Linking Dav3x..."/>
+		<exec dir="${obj3dir}" executable="${assemblerPath}/ld65">
+			<arg line="-o DAV3X.SYSTEM -m dav3x.map -C ${srcdir}/Shell/3/dav3x.cfg dav3x.o" />
+		</exec>
+
+		<!--
+		Assemble the Davex source
+		-->
+		<echo message="Assembling Davex source..."/>
+		<mkdir dir="${obj2xtndir}" />
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65">
+			<arg line="-t none -I . -l ${srcdir}/Shell/2/davex.asm -o ${obj2dir}/davex.o" />
+		</exec>
+
+		<echo message="Linking Davex..."/>
+		<exec dir="${obj2dir}" executable="${assemblerPath}/ld65">
+			<arg line="-o DAVEX.SYSTEM -m davex.map -C ${srcdir}/Shell/2/davex.cfg davex.o" />
+		</exec>
+	</target>
+	<target name="builddsk">
+		<!--
+		Start disk images
+		-->
+		<delete file="${dist}/DavexSOS.dsk" />
+		<copy file="${builddir}/lib/DavexSOSBase.dsk" tofile="${dist}/DavexSOS.dsk" />
+		<!--
+		Put the assembled programs on the disk images - SOS
+		-->
+		<appleCommander command="p" input="${obj3dir}/DAV3X.SYSTEM" imagename="${dist}/DavexSOS.dsk" filename="SOS.INTERP" type="sys" address="8192"/>
+		<echo message="SOS 5.25 disk image complete."/>
+		<!--
+		Put the assembled programs on the disk images - ProDOS 5-1/4"
+		-->
+		<delete file="${dist}/DavexProDOS.dsk" />
+		<copy file="${builddir}/lib/DavexProDOSBase.dsk" tofile="${dist}/DavexProDOS.dsk" />
+		<echo message="Copying files to ProDOS 5.25 disk image..."/>
+		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${dist}/DavexProDOS.dsk" filename="DAVEX" type="sys" address="8192"/>
+		<echo message="ProDOS 5.25 disk image complete."/>
+		<!--
+		Put the assembled programs on the disk images - ProDOS 3-1/2"
+		-->
+		<delete file="${dist}/DavexProDOS.po" />
+		<copy file="${builddir}/lib/DavexProDOSBase.po" tofile="${dist}/DavexProDOS.po" />
+		<echo message="Copying files to ProDOS 3.5 disk image..."/>
+		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${dist}/DavexProDOS.po" filename="DAVEX" type="sys" address="8192"/>
+		<echo message="ProDOS 3.5 disk image complete."/>
+	</target>
+	<target name="xtns">
+		<ant antfile="build/build-xtn.xml" target="xtn-all"/>
+	</target>
+</project>
