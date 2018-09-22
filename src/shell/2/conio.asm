@@ -28,8 +28,8 @@ messx:	lda msgp+1
 suspend80:
 	.byte 0
 
-on80:	jsr $fe89
-	jsr $fe93
+on80:	jsr setkbd
+	jsr setvid
 	jsr f8rom_init	; $fb2f
 	jsr home
 	lsr suspend80

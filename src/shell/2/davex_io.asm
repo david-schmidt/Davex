@@ -373,7 +373,7 @@ mg_notdl:
 	bmi noApple
 not_CR:	bit exec_flag
 	bmi lit_char	;was noApple 5-Feb-90
-	ldy $fbb3
+	ldy $fbb3	;contains $38 (sec) in original Apple II ROM, $06 in IIe
 	cpy #6
 	bne noApple	;do we have a machine with an Apple key?
 	ldy button0	;Apple key down?

@@ -57,6 +57,8 @@ cout		= $fded
 move		= $fe2c
 inverse		= $fe80
 normal		= $fe84
+setkbd		= $fe89
+setvid		= $fe93
 outport		= $fe95
 monitor		= $ff69
 

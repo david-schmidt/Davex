@@ -489,7 +489,7 @@ HardCopy:
 
 hc1:
 	lda $25		;vertical position
-	jsr $fbc1	;BASCALC
+	jsr bascalc
 hc2:	ldy $24		;horizontal position
 	jsr fetch_ch
 	jsr hcwrite
