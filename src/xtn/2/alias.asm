@@ -288,7 +288,7 @@ CloseA:	.byte 1
 aRef3:	.byte 0
 
 AliasName:
-	asc_hi "Aliases"
+	pstr "ALIASES"
 
 strip7:	lda AliasPages
 	sta count

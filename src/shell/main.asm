@@ -1904,6 +1904,7 @@ go_quit:
 ; quitting to S16?
 	bit s16_flag
 	bmi quit_s16
+	jsr get_quitcode
 .endif
 
 os_quit:
@@ -8517,7 +8518,7 @@ byte:	.res 1
 ; View a file
 ;
 IndexName:
-	pstr "indexed.help"
+	pstr "INDEXED.HELP"
 
 vf_fail:
 	jmp ProDOS_err

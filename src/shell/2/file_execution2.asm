@@ -362,9 +362,9 @@ qtprobx:
 	jmp rtn_again-myqcode+$1000
 
 qtprobmsg:
-	asc "Unable to return to Davex"
+	asc_hi "Unable to return to Davex"
 	.byte cr,cr
-	cstr "Hit a key to try again..."
+	asc_hi "Hit a key to try again..."
 	.byte 0
 
 qtone	= *-myqcode+$1000
