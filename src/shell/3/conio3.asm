@@ -19,6 +19,7 @@ cout:	; Character output routine (print to screen)
 ;---------------------------------------------------------
 init_screen:
 	; Prepare the system for our expectations
+	jsr loadfnt
 	CALLOS mli_open, OPEN_PARMS	; Open the console
 	;jsr ERRORCK
 	lda OPEN_REF
@@ -181,6 +182,90 @@ prhex:
 suspend80:
 restore80:
 	rts
+
+;---------------------------------------------------------
+; loadfnt: Load up the standard Apple character font
+;---------------------------------------------------------
+
+ctemp1     =        $FD
+
+dnldcel    =        $FE
+dnldchr    =        $FF
+
+dimgptr    =        $21
+dcelptr    =        $2a
+
+cwrton     =        $C0DB
+cwrtoff    =        $C0DA
+cb2ctrl    =        $FFEC
+cb2int     =        $FFED
+
+loadfnt:
+           lda       #$F0
+           sta       $FFDF
+           lda       #<fontptr
+           sta       dimgptr
+           lda       #>fontptr
+           sta       dimgptr+1
+           lda       #$00
+           sta       dnldchr
+           lda       #$07
+           sta       dnldcel
+@1:        jsr       loadchr
+           dec       dnldcel
+           bpl       @2
+           bit       cwrton
+           jsr       vretrce
+           jsr       vretrce
+           bit       cwrtoff
+           lda       #$07
+           sta       dnldcel
+@2:        inc       dnldchr
+           bpl       @1
+
+loadchr:   lda       #$00                ; X will be set to 0 for this function
+           tax
+           tay                           ; Use Y for row counter
+@1:        lda       dnldcel             ; Set up cell pointer for ASCII code
+           and       #$03
+           ora       dcptrl, y
+           sta       dcelptr, x
+           lda       dnldcel
+           lsr
+           lsr
+           cpy       #$04
+           rol
+           ora       #$08
+           sta       dcelptr+1, x
+           lda       dnldchr             ; Store ASCII code into download cell
+           sta       (dcelptr, x)
+           lda       dcelptr+1, x        ; Fix cell pointer for character image
+           eor       #$0C
+           sta       dcelptr+1, x
+           lda       (dimgptr, x)        ; Store character image
+           sta       (dcelptr, x)        ;   into download cell
+           inc       dimgptr, x          ; Increment the image pointer
+           bne       @2
+           inc       dimgptr+1, x
+@2:        iny                           ; Increment the row number
+           cpy       #$08
+           bcc       @1                  ; Not done yet
+           rts
+
+vretrce:   sta       ctemp1              ; save bits to be stored
+           lda       cb2ctrl             ; control port for "CB2"
+           and       #$3F                ; reset high bits to 0
+           ora       ctemp1
+           sta       cb2ctrl
+           lda       #$08                ; test vertical retrace
+           sta       cb2int
+vwait:     bit       cb2int              ; wait for retrace
+           beq       vwait
+           rts
+
+dcptrl:   .byte     $78, $7C, $F8, $FC, $78, $7C, $F8, $FC 
+
+fontptr:  .incbin   "../../src/shell/3/starfont.bin"
 
 INIT_SCREEN_DATA:
 	.byte 16

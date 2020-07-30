@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Davex-xtn" default="all" basedir="..">
+<project name="Davex" default="all" basedir="..">
 	<property name="builddir" value="${basedir}/build" />
 	<property file="${builddir}/Davex.properties" />
 	<property file="${builddir}/Davex-default.properties" />
@@ -32,7 +32,7 @@
 		<echo message="Assembling Dav3x source..."/>
 		<mkdir dir="${obj3xtndir}" />
 		<exec dir="${obj3dir}" executable="${assemblerPath}/ca65">
-			<arg line="-t none -I . -l ${srcdir}/Shell/3/dav3x.asm -o ${obj3dir}/dav3x.o" />
+			<arg line="-t none -I . -l ${srcdir}/Shell/3/dav3x.lst ${srcdir}/Shell/3/dav3x.asm -o ${obj3dir}/dav3x.o" />
 		</exec>
 		<echo message="Linking Dav3x..."/>
 		<exec dir="${obj3dir}" executable="${assemblerPath}/ld65">
@@ -45,7 +45,7 @@
 		<echo message="Assembling Davex source..."/>
 		<mkdir dir="${obj2xtndir}" />
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65">
-			<arg line="-t none -I . -l ${srcdir}/Shell/2/davex.asm -o ${obj2dir}/davex.o" />
+			<arg line="-t none -I . -l ${srcdir}/Shell/2/davex.lst ${srcdir}/Shell/2/davex.asm -o ${obj2dir}/davex.o" />
 		</exec>
 
 		<echo message="Linking Davex..."/>

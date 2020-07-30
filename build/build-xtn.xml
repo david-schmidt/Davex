@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Davex" default="xtn-all" basedir="..">
+<project name="Davex-xtn" default="xtn-all" basedir="..">
 	<property name="builddir" value="${basedir}/build" />
 	<property file="${builddir}/Davex.properties" />
 	<property file="${builddir}/Davex-default.properties" />
@@ -32,69 +32,69 @@
 		-->
 		<echo message="Assembling Davex externals..."/>
 			<mkdir dir="${obj2xtndir}" />
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/alias.asm -o ${obj2xtndir}/alias.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/blist.asm -o ${obj2xtndir}/blist.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/brun.asm -o ${obj2xtndir}/brun.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cal.asm -o ${obj2xtndir}/cal.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cmpf.asm -o ${obj2xtndir}/cmpf.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/conp.asm -o ${obj2xtndir}/conp.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/deschw.asm -o ${obj2xtndir}/deschw.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/doscat.asm -o ${obj2xtndir}/doscat.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/du.asm -o ${obj2xtndir}/du.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dump.asm -o ${obj2xtndir}/dump.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ffind.asm -o ${obj2xtndir}/ffind.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/find.asm -o ${obj2xtndir}/find.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fp.asm -o ${obj2xtndir}/fp.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ftdump.asm -o ${obj2xtndir}/ftdump.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
-<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/gsbuff.asm -o ${obj2xtndir}/gsbuff.o" /></exec> -->
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/hdr.asm -o ${obj2xtndir}/hdr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/index.asm -o ${obj2xtndir}/index.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/iw2.asm -o ${obj2xtndir}/iw2.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/modchk.asm -o ${obj2xtndir}/modchk.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mt.asm -o ${obj2xtndir}/mt.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mx80.asm -o ${obj2xtndir}/mx80.o" /></exec>
-<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/net.asm -o ${obj2xtndir}/net.o" /></exec> -->
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/park.asm -o ${obj2xtndir}/park.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/pset.asm -o ${obj2xtndir}/pset.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ptype.asm -o ${obj2xtndir}/ptype.o" /></exec>
-<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/s16alias.asm -o ${obj2xtndir}/s16alias.o" /></exec> -->
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setdate.asm -o ${obj2xtndir}/setdate.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setstart.asm -o ${obj2xtndir}/setstart.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/storage.asm -o ${obj2xtndir}/storage.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/strings.asm -o ${obj2xtndir}/strings.o" /></exec>
-<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/sysalias.asm -o ${obj2xtndir}/sysalias.o" /></exec> -->
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vrestore.asm -o ${obj2xtndir}/vrestore.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vstore.asm -o ${obj2xtndir}/vstore.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/alias.lst ${srcdir}/xtn/2/alias.asm -o ${obj2xtndir}/alias.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/blist.lst  ${srcdir}/xtn/2/blist.asm -o ${obj2xtndir}/blist.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/brun.lst ${srcdir}/xtn/2/brun.asm -o ${obj2xtndir}/brun.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cal.lst ${srcdir}/xtn/2/cal.asm -o ${obj2xtndir}/cal.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cmpf.lst ${srcdir}/xtn/2/cmpf.asm -o ${obj2xtndir}/cmpf.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/conp.lst ${srcdir}/xtn/2/conp.asm -o ${obj2xtndir}/conp.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/deschw.lst ${srcdir}/xtn/2/deschw.asm -o ${obj2xtndir}/deschw.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/doscat.lst ${srcdir}/xtn/2/doscat.asm -o ${obj2xtndir}/doscat.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/du.lst ${srcdir}/xtn/2/du.asm -o ${obj2xtndir}/du.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dump.lst ${srcdir}/xtn/2/dump.asm -o ${obj2xtndir}/dump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ffind.lst ${srcdir}/xtn/2/ffind.asm -o ${obj2xtndir}/ffind.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/find.lst ${srcdir}/xtn/2/find.asm -o ${obj2xtndir}/find.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fp.lst ${srcdir}/xtn/2/fp.asm -o ${obj2xtndir}/fp.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ftdump.lst ${srcdir}/xtn/2/ftdump.asm -o ${obj2xtndir}/ftdump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.lst ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/gsbuff.lst ${srcdir}/xtn/2/gsbuff.asm -o ${obj2xtndir}/gsbuff.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/hdr.lst ${srcdir}/xtn/2/hdr.asm -o ${obj2xtndir}/hdr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/index.lst ${srcdir}/xtn/2/index.asm -o ${obj2xtndir}/index.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/iw2.lst ${srcdir}/xtn/2/iw2.asm -o ${obj2xtndir}/iw2.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/modchk.lst ${srcdir}/xtn/2/modchk.asm -o ${obj2xtndir}/modchk.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mt.lst ${srcdir}/xtn/2/mt.asm -o ${obj2xtndir}/mt.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/mx80.lst ${srcdir}/xtn/2/mx80.asm -o ${obj2xtndir}/mx80.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/net.lst ${srcdir}/xtn/2/net.asm -o ${obj2xtndir}/net.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/park.lst ${srcdir}/xtn/2/park.asm -o ${obj2xtndir}/park.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/pset.lst ${srcdir}/xtn/2/pset.asm -o ${obj2xtndir}/pset.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ptype.lst ${srcdir}/xtn/2/ptype.asm -o ${obj2xtndir}/ptype.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/s16alias.lst ${srcdir}/xtn/2/s16alias.asm -o ${obj2xtndir}/s16alias.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setdate.lst ${srcdir}/xtn/2/setdate.asm -o ${obj2xtndir}/setdate.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setstart.lst ${srcdir}/xtn/2/setstart.asm -o ${obj2xtndir}/setstart.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/storage.lst ${srcdir}/xtn/2/storage.asm -o ${obj2xtndir}/storage.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/strings.lst ${srcdir}/xtn/2/strings.asm -o ${obj2xtndir}/strings.o" /></exec>
+<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/sysalias.lst ${srcdir}/xtn/2/sysalias.asm -o ${obj2xtndir}/sysalias.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vrestore.lst ${srcdir}/xtn/2/vrestore.asm -o ${obj2xtndir}/vrestore.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vstore.lst ${srcdir}/xtn/2/vstore.asm -o ${obj2xtndir}/vstore.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.lst ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.lst ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.lst ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
 		<!-- Diassembled Batch -->
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/barcode.asm -o ${obj2xtndir}/barcode.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/chcase.asm -o ${obj2xtndir}/chcase.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/combine.asm -o ${obj2xtndir}/combine.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/crc.asm -o ${obj2xtndir}/crc.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/date.asm -o ${obj2xtndir}/date.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumpdhgr.asm -o ${obj2xtndir}/dumpdhgr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumphgr.asm -o ${obj2xtndir}/dumphgr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fdump.asm -o ${obj2xtndir}/fdump.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fi.asm -o ${obj2xtndir}/fi.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ld.asm -o ${obj2xtndir}/ld.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/list.asm -o ${obj2xtndir}/list.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ls.asm -o ${obj2xtndir}/ls.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lsrc.asm -o ${obj2xtndir}/lsrc.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lw.asm -o ${obj2xtndir}/lw.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/puzzle.asm -o ${obj2xtndir}/puzzle.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ram3.asm -o ${obj2xtndir}/ram3.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/split.asm -o ${obj2xtndir}/split.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tm.asm -o ${obj2xtndir}/tm.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tr.asm -o ${obj2xtndir}/tr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/upc.asm -o ${obj2xtndir}/upc.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewdhr.asm -o ${obj2xtndir}/viewdhr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewhr.asm -o ${obj2xtndir}/viewhr.o" /></exec>
-		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/wc.asm -o ${obj2xtndir}/wc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.lst ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/barcode.lst ${srcdir}/xtn/2/barcode.asm -o ${obj2xtndir}/barcode.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/chcase.lst ${srcdir}/xtn/2/chcase.asm -o ${obj2xtndir}/chcase.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/combine.lst ${srcdir}/xtn/2/combine.asm -o ${obj2xtndir}/combine.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/crc.lst ${srcdir}/xtn/2/crc.asm -o ${obj2xtndir}/crc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/date.lst ${srcdir}/xtn/2/date.asm -o ${obj2xtndir}/date.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumpdhgr.lst ${srcdir}/xtn/2/dumpdhgr.asm -o ${obj2xtndir}/dumpdhgr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/dumphgr.lst ${srcdir}/xtn/2/dumphgr.asm -o ${obj2xtndir}/dumphgr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fdump.lst ${srcdir}/xtn/2/fdump.asm -o ${obj2xtndir}/fdump.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fi.lst ${srcdir}/xtn/2/fi.asm -o ${obj2xtndir}/fi.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/fx80.lst ${srcdir}/xtn/2/fx80.asm -o ${obj2xtndir}/fx80.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ld.lst ${srcdir}/xtn/2/ld.asm -o ${obj2xtndir}/ld.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/list.lst ${srcdir}/xtn/2/list.asm -o ${obj2xtndir}/list.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ls.lst ${srcdir}/xtn/2/ls.asm -o ${obj2xtndir}/ls.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lsrc.lst ${srcdir}/xtn/2/lsrc.asm -o ${obj2xtndir}/lsrc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/lw.lst ${srcdir}/xtn/2/lw.asm -o ${obj2xtndir}/lw.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/puzzle.lst ${srcdir}/xtn/2/puzzle.asm -o ${obj2xtndir}/puzzle.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/ram3.lst ${srcdir}/xtn/2/ram3.asm -o ${obj2xtndir}/ram3.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/split.lst ${srcdir}/xtn/2/split.asm -o ${obj2xtndir}/split.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tm.lst ${srcdir}/xtn/2/tm.asm -o ${obj2xtndir}/tm.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/tr.lst ${srcdir}/xtn/2/tr.asm -o ${obj2xtndir}/tr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/upc.lst ${srcdir}/xtn/2/upc.asm -o ${obj2xtndir}/upc.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewdhr.lst ${srcdir}/xtn/2/viewdhr.asm -o ${obj2xtndir}/viewdhr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/viewhr.lst ${srcdir}/xtn/2/viewhr.asm -o ${obj2xtndir}/viewhr.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/wc.lst ${srcdir}/xtn/2/wc.asm -o ${obj2xtndir}/wc.o" /></exec>
 
 		<echo message="Linking externals..."/>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o alias -m alias.map -C ${srcdir}/xtn/2/xtn_a000.cfg alias.o" /></exec>

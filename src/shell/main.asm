@@ -48,7 +48,7 @@ dollar:	asc "Copyright (c) 1988-1990, 1999-2011"
 	.byte cr
 	asc "by David A. Lyons"
 	.byte cr,cr 
-	asc "  http://davex.sourceforge.net"
+	asc "  https://github.com/david-schmidt/Davex"
 	.byte cr,cr
 	asc "Davex is Freeware.  If you find it useful, please let me know."
 	.byte cr
