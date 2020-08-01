@@ -3,9 +3,10 @@
 	<property name="builddir" value="${basedir}/build" />
 	<property file="${builddir}/Davex.properties" />
 	<property file="${builddir}/Davex-default.properties" />
-	<property name="dist" value="${basedir}/dist" />
+	<property name="distdir" value="${basedir}/dist" />
 	<property name="srcdir" value="${basedir}/src" />
 	<property name="projdir" value="${basedir}" />
+	<property name="docdir" value="${basedir}/doc" />
 	<property name="obj" value="${basedir}/obj" />
 	<property name="obj2dir" value="${obj}/2" />
 	<property name="obj2xtndir" value="${obj}/2/xtn" />
@@ -16,13 +17,13 @@
 	<property name="acJar" value="AppleCommander-${acJarVersion}.jar" />
 	<taskdef name="appleCommander" classname="com.webcodepro.applecommander.ui.AntTask" classpath="${acJarPath}/${acJar}"/>
 	<import file="build-xtn.xml"/>
-	<target name="all" description="Bulid everything." depends="clean, assemble, builddsk, xtns"></target>
+	<target name="all" description="Bulid everything." depends="clean, assemble, builddsk, xtns, doc"></target>
 	<target name="clean">
 		<!--
 		Clean up build artifacts
 		-->
 		<delete dir="${obj}" />
-		<!-- <delete dir="${dist}" /> -->
+		<!-- <delete dir="${distdir}" /> -->
 	</target>
 
 	<target name="assemble" description="Assemble source.">
@@ -57,31 +58,41 @@
 		<!--
 		Start disk images
 		-->
-		<delete file="${dist}/DavexSOS.dsk" />
-		<copy file="${builddir}/lib/DavexSOSBase.dsk" tofile="${dist}/DavexSOS.dsk" />
+		<delete file="${distdir}/DavexSOS.dsk" />
+		<copy file="${builddir}/lib/DavexSOSBase.dsk" tofile="${distdir}/DavexSOS.dsk" />
 		<!--
 		Put the assembled programs on the disk images - SOS
 		-->
-		<appleCommander command="p" input="${obj3dir}/DAV3X.SYSTEM" imagename="${dist}/DavexSOS.dsk" filename="SOS.INTERP" type="sys" address="8192"/>
+		<appleCommander command="p" input="${obj3dir}/DAV3X.SYSTEM" imagename="${distdir}/DavexSOS.dsk" filename="SOS.INTERP" type="sys" address="8192"/>
 		<echo message="SOS 5.25 disk image complete."/>
 		<!--
 		Put the assembled programs on the disk images - ProDOS 5-1/4"
 		-->
-		<delete file="${dist}/DavexProDOS.dsk" />
-		<copy file="${builddir}/lib/DavexProDOSBase.dsk" tofile="${dist}/DavexProDOS.dsk" />
+		<delete file="${distdir}/DavexProDOS.dsk" />
+		<copy file="${builddir}/lib/DavexProDOSBase.dsk" tofile="${distdir}/DavexProDOS.dsk" />
 		<echo message="Copying files to ProDOS 5.25 disk image..."/>
-		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${dist}/DavexProDOS.dsk" filename="DAVEX" type="sys" address="8192"/>
+		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${distdir}/DavexProDOS.dsk" filename="DAVEX" type="sys" address="8192"/>
 		<echo message="ProDOS 5.25 disk image complete."/>
 		<!--
 		Put the assembled programs on the disk images - ProDOS 3-1/2"
 		-->
-		<delete file="${dist}/DavexProDOS.po" />
-		<copy file="${builddir}/lib/DavexProDOSBase.po" tofile="${dist}/DavexProDOS.po" />
+		<delete file="${distdir}/DavexProDOS.po" />
+		<copy file="${builddir}/lib/DavexProDOSBase.po" tofile="${distdir}/DavexProDOS.po" />
 		<echo message="Copying files to ProDOS 3.5 disk image..."/>
-		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${dist}/DavexProDOS.po" filename="DAVEX" type="sys" address="8192"/>
+		<appleCommander command="p" input="${obj2dir}/DAVEX.SYSTEM" imagename="${distdir}/DavexProDOS.po" filename="DAVEX" type="sys" address="8192"/>
 		<echo message="ProDOS 3.5 disk image complete."/>
 	</target>
 	<target name="xtns">
 		<ant antfile="build/build-xtn.xml" target="xtn-all"/>
+	</target>
+	<target name="doc">
+		<ant antfile="build/build-xtn.xml" target="xtn-all"/>
+		<!--
+		Add documentation to distribution
+		-->
+		<echo message="Copying files to ProDOS 3.5 disk image..."/>
+		<copy todir="${distdir}" >
+			<fileset dir="${docdir}"/>
+		</copy>
 	</target>
 </project>
