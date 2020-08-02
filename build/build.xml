@@ -4,6 +4,7 @@
 	<property file="${builddir}/Davex.properties" />
 	<property file="${builddir}/Davex-default.properties" />
 	<property name="distdir" value="${basedir}/dist" />
+	<property name="distname" value="Davex" />
 	<property name="srcdir" value="${basedir}/src" />
 	<property name="projdir" value="${basedir}" />
 	<property name="docdir" value="${basedir}/doc" />
@@ -17,13 +18,13 @@
 	<property name="acJar" value="AppleCommander-${acJarVersion}.jar" />
 	<taskdef name="appleCommander" classname="com.webcodepro.applecommander.ui.AntTask" classpath="${acJarPath}/${acJar}"/>
 	<import file="build-xtn.xml"/>
-	<target name="all" description="Bulid everything." depends="clean, assemble, builddsk, xtns, doc"></target>
+	<target name="all" description="Bulid everything." depends="clean, assemble, builddsk, xtns, doc, package"></target>
 	<target name="clean">
 		<!--
 		Clean up build artifacts
 		-->
 		<delete dir="${obj}" />
-		<!-- <delete dir="${distdir}" /> -->
+		<delete dir="${distdir}" />
 	</target>
 
 	<target name="assemble" description="Assemble source.">
@@ -86,13 +87,22 @@
 		<ant antfile="build/build-xtn.xml" target="xtn-all"/>
 	</target>
 	<target name="doc">
-		<ant antfile="build/build-xtn.xml" target="xtn-all"/>
 		<!--
 		Add documentation to distribution
 		-->
-		<echo message="Copying files to ProDOS 3.5 disk image..."/>
-		<copy todir="${distdir}" >
+		<echo message="Copying documentation files..."/>
+		<copy todir="${distdir}/doc" >
 			<fileset dir="${docdir}"/>
 		</copy>
+	</target>
+	<target name="package">
+		<!--
+		Package the distribution
+		-->
+		<echo message="Creating distribution package..."/>
+		<!-- zip up the whole sheebang -->
+		<zip destfile="${builddir}/${distname}.zip"
+			basedir="${distdir}"
+			includes="**"/>
 	</target>
 </project>

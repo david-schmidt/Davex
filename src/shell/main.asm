@@ -44,17 +44,11 @@ copyright:
 	jsr crout
 	jsr pDavexVer
 	jsr mess
-dollar:	asc "Copyright (c) 1988-1990, 1999-2011"
+dollar:	asc "Copyright (c) 1988-2020"
 	.byte cr
 	asc "by David A. Lyons"
 	.byte cr,cr 
 	asc "  https://github.com/david-schmidt/Davex"
-	.byte cr,cr
-	asc "Davex is Freeware.  If you find it useful, please let me know."
-	.byte cr
-	asc "If you want to send money or M&Ms I won't argue with you, but it's"
-	.byte cr
-	asc "not necessary."
 	.byte cr,cr
 	asc "Davex is Y2K compliant if you use ProDOS 8 2.0.3 or later."
 .if  Proto 

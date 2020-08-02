@@ -3,7 +3,7 @@
 	<property name="builddir" value="${basedir}/build" />
 	<property file="${builddir}/Davex.properties" />
 	<property file="${builddir}/Davex-default.properties" />
-	<property name="dist" value="${basedir}/dist" />
+	<property name="distdir" value="${basedir}/dist" />
 	<property name="srcdir" value="${basedir}/src" />
 	<property name="projdir" value="${basedir}" />
 	<property name="obj" value="${basedir}/obj" />
@@ -23,7 +23,7 @@
 		Clean up build artifacts
 		-->
 		<delete dir="${obj}" />
-		<!-- <delete dir="${dist}" /> -->
+		<!-- <delete dir="${distdir}" /> -->
 	</target>
 
 	<target name="xtn-assemble" description="Assemble external source.">
@@ -166,75 +166,75 @@
 		Put the assembled programs on the disk images - ProDOS 5-1/4"
 		-->
 		<echo message="Copying external files to ProDOS 5.25 disk image..."/>
-		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${dist}/DavexProDOS.dsk" filename="xtn/alias" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${dist}/DavexProDOS.dsk" filename="xtn/du" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${distdir}/DavexProDOS.dsk" filename="xtn/alias" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${distdir}/DavexProDOS.dsk" filename="xtn/du" type="p8c" address="32769"/>
 		<echo message="ProDOS 5.25 disk externals complete."/>
 		<!--
 		Put the assembled programs on the disk images - ProDOS 3-1/2"
 		-->
 		<echo message="Copying external files to ProDOS 3.5 disk image..."/>
-		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${dist}/DavexProDOS.po" filename="xtn/alias" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/blist" imagename="${dist}/DavexProDOS.po" filename="xtn/blist" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/brun" imagename="${dist}/DavexProDOS.po" filename="xtn/brun" type="sys" address="8192"/>
-		<appleCommander command="p" input="${obj2xtndir}/cal" imagename="${dist}/DavexProDOS.po" filename="xtn/cal" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/cmpf" imagename="${dist}/DavexProDOS.po" filename="xtn/cmpf" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/conp" imagename="${dist}/DavexProDOS.po" filename="xtn/conp" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/deschw" imagename="${dist}/DavexProDOS.po" filename="xtn/deschw" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/doscat" imagename="${dist}/DavexProDOS.po" filename="xtn/doscat" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${dist}/DavexProDOS.po" filename="xtn/du" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/dump" imagename="${dist}/DavexProDOS.po" filename="xtn/dump" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ffind" imagename="${dist}/DavexProDOS.po" filename="xtn/ffind" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/find" imagename="${dist}/DavexProDOS.po" filename="xtn/find" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/fp" imagename="${dist}/DavexProDOS.po" filename="xtn/fp" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ftdump" imagename="${dist}/DavexProDOS.po" filename="xtn/ftdump" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${dist}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
-<!--		<appleCommander command="p" input="${obj2xtndir}/gsbuff" imagename="${dist}/DavexProDOS.po" filename="xtn/gsbuff" type="p8c" address="32769"/> -->
-		<appleCommander command="p" input="${obj2xtndir}/hdr" imagename="${dist}/DavexProDOS.po" filename="xtn/hdr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/index" imagename="${dist}/DavexProDOS.po" filename="xtn/index" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/iw2" imagename="${dist}/DavexProDOS.po" filename="xtn/iw2" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/modchk" imagename="${dist}/DavexProDOS.po" filename="xtn/modchk" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/mt" imagename="${dist}/DavexProDOS.po" filename="xtn/mt" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/mx80" imagename="${dist}/DavexProDOS.po" filename="xtn/mx80" type="p8c" address="32769"/>
-<!--		<appleCommander command="p" input="${obj2xtndir}/net" imagename="${dist}/DavexProDOS.po" filename="xtn/net" type="p8c" address="32769"/> -->
-		<appleCommander command="p" input="${obj2xtndir}/park" imagename="${dist}/DavexProDOS.po" filename="xtn/park" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/pset" imagename="${dist}/DavexProDOS.po" filename="xtn/pset" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ptype" imagename="${dist}/DavexProDOS.po" filename="xtn/ptype" type="p8c" address="32769"/>
-<!--		<appleCommander command="p" input="${obj2xtndir}/s16alias" imagename="${dist}/DavexProDOS.po" filename="xtn/s16alias" type="p8c" address="32769"/> -->
-		<appleCommander command="p" input="${obj2xtndir}/setdate" imagename="${dist}/DavexProDOS.po" filename="xtn/setdate" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/setstart" imagename="${dist}/DavexProDOS.po" filename="xtn/setstart" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/storage" imagename="${dist}/DavexProDOS.po" filename="xtn/storage" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/strings" imagename="${dist}/DavexProDOS.po" filename="xtn/strings" type="p8c" address="32769"/>
-<!--		<appleCommander command="p" input="${obj2xtndir}/sysalias" imagename="${dist}/DavexProDOS.po" filename="xtn/sysalias" type="p8c" address="32769"/> -->
-		<appleCommander command="p" input="${obj2xtndir}/vrestore" imagename="${dist}/DavexProDOS.po" filename="xtn/vrestore" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/vstore" imagename="${dist}/DavexProDOS.po" filename="xtn/vstore" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/what" imagename="${dist}/DavexProDOS.po" filename="xtn/what" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/x10" imagename="${dist}/DavexProDOS.po" filename="xtn/x10" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/alias" imagename="${distdir}/DavexProDOS.po" filename="xtn/alias" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/blist" imagename="${distdir}/DavexProDOS.po" filename="xtn/blist" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/brun" imagename="${distdir}/DavexProDOS.po" filename="xtn/brun" type="sys" address="8192"/>
+		<appleCommander command="p" input="${obj2xtndir}/cal" imagename="${distdir}/DavexProDOS.po" filename="xtn/cal" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/cmpf" imagename="${distdir}/DavexProDOS.po" filename="xtn/cmpf" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/conp" imagename="${distdir}/DavexProDOS.po" filename="xtn/conp" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/deschw" imagename="${distdir}/DavexProDOS.po" filename="xtn/deschw" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/doscat" imagename="${distdir}/DavexProDOS.po" filename="xtn/doscat" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/du" imagename="${distdir}/DavexProDOS.po" filename="xtn/du" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dump" imagename="${distdir}/DavexProDOS.po" filename="xtn/dump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ffind" imagename="${distdir}/DavexProDOS.po" filename="xtn/ffind" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/find" imagename="${distdir}/DavexProDOS.po" filename="xtn/find" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fp" imagename="${distdir}/DavexProDOS.po" filename="xtn/fp" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ftdump" imagename="${distdir}/DavexProDOS.po" filename="xtn/ftdump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${distdir}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/gsbuff" imagename="${distdir}/DavexProDOS.po" filename="xtn/gsbuff" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/hdr" imagename="${distdir}/DavexProDOS.po" filename="xtn/hdr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/index" imagename="${distdir}/DavexProDOS.po" filename="xtn/index" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/iw2" imagename="${distdir}/DavexProDOS.po" filename="xtn/iw2" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/modchk" imagename="${distdir}/DavexProDOS.po" filename="xtn/modchk" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/mt" imagename="${distdir}/DavexProDOS.po" filename="xtn/mt" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/mx80" imagename="${distdir}/DavexProDOS.po" filename="xtn/mx80" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/net" imagename="${distdir}/DavexProDOS.po" filename="xtn/net" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/park" imagename="${distdir}/DavexProDOS.po" filename="xtn/park" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/pset" imagename="${distdir}/DavexProDOS.po" filename="xtn/pset" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ptype" imagename="${distdir}/DavexProDOS.po" filename="xtn/ptype" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/s16alias" imagename="${distdir}/DavexProDOS.po" filename="xtn/s16alias" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/setdate" imagename="${distdir}/DavexProDOS.po" filename="xtn/setdate" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/setstart" imagename="${distdir}/DavexProDOS.po" filename="xtn/setstart" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/storage" imagename="${distdir}/DavexProDOS.po" filename="xtn/storage" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/strings" imagename="${distdir}/DavexProDOS.po" filename="xtn/strings" type="p8c" address="32769"/>
+<!--		<appleCommander command="p" input="${obj2xtndir}/sysalias" imagename="${distdir}/DavexProDOS.po" filename="xtn/sysalias" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/vrestore" imagename="${distdir}/DavexProDOS.po" filename="xtn/vrestore" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/vstore" imagename="${distdir}/DavexProDOS.po" filename="xtn/vstore" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/what" imagename="${distdir}/DavexProDOS.po" filename="xtn/what" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/x10" imagename="${distdir}/DavexProDOS.po" filename="xtn/x10" type="p8c" address="32769"/>
 		<!-- Diassembled Batch -->
-		<appleCommander command="p" input="${obj2xtndir}/aaf" imagename="${dist}/DavexProDOS.po" filename="xtn/aaf" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/barcode" imagename="${dist}/DavexProDOS.po" filename="xtn/barcode" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/chcase" imagename="${dist}/DavexProDOS.po" filename="xtn/chcase" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/combine" imagename="${dist}/DavexProDOS.po" filename="xtn/combine" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/crc" imagename="${dist}/DavexProDOS.po" filename="xtn/crc" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/date" imagename="${dist}/DavexProDOS.po" filename="xtn/date" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/dumpdhgr" imagename="${dist}/DavexProDOS.po" filename="xtn/dumpdhgr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/dumphgr" imagename="${dist}/DavexProDOS.po" filename="xtn/dumphgr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/fdump" imagename="${dist}/DavexProDOS.po" filename="xtn/fdump" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/fi" imagename="${dist}/DavexProDOS.po" filename="xtn/fi" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${dist}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ld" imagename="${dist}/DavexProDOS.po" filename="xtn/ld" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/list" imagename="${dist}/DavexProDOS.po" filename="xtn/list" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ls" imagename="${dist}/DavexProDOS.po" filename="xtn/ls" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/lsrc" imagename="${dist}/DavexProDOS.po" filename="xtn/lsrc" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/lw" imagename="${dist}/DavexProDOS.po" filename="xtn/lw" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/puzzle" imagename="${dist}/DavexProDOS.po" filename="xtn/puzzle" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/ram3" imagename="${dist}/DavexProDOS.po" filename="xtn/ram3" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/split" imagename="${dist}/DavexProDOS.po" filename="xtn/split" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/tm" imagename="${dist}/DavexProDOS.po" filename="xtn/tm" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/tr" imagename="${dist}/DavexProDOS.po" filename="xtn/tr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/upc" imagename="${dist}/DavexProDOS.po" filename="xtn/upc" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/viewdhr" imagename="${dist}/DavexProDOS.po" filename="xtn/viewdhr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/viewhr" imagename="${dist}/DavexProDOS.po" filename="xtn/viewhr" type="p8c" address="32769"/>
-		<appleCommander command="p" input="${obj2xtndir}/wc" imagename="${dist}/DavexProDOS.po" filename="xtn/wc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/aaf" imagename="${distdir}/DavexProDOS.po" filename="xtn/aaf" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/barcode" imagename="${distdir}/DavexProDOS.po" filename="xtn/barcode" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/chcase" imagename="${distdir}/DavexProDOS.po" filename="xtn/chcase" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/combine" imagename="${distdir}/DavexProDOS.po" filename="xtn/combine" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/crc" imagename="${distdir}/DavexProDOS.po" filename="xtn/crc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/date" imagename="${distdir}/DavexProDOS.po" filename="xtn/date" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dumpdhgr" imagename="${distdir}/DavexProDOS.po" filename="xtn/dumpdhgr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/dumphgr" imagename="${distdir}/DavexProDOS.po" filename="xtn/dumphgr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fdump" imagename="${distdir}/DavexProDOS.po" filename="xtn/fdump" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fi" imagename="${distdir}/DavexProDOS.po" filename="xtn/fi" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/fx80" imagename="${distdir}/DavexProDOS.po" filename="xtn/fx80" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ld" imagename="${distdir}/DavexProDOS.po" filename="xtn/ld" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/list" imagename="${distdir}/DavexProDOS.po" filename="xtn/list" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ls" imagename="${distdir}/DavexProDOS.po" filename="xtn/ls" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/lsrc" imagename="${distdir}/DavexProDOS.po" filename="xtn/lsrc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/lw" imagename="${distdir}/DavexProDOS.po" filename="xtn/lw" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/puzzle" imagename="${distdir}/DavexProDOS.po" filename="xtn/puzzle" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/ram3" imagename="${distdir}/DavexProDOS.po" filename="xtn/ram3" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/split" imagename="${distdir}/DavexProDOS.po" filename="xtn/split" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/tm" imagename="${distdir}/DavexProDOS.po" filename="xtn/tm" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/tr" imagename="${distdir}/DavexProDOS.po" filename="xtn/tr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/upc" imagename="${distdir}/DavexProDOS.po" filename="xtn/upc" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/viewdhr" imagename="${distdir}/DavexProDOS.po" filename="xtn/viewdhr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/viewhr" imagename="${distdir}/DavexProDOS.po" filename="xtn/viewhr" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/wc" imagename="${distdir}/DavexProDOS.po" filename="xtn/wc" type="p8c" address="32769"/>
 
 		<echo message="ProDOS 3.5 disk externals complete."/>
 	</target>

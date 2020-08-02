@@ -2,8 +2,8 @@
 ; private globals
 ;
 myBakVer	= $00
-myversion	= $13
-AuxVersion	= 1	; = 1.31
+myversion	= $14
+AuxVersion	= 0	; = 1.40
 Proto		= 1
 
 RemoteImp	= 0
