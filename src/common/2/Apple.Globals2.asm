@@ -25,7 +25,7 @@ kbuff		= $200
 reset		= $3f2
 
 ;
-; Hardwae locations
+; Hardware locations
 ;
 keyboard	= $c000
 off80col	= $c00c
