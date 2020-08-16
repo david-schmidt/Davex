@@ -951,7 +951,7 @@ check_alias8:
 	asc "   sysalias for "
 	.byte $A2
 	.byte 0
-	lda #>filebuff2+$E5
+	lda #>(filebuff2+$E5)
 	ldy #<filebuff2+$E5
 	jsr xprint_path
 	jsr xmess
