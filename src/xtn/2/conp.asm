@@ -944,7 +944,7 @@ print_ay:	;x=field width (right just)
 	tax
 	bcc pr0
 	beq pr0
-pr1:	lda #' '
+pr1:	lda #_' '
 	jsr cout
 	dex
 	bne pr1
@@ -1091,15 +1091,15 @@ prBits:
 	lsr a
 	clc
 	adc #5
-	ora #'0'
+	ora #_'0'
 	jsr cout
-	lda #'/'
+	lda #_'/'
 	jsr cout
 	pla
 	and #1
 	clc
 	adc #1
-	ora #'0'
+	ora #_'0'
 	jmp cout
 ;
 prBaud:
@@ -1252,12 +1252,12 @@ prColor:
 	pha
 	cmp #10
 	bcs ColNoSp
-	lda #' '
+	lda #_' '
 	jsr cout
 ColNoSp:	pla
 	pha
 	jsr prInt
-	lda #' '
+	lda #_' '
 	jsr cout
 	jsr cout
 	pla
@@ -1319,7 +1319,7 @@ mult32:	asl a
 	tay
 	lda myTemp
 	jsr xprdec_2	;AX=2-byte #
-	lda #'K'
+	lda #_'K'
 	jmp cout
 ;*********************************************
 ;
