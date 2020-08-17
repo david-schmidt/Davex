@@ -85,7 +85,7 @@ just_looking:
 	asc "Startup path is "
 	.byte '"'
 	.byte 0
-	lda #>pagebuff+6
+	lda #>(pagebuff+6)
 	ldy #<pagebuff+6
 	jsr xprint_path
 	jsr xmess
