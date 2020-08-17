@@ -69,7 +69,7 @@
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.lst ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.lst ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.lst ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
-		<!-- Diassembled Batch -->
+		<!-- Disassembled Batch -->
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.lst ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/barcode.lst ${srcdir}/xtn/2/barcode.asm -o ${obj2xtndir}/barcode.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/chcase.lst ${srcdir}/xtn/2/chcase.asm -o ${obj2xtndir}/chcase.o" /></exec>
@@ -134,7 +134,7 @@
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o what -m what.map -C ${srcdir}/xtn/2/xtn_9000.cfg what.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o x10 -m x10.map -C ${srcdir}/xtn/2/xtn_a000.cfg x10.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o xc -m xc.map -C ${srcdir}/xtn/2/xtn_9000.cfg xc.o" /></exec>
-		<!-- Diassembled Batch -->
+		<!-- Disassembled Batch -->
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o aaf -m aaf.map -C ${srcdir}/xtn/2/xtn_9000.cfg aaf.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o barcode -m barcode.map -C ${srcdir}/xtn/2/xtn_a000.cfg barcode.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o chcase -m chcase.map -C ${srcdir}/xtn/2/xtn_9000.cfg chcase.o" /></exec>
@@ -209,7 +209,7 @@
 		<appleCommander command="p" input="${obj2xtndir}/vstore" imagename="${distdir}/DavexProDOS.po" filename="xtn/vstore" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/what" imagename="${distdir}/DavexProDOS.po" filename="xtn/what" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/x10" imagename="${distdir}/DavexProDOS.po" filename="xtn/x10" type="p8c" address="32769"/>
-		<!-- Diassembled Batch -->
+		<!-- Disassembled Batch -->
 		<appleCommander command="p" input="${obj2xtndir}/aaf" imagename="${distdir}/DavexProDOS.po" filename="xtn/aaf" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/barcode" imagename="${distdir}/DavexProDOS.po" filename="xtn/barcode" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/chcase" imagename="${distdir}/DavexProDOS.po" filename="xtn/chcase" type="p8c" address="32769"/>
