@@ -265,7 +265,8 @@ pc1:	jsr cmp_cmd
 	jsr scanall
 	bcs huh
 ;
-; HERE IS WHERE TO DO "APPL" STUFF.
+; Here is where to do "appl" stuff, such as mapping BAS files
+; to automatically be launched via BASIC.SYSTEM
 ;
 	cmp #tDIR
 	beq gotoDIR
@@ -421,7 +422,7 @@ parse_exec:
 execit:	jsr parse_parms
 ;
 ; expand wildcards here & call routine
-; until there are no more expandions
+; until there are no more expansions
 ;
 	lsr some_flag
 	jsr wild_begin
@@ -1472,10 +1473,6 @@ fudgeCR:	.byte 0
 ;
 ;**************************************
 ;
-; Do scan -i
-;
-;**************************************
-;
 ; command table format:
 ;  list of <command_entry>
 ;
@@ -1494,30 +1491,35 @@ fudgeCR:	.byte 0
 ;   <parm_type>
 ;
 ;************************************
+.macro	CommandName Arg
+	asc_hi Arg
+	.byte 0
+.endmacro
+
+.macro NoMoreParameters
+	.byte 0,0
+.endmacro
+
+;************************************
 cmdtbl:
-	asc_hi "bye"
-	.byte 0
+	CommandName "bye"
 	.addr go_quit
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "$"
-	.byte 0
+	CommandName "$"
 	.addr copyright
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "version"
-	.byte 0
+	CommandName "version"
 	.addr wNotQuiet
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "rep"
-	.byte 0
+	CommandName "rep"
 	.addr go_repeat
 	.byte 0,t_int2
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "config"
-	.byte 0
+	CommandName "config"
 	.addr go_config
 	.byte $80+'p',t_int1
 	.byte $80+'4',t_yesno
@@ -1525,73 +1527,61 @@ cmdtbl:
 	.byte $80+'b',t_yesno
 	.byte $80+'q',t_int1
 	.byte $80+'h',t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "como"
-	.byte 0
+	CommandName "como"
 	.addr go_como
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "exec"
-	.byte 0
+	CommandName "exec"
 	.addr go_exec
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "prefix"
-	.byte 0
+	CommandName "prefix"
 	.addr go_prefix
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "boot"
-	.byte 0
+	CommandName "boot"
 	.addr go_boot
 	.byte $80+'s',t_int1
 	.byte $80+'i',t_nil	;ice cold!
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "mon"
-	.byte 0
+	CommandName "mon"
 	.addr go_mon
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "up"
-	.byte 0
+	CommandName "up"
 	.addr go_up
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "top"
-	.byte 0
+	CommandName "top"
 	.addr go_top
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "help"
-	.byte 0
+	CommandName "help"
 	.addr go_help
 	.byte 0,t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "?"
-	.byte 0
+	CommandName "?"
 	.addr go_help
 	.byte 0,t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "online"
-	.byte 0
+	CommandName "online"
 	.addr go_online
 	.byte $80+'o',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "cls"
-	.byte 0
+	CommandName "cls"
 	.addr clear_sc
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "type"
-	.byte 0
+	CommandName "type"
 	.addr go_type
 	.byte 0,t_wildpath
 	.byte $80+'h',t_nil
@@ -1600,10 +1590,9 @@ cmdtbl:
 	.byte $80+'l',t_nil
 	.byte $80+'p',t_nil
 	.byte $80+'t',t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "pg"
-	.byte 0
+	CommandName "pg"
 	.addr go_more
 	.byte 0,t_wildpath
 	.byte $80+'h',t_nil
@@ -1612,74 +1601,64 @@ cmdtbl:
 	.byte $80+'l',t_nil
 	.byte $80+'p',t_nil
 	.byte $80+'t',t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "rename"
-	.byte 0
+	CommandName "rename"
 	.addr go_rename
 	.byte 0,t_wildpath
 	.byte 0,t_path
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "filetype"
-	.byte 0
+	CommandName "filetype"
 	.addr go_ctype
 	.byte 0,t_wildpath
 	.byte 0,t_ftype
 	.byte $80+'x',t_int2
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "create"
-	.byte 0
+	CommandName "create"
 	.addr go_create
 	.byte 0,t_path
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "dt"
-	.byte 0
+	CommandName "dt"
 	.addr print_time
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "delete"
-	.byte 0
+	CommandName "delete"
 	.addr go_del
 	.byte 0,t_wildpath
 	.byte $80+'u',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "lock"
-	.byte 0
+	CommandName "lock"
 	.addr go_lock
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "unlock"
-	.byte 0
+	CommandName "unlock"
 	.addr go_unlock
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "prot"
-	.byte 0
+	CommandName "prot"
 	.addr go_prot
 	.byte 0,t_wildpath
 	.byte $80+'r',t_nil
 	.byte $80+'w',t_nil
 	.byte $80+'d',t_nil
 	.byte $80+'n',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "scan"
-	.byte 0
+	CommandName "scan"
 	.addr go_scan
 	.byte $80+'a',t_string
 	.byte $80+'r',t_string
 	.byte $80+'z',t_nil
 	.byte $80+'i',t_string
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "cat"
-	.byte 0
+	CommandName "cat"
 	.addr go_cat
 	.byte 0,t_wildpath
 	.byte $80+'a',t_string
@@ -1687,10 +1666,9 @@ cmdtbl:
 	.byte $80+'s',t_nil
 	.byte $80+'f',t_ftype
 	.byte $80+'i',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "spool"
-	.byte 0
+	CommandName "spool"
 	.addr go_spool
 	.byte 0,t_wildpath
 ;dfb $80+'h',t_string ;header
@@ -1698,137 +1676,120 @@ cmdtbl:
 ;dfb $80+'w',t_int1 ;page width
 	.byte $80+'x',t_int1	;cancel 1
 	.byte $80+'z',t_nil	;zap (cancel all)
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "info"
-	.byte 0
+	CommandName "info"
 	.addr go_info
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "update"
-	.byte 0
+	CommandName "update"
 	.addr go_update
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
 	.byte $80+'f',t_nil
 	.byte $80+'b',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "copy"
-	.byte 0
+	CommandName "copy"
 	.addr go_copy
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
 	.byte $80+'d',t_nil	;delete orig
 	.byte $80+'f',t_nil	;force delete
 	.byte $80+'b',t_nil	;clr bkup bit
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "move"
-	.byte 0
+	CommandName "move"
 	.addr go_move
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
 	.byte $80+'f',t_nil	;force delete
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "touch"
-	.byte 0
+	CommandName "touch"
 	.addr go_touch
 	.byte 0,t_wildpath
 	.byte $80+'b',t_yesno
 	.byte $80+'d',t_yesno
 	.byte $80+'i',t_yesno
-	.byte 0,0
+	NoMoreParameters
 
 .if IsDavex2
-	asc_hi "dev"
-	.byte 0
+	CommandName "dev"
 	.addr go_dev
 	.byte $80+'r',t_devnum
 	.byte $80+'a',t_devnum
 	.byte $80+'z',t_nil
-	.byte 0,0
+	NoMoreParameters
 .endif
 
-	asc_hi "ftype"
-	.byte 0
+	CommandName "ftype"
 	.addr go_ftype
 	.byte $80+'r',t_ftype
 	.byte $80+'a',t_string
 	.byte $80+'v',t_ftype
 	.byte $80+'z',t_nil
-	.byte 0,0
+	NoMoreParameters
 
-; [TODO] what was "appl" going to do if implemented? Maybe assign filetypes to applications,
+; [TODO] "appl" to associate applications with filetypes,
 ;	so you can launch something by document path and automatically have the right app
-;	use the document?
+;	use the document
 ;;;;;
-; asc_hi "appl"
-; .byte 0
+; CommandName "appl"
 ; .addr go_appl
 ; .byte $80+'r',t_ftype
 ; .byte $80+'a',t_ftype
 ; .byte $80+'p',t_string
-; .byte 0,0
+; NoMoreParameters
 
-	asc_hi "err"
-	.byte 0
+	CommandName "err"
 	.addr go_err
 	.byte 0,t_int1
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "="
-	.byte 0
+	CommandName "="
 	.addr go_equal
 	.byte 0,t_wildpath
 	.byte 0,t_path
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "size"
-	.byte 0
+	CommandName "size"
 	.addr go_size
 	.byte 0,t_wildpath
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "echo"
-	.byte 0
+	CommandName "echo"
 	.addr go_echo
 	.byte 0,t_string
 	.byte $80+'n',t_nil	;no CR
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "eject"
-	.byte 0
+	CommandName "eject"
 	.addr go_eject
 	.byte 0,t_path
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "wait"
-	.byte 0
+	CommandName "wait"
 	.addr go_wait
-	.byte 0,0
+	NoMoreParameters
 
-	asc_hi "num"
-	.byte 0
+	CommandName "num"
 	.addr go_num
 	.byte 0,t_int3
-	.byte 0,0
+	NoMoreParameters
 
  .if RemoteImp 
-	asc_hi "remote"
-	.byte 0
+	CommandName "remote"
 	.addr go_remote
 	.byte 0,t_int1
-	.byte 0,0
+	NoMoreParameters
  .endif
 
 
-; asc_hi "mem"
-; .byte 0
+; CommandName "mem" -- [TODO] dump RAM contents at address [length]
 ; .addr go_mem
-; .byte 0,0
+; NoMoreParameters
 
 ; end of command table
 	.byte 0,0
@@ -2464,6 +2425,8 @@ protp4:	pla
 ;
 ; scan [-a add_path] [-r remove_path]
 ;      [-z defaults] [-i insert]
+;
+; [TODO] implement -i as some way to add other than at the end
 ;
 go_scan:
 	lda num_parms
