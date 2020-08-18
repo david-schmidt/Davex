@@ -6,6 +6,16 @@
 ; index -- build an indexed file
 ;
 ;*********************************************
+; Options:
+;   pathname
+;   -s <size>: Create a new file with specified index size
+;   -v name: View an entry from the file
+;   -a filename: Add specified file to the indexed file
+;   -e name: Add a 2nd name for the file being added
+;
+; With only a pathname specified, prints a list of all
+; the items in the file.
+;*********************************************
 ;
 ; Format of an indexed file is:
 ;
@@ -19,7 +29,10 @@
 ;    :
 ;   $00
 ;
-; Text chunks are terminated by a $00.
+; Text chunks are terminated by a $00. The data
+; is compressed, with 16 common characters using
+; only 5 bits (%1xxxx), and the remaining ones
+; using 8 bits (%0xxxxxxx).
 ;
 ;*********************************************
 ;
@@ -38,7 +51,7 @@
 OrgAdr	= $A000	;change as necessary (end below $B000)
 ; org OrgAdr
 
-MyVersion	= $10
+MyVersion	= $11
 MinVersion	= $11
 ;*********************************************
 	rts
@@ -60,11 +73,11 @@ descr:	pstr "build an indexed file"
 	
 ;*********************************************
 ; dum xczpage ;32 locations
-path	= xczpage	;ds 2 ;index file
-size	= path+2	;ds 2
-fpath	= size+2	;ds 2 ;file being added
+path		= xczpage	;ds 2 ;index file
+size		= path+2	;ds 2
+fpath		= size+2	;ds 2 ;file being added
 free_spc	= fpath+2	;ds 3 ;free index space
-bits	= free_spc+3	;ds 1
+bits		= free_spc+3	;ds 1
 ViewName	= bits+1	;ds 2
 extra_flag	= ViewName+2	;ds 1
 oldEOFval	= extra_flag+1	;ds 3
@@ -92,7 +105,76 @@ not_e:
 	bcs not_v
 	jsr ViewFile
 not_v:
+	jsr xgetnump	;if there is only 1 parameter (the pathname), then view the index
+	cmp #1
+	beq ViewIndex
 	rts
+;*********************************************
+ViewIndex:
+	lda path+1
+	ldy path
+	jsr OpenFile
+	sta r4ref
+	sta EOFref
+	lda #0
+	sta previousOffset
+	sta previousOffset+1
+	sta previousOffset+2
+	tax
+	ldy #$C
+	jsr SeekIndex		; file index in AXY
+	jsr read4
+	jsr SeekIndex
+@next:	jsr ReadOneName
+	bcs @noMore
+	jsr NewLineIfNewEntry	; stay on same line for an additional entry at the same offset
+	bcs @exit
+	jsr PrintName
+	jmp @next
+@noMore:
+@exit:	jmp crout
+
+; Print one name from the index.
+; pagebuff contains length-prefixed string followed by 4-byte offset, 4-byte length.
+PrintName:
+	jsr xmess
+	cstr "  "		; this comes at the start of the line OR separates entries on the same line
+	ldx pagebuff
+	ldy #0
+:	lda pagebuff+1,y
+	ora #$80
+	jsr cout
+	iny
+	dex
+	bne :-
+	rts
+
+; Returns SEC if the user wants to abort output.
+NewLineIfNewEntry:
+	ldx pagebuff
+	lda pagebuff+1,x	; low byte of offset (follows length-prefixed string)
+	cmp previousOffset
+	bne @newLine
+	lda pagebuff+2,x
+	cmp previousOffset+1
+	bne @newLine
+	lda pagebuff+3,x
+	cmp previousOffset+2
+	beq @newLine
+	clc
+	rts
+@newLine:
+	sta previousOffset+2
+	lda pagebuff+2,x
+	sta previousOffset+1
+	lda pagebuff+1,x
+	sta previousOffset
+croutAndCheckWait:
+	jsr crout
+	jmp xcheck_wait
+
+previousOffset: .res 3
+
 ;*********************************************
 crfail:	jmp xProDOS_err
 CreateSize:
