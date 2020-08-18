@@ -8,7 +8,7 @@ ex:      type this
          como that;type this -l
 
 Types contents of a file (any type, not just TXT).  Wildcards are 
-allowed.  -h generates a headergiving the date/time the file was last 
+allowed.  -h generates a header giving the date/time the file was last 
 modified.  -f disables filtering of control characters; normally they 
 are filtered out.
 
