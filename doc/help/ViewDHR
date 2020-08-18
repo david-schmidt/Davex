@@ -1,7 +1,7 @@
 
 viewdhr -- view a double hi-res picture (EXTERNAL) [v1.1]  Written by Jeff Ding
 
-syntax:  viewdhr <pathname> [-f] [-r] 
+syntax:  viewdhr <pathname> [-f] [-r]
 
 ex:      viewdhr /picture.disk/pic.1
          viewdhr /picture.disk/pic.1 -f
@@ -11,7 +11,7 @@ ex:      viewdhr /picture.disk/pic.1
 the Davex command shell.  Wildcards are accepted in the pathname.Once the
 picture is displayed, any key will exit.  Ctrl-C will abort wildcard
 expansions.  'viewdhr' will not work on a II+ or 64k //e because they do
-not have the auxiliary memory needed to display double hi-res pictures. 
+not have the auxiliary memory needed to display double hi-res pictures.
 This  program will work on a //c, //e compatible with an extended 80 column
 card, and the //gs.
 

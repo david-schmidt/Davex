@@ -5,10 +5,10 @@ syntax:  mon
 
 ex:      mon
 
-Dumps you into your Apple's monitor.  Ctrl-Y or RESET or 
-3D0G will get you back to Davex.  (On an Apple IIgs, Q will 
+Dumps you into your Apple's monitor.  Ctrl-Y or RESET or
+3D0G will get you back to Davex.  (On an Apple IIgs, Q will
 do it, too.)
 
-(If the only kind of "monitor" you care about is the one 
-you're looking at right now, this command isn't for 
+(If the only kind of "monitor" you care about is the one
+you're looking at right now, this command isn't for
 you--it's for people addicted to machine language.)

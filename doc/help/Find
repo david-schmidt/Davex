@@ -28,7 +28,7 @@ string: Specifies what to search for.  If this string contains
 
   -L: Specifies the number of consecutive lines to display starting
       with each matching line.  If you do not give this option, only
-      the matching lines are displayed.  (If -c is given, no lines 
+      the matching lines are displayed.  (If -c is given, no lines
       are displayed unless you also use -L.)
 
       [An additional line printed after a match may itself be a

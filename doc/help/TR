@@ -9,7 +9,7 @@ syntax:  tr <input pathname> [<output pathname>] -s<search string>
 ex:      tr infile outfile -s^j
          tr infile temp -s^m -r^m^j -fd
          tr infile -s" " -r"" -m60
- 
+
 'Tr' looks for every occurrence of the <search string> in the input
 file and replaces it with the <replace string>.  The translated data
 is saved to the output file.  If the <output pathname> is not specified,
@@ -32,7 +32,7 @@ With these options, it is possible to specify any byte from 0 to 255.
 
 Here are some examples:
 
-  "^j^m"    -  "ctrl-j ctrl-m" (case for control characters is ignored)     
+  "^j^m"    -  "ctrl-j ctrl-m" (case for control characters is ignored)
   "~A~B~C"  -  "ABC" with hi-bits on.
   "AbC"     -  "AbC" with hi-bits off.
   "~^m^~m"  -  "ctrl-m ctrl-m" with hi-bits on.

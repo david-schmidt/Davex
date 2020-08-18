@@ -1,7 +1,7 @@
 
 viewhr -- view a hi-res picture (EXTERNAL) [v1.1]  Written by Jeff Ding
 
-syntax:  viewhr <pathname> 
+syntax:  viewhr <pathname>
 
 ex:      viewhr /picture.disk/pic.1
          viewhr /picture.disk/pic=

@@ -7,10 +7,10 @@ ex:      blist this
          como &;blist ?:bas -w70
          como edit.this;blist myprog
 
-List a BAS file in readable form.  Wildcards are allowed.  
-Intended for redirecting to a TXT file to allow editing with 
-a word processor.  The edited file can then be EXECed in 
-BASIC.SYSTEM, turning it back into an Applesoft program 
+List a BAS file in readable form.  Wildcards are allowed.
+Intended for redirecting to a TXT file to allow editing with
+a word processor.  The edited file can then be EXECed in
+BASIC.SYSTEM, turning it back into an Applesoft program
 which can be SAVEd and RUN.
 
 The -w option specifies the wrap margin.  'blist' will start

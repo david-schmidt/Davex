@@ -14,13 +14,13 @@ not have a clock built in to your computer.  This program will not change
 the date on your clock but only change the bytes in ProDOS. This program
 was designed to be included in the %autoexec file.  For example, add the
 following line to your file: "date -s."  See below for the explanation of
-the -s option. 
+the -s option.
 
 With no options, 'date' will print the current date and time and ask for
 the new date and the new time.  The format for the date is DD-MMM-YY. The
 format for the time is HH:MM in 24 hour format.  If the date or time is
 entered incorrectly, or you just press return when prompted, 'date' will not
-change the current values.  Options are as follows: 
+change the current values.  Options are as follows:
 
     -p: print only --  When this option is used, 'date' will only print
         the date and time currently on the system.
@@ -32,12 +32,12 @@ change the current values.  Options are as follows:
         When you re-enter Davex after quitting from an application, 'date'
         will not ask you to change the date since you already set it on
         bootup.
- 
+
         -d: date --  Use this option in conjunction with the -s option.
             This will force the program to always set the date even if the
             date has already been set.  Time setting remains the same as
             with the -s option.
-   
+
         -t: time --  Use this option in conjunction with the -s option.
             This will force the program to always set the time even if the
             time has already been set.  Date setting remains the same as
@@ -64,7 +64,7 @@ Notes:  If the -p option is included along with the -s option, 'date' will
 
         When you use the -t option and the newly entered hour is less
         than the current hour, 'date' version 1.2 will increment the
-        date by one day, changing the month and year if necessary.     
-       
+        date by one day, changing the month and year if necessary.
+
         The command 'date -s -d -t' performs the same functions as the
         command 'date' with no options.

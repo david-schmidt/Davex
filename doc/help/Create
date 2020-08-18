@@ -7,5 +7,5 @@ ex:      create mydir
          create myfile:sys
          create something:bad
 
-Creates a file with the given filetype or, if no filetype is 
+Creates a file with the given filetype or, if no filetype is
 given, of type DIR.

@@ -6,8 +6,8 @@ syntax:  dt
 ex:      dt
          como %log;dt
 
-Prints date and time.  This is fairly useless used alone, 
-since you can get the same information by just hitting 
-RETURN.  But it may be handy if output is redirected.  The 
-second example above, if placed in %AUTOEXEC, will keep a 
+Prints date and time.  This is fairly useless used alone,
+since you can get the same information by just hitting
+RETURN.  But it may be handy if output is redirected.  The
+second example above, if placed in %AUTOEXEC, will keep a
 log of all times Davex was entered.

@@ -34,7 +34,7 @@ the printer slot (see 'config').  Each option is explained below:
    -e #    0: enable ROM character set; 1=enable downloaded charset,
            low half; 2=enable downloaded charset, high half
 
-Note:  -s and -n reset the printer's top of form, so they should be 
+Note:  -s and -n reset the printer's top of form, so they should be
 used only when the printer is at the top of a page.
 
 Note:  In version 1.0 of 'iw2', the -f, -x, -i and -e options did

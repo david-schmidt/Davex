@@ -46,7 +46,7 @@ Apple IIgs only:
   conp       gsbuff
 
 printers:
-  pset       iw2        spool   wait 
+  pset       iw2        spool   wait
   mx80       fp         como/>  cls/home
 
 Use 'config' to find out what directory contains your help files.

@@ -1,7 +1,7 @@
 
 SHORTHAND FOR PATHNAMES
 
-'%' stands for the name of the directory Davex is in.  
+'%' stands for the name of the directory Davex is in.
 
 A period (.) followed by a slot and drive number stands for
 the name of the volume in the specified slot and drive.

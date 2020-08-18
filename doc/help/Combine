@@ -8,10 +8,10 @@ syntax:  combine <input pathname1> [<input pathname2..5>]
 ex:      combine text -m60
          combine game.part1 game.part2 game.3 -o game
          combine =.header =.doc -o documents
- 
+
 'Combine' combines files together.  The input file is always appended to
 the output file.  A total of 5 input files on the same command line is
-supported.  Wildcards are supported in the first two input files only. 
+supported.  Wildcards are supported in the first two input files only.
 When using an output pathname, it is sometimes useful to use a wildcard in
 the input pathname.  This allows you to append several files onto one
 output pathname.

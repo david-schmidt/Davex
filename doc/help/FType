@@ -18,7 +18,7 @@ file, followed by all the filetypes in the internal list.
 
 -r removes the given filetype from your list.
 
--a and -v are used together to add one filetype to your list.  
+-a and -v are used together to add one filetype to your list.
 Case is unimportant when looking for a filetype in the table,
 BUT the types are displayed with the case you use in the -a
 option.

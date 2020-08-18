@@ -5,12 +5,12 @@ syntax:  bye
 
 ex:      bye
 
-Quits Davex.  (Does a ProDOS QUIT to whatever Quit code was 
-in place when you entered Davex.)  If you have different 
-copies of Davex in different directories, you can run one 
-copy from another one, and Quit will return you to the one 
+Quits Davex.  (Does a ProDOS QUIT to whatever Quit code was
+in place when you entered Davex.)  If you have different
+copies of Davex in different directories, you can run one
+copy from another one, and Quit will return you to the one
 you were in previously.
 
-(The old quit code is stored in %config when you enter 
-Davex.  When you quit, it loads the old quit code from 
+(The old quit code is stored in %config when you enter
+Davex.  When you quit, it loads the old quit code from
 %config, so you need to have your Davex disk online.)

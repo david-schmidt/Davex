@@ -11,15 +11,15 @@ ex:      sysalias /disk/davex/davex.system /disk/dvx.system
          sysalias /disk1/basic.system basic -s /disk1/tons.o.fun
          sysalias /awgs.program/appleworks.gs awgs -s /ss/my.budget
 
-Creates a one-block program file (name = alias_to_create) which 
-runs a given SYS or S16 file (name = existing_program).  Wildcards are 
-allowed.  This allows program files to appear to be in more than one 
+Creates a one-block program file (name = alias_to_create) which
+runs a given SYS or S16 file (name = existing_program).  Wildcards are
+allowed.  This allows program files to appear to be in more than one
 place at a time without taking up much extra disk space.  (S16 files
 are useful only on the Apple IIgs.)
 
-In most cases, you will want to specify a complete pathname for 
-<existing_program>.  If you specify a partial pathname, the 
-one-block SYS or S16 file created may or may not be able to find the 
+In most cases, you will want to specify a complete pathname for
+<existing_program>.  If you specify a partial pathname, the
+one-block SYS or S16 file created may or may not be able to find the
 program it's looking for, depending on the prefix at run time.
 
 If you use -p, the file created will set the prefix as specified before

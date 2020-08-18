@@ -28,13 +28,13 @@ Other options are as follows:
         -f: force removal -- This option used in connection with the
             -r option will remove the driver even if the volume is
             not empty.  Use this option with caution!
- 
+
     -a: add -- This option alone will re-install the standard ProDOS
         64k /ram driver.  This option alone will not work on a II+ because
         it does not have the necessary auxiliary memory and driver.  If you
         want to install a driver for a third party ram card on a II+, you
-        must use the -a option in conjunction with the -v option. 
-       
+        must use the -a option in conjunction with the -v option.
+
         -v: vector -- This option used in connection with the -a option
             will allow you to install a driver at a specific location
             xxxxx.  This vector points to the entry point of the driver

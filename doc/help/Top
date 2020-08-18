@@ -5,7 +5,7 @@ syntax:  top
 
 ex:      top
 
-'top' performs 0 or more 'up' commands until the prefix is a 
+'top' performs 0 or more 'up' commands until the prefix is a
 volume name (or until the prefix is null).
 
 (see also:  prefix, up, over, origin)

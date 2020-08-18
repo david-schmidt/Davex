@@ -6,7 +6,7 @@ syntax:  unlock <pathname>
 ex:      unlock this
          unlock =:txt
 
-Allows read, write, rename, and delete for file.  Wildcards 
+Allows read, write, rename, and delete for file.  Wildcards
 are allowed.
 
 (see also:  lock, prot)

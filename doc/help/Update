@@ -7,9 +7,9 @@ ex:      update %help /otherdisk/davex/help -f
          update /work /backup
          update /that/? /there/?
 
-'update' takes two pathnames (original path first, target 
-path second) and updates old files, reporting on its 
-progress as it goes.  If the pathnames are DIRECTORIES, 
+'update' takes two pathnames (original path first, target
+path second) and updates old files, reporting on its
+progress as it goes.  If the pathnames are DIRECTORIES,
 update descends into them and updates corresponding files.
 
 [Note:  If one of the pathnames refers to a directory, the
@@ -18,9 +18,9 @@ other one should, too.  A command like "update /disk1/dir1/?
 messages.  So use a wildcard on both pathnames or don't use
 one at all.]
 
-For files, here's what happens.  If the target file does not 
-exist, update asks for permission to create it.  If the target 
-file does exist, three conditions are possible.  If the 
+For files, here's what happens.  If the target file does not
+exist, update asks for permission to create it.  If the target
+file does exist, three conditions are possible.  If the
 modification dates and times match exactly, you see "current"
 and 'update' takes no further action on that pair of files.
 If the target file is older, you see "outdated" and are asked
@@ -28,8 +28,8 @@ for permission to replace the old file.  If the target file is
 NEWER, you get a warning message and update takes no further
 action on that pair of files.
 
--f (force) bypasses the "Okay to replace" question, just 
-like for the copy command.  (In fact, update USES the copy 
+-f (force) bypasses the "Okay to replace" question, just
+like for the copy command.  (In fact, update USES the copy
 command.)  -f also bypasses the "Okay to create new file"
 questions.
 

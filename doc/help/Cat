@@ -11,11 +11,11 @@ ex:      cat
          cat .62 -s
          cat ?:dir
 
-Displays the contents of the directory specified by pathname; wildcards are 
-allowed.  (If no pathname is given, displays the contents of the current 
+Displays the contents of the directory specified by pathname; wildcards are
+allowed.  (If no pathname is given, displays the contents of the current
 directory.)  The following options are available:
 
-   -t: tree format--show contents of directories indented under the directory 
+   -t: tree format--show contents of directories indented under the directory
        names
 
    -i: show files and directories even if they are invisible (use the 'touch'
@@ -25,10 +25,10 @@ directory.)  The following options are available:
 
    -f: show only files of given type (if -t is given, DIRs are also shown)
 
-   -a: arrange--sort the listing according to the characters following '-a'.  
-       If no characters follow, the listing is sorted alphabetically by 
-       filename.  The following sorting keys may be combined by listing the 
-       most significant keys first.  Capitalizing a letter reverses the order 
+   -a: arrange--sort the listing according to the characters following '-a'.
+       If no characters follow, the listing is sorted alphabetically by
+       filename.  The following sorting keys may be combined by listing the
+       most significant keys first.  Capitalizing a letter reverses the order
        of the sort on that key.
 
        n:  name (a to z)

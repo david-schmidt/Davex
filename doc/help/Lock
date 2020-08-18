@@ -6,7 +6,7 @@ syntax:  lock <pathname>
 ex:      lock this
          lock =:txt
 
-Disallows rename, delete, and write for file.  Wildcards are 
+Disallows rename, delete, and write for file.  Wildcards are
 allowed.
 
 (see also:  unlock, prot)

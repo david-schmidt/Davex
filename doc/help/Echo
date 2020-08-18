@@ -17,7 +17,7 @@ contains "pg %n", you can use
 
   como %n;echo "text here"
 
-to record a message you will see whenever you enter the 
+to record a message you will see whenever you enter the
 shell.  If you do something like that, you may want to
 create an alias called "note" (for example) that stands
 for

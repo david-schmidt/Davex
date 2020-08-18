@@ -11,7 +11,7 @@ Permanently destroys the specified file or directory.  Wildcards
 are allowed.
 
 Before destroying a directory, the 'size' command is automatically
-used to compute the total size of the directory and everything in 
+used to compute the total size of the directory and everything in
 it, and you are given a chance NOT to destroy the directory.
 
 -u unlocks a file before trying to destroy it.  When deleting a

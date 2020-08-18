@@ -8,12 +8,12 @@ ex:      pg this
          como newfile;pg oldfile -l
          pg that -t"    "
 
-Types contents of a file (any type, not just TXT).  Wildcards are 
-allowed.  -h generates a header giving the date/time the file was last 
-modified.  -f disables filtering of control characters; normally they 
+Types contents of a file (any type, not just TXT).  Wildcards are
+allowed.  -h generates a header giving the date/time the file was last
+modified.  -f disables filtering of control characters; normally they
 are filtered out.
 
--u and -l force all alphabetic characters to display in uppercase or 
+-u and -l force all alphabetic characters to display in uppercase or
 lowercase, respectively.
 
 -p begins a new page after the file is printed.
@@ -26,16 +26,16 @@ At the bottom of each screen, you are prompted
 
    --- xx% --- more? (Y/N)
 
-where xx is the percent of the file (calculated by counting 
+where xx is the percent of the file (calculated by counting
 characters, not lines) you have read so far.
 
-When output is redirected to a file or to the printer, no prompting 
+When output is redirected to a file or to the printer, no prompting
 takes place.
 
-Note:  many file types do not contain plain text.  This command   
-       knows how to interpret AWP files, but simply displays all other  
-       files byte-for-byte.  If you type a SYS file, for example, you  
-       will get a lot of garbage and (probably) a few readable 
+Note:  many file types do not contain plain text.  This command
+       knows how to interpret AWP files, but simply displays all other
+       files byte-for-byte.  If you type a SYS file, for example, you
+       will get a lot of garbage and (probably) a few readable
        messages.
 
 (see also:  type, como, strings, alias)

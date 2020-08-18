@@ -77,7 +77,7 @@ Examples:  conp -sb5x1i52  -- set boot to slot 5, slot 1 external ("your
 Category:  port 1 (-1)  (normally printer port)
 
 Settings:                      (value)
-              
+
   dv  device connected         m or p (modem/printer)
   l   line length              u=unlimited, 40, 72, 80, 132
   dl  delete 1st LF after CR   y/n

@@ -10,7 +10,7 @@ ex:      pset -n
          pset -p12 -by -un
          pset -sy -1n -l10
 
-Sets print options, assuming a NEC 8023 or ProWriter or ImageWriter is 
+Sets print options, assuming a NEC 8023 or ProWriter or ImageWriter is
 connected.  Each option is explained below:
 
    -n      (normal) turn off special modes and set 10 cpi
@@ -23,5 +23,5 @@ connected.  Each option is explained below:
    -p #    set pitch; may be 5, 6, 8, 10, 12, or 17
    -r y|n  reverse formfeed direction; y=reverse, n=forward
 
-Note:  -s and -n reset the printer's top of form, so they should be 
+Note:  -s and -n reset the printer's top of form, so they should be
 used only when the printer is at the top of a page.

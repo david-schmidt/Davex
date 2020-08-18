@@ -5,8 +5,8 @@ syntax:  exec <pathname>
 
 ex:      exec foo.bar
 
-Makes keyboard input come from the specified file until an 
-error occurs or until end of file is reached.  Wildcards are 
+Makes keyboard input come from the specified file until an
+error occurs or until end of file is reached.  Wildcards are
 allowed.  The file must be of type TXT ($04), SRC ($B0),
 or $C6/$8001 (Davex 8 Script).
 

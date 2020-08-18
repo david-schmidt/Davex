@@ -31,7 +31,7 @@ pathname: Tells 'ffind' where to look.  If you leave this out, it
       meaningful only if you use -n.]
 
   -f: Tells 'ffind' what filetype to look for.  Example:
-      ffind -fawp  finds AppleWorks Word Processor files. 
+      ffind -fawp  finds AppleWorks Word Processor files.
 
   -x: Tells 'ffind' what auxiliary type to look for.  Example:
       ffind -fbin -x$800  finds binary files that load at $800.

@@ -11,7 +11,7 @@ ex:      scan
          scan -a .62utils
          scan -r /hard2/sys/
 
-With no options, prints the list of directories Davex scans when 
+With no options, prints the list of directories Davex scans when
 you type something that isn't an internal command.
 
 Use the -a and -r options to add or remove a paths from the list.

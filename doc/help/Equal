@@ -8,16 +8,16 @@ ex:      = %
          como my.list;= =:bas
          = .61prodos
 
-Prints a complete pathname.  Wildcards are allowed.  The 
-first example prints the pathname of the Davex directory.  
-The second builds a complete pathname by appending the given 
-partial path to the current prefix.  The third prints, into 
-a file called "my.list", complete pathnames for all BAS 
-files in the current directory.  The fourth prints the 
+Prints a complete pathname.  Wildcards are allowed.  The
+first example prints the pathname of the Davex directory.
+The second builds a complete pathname by appending the given
+partial path to the current prefix.  The third prints, into
+a file called "my.list", complete pathnames for all BAS
+files in the current directory.  The fourth prints the
 pathname of a file PRODOS in slot 6, drive 1.
 
-When '=' is used without wildcards, as in the fourth 
-example, files with the printed pathnames do not necessarily 
+When '=' is used without wildcards, as in the fourth
+example, files with the printed pathnames do not necessarily
 exist.
 
 

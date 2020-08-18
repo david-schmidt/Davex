@@ -13,7 +13,7 @@ ex:      touch myfile
 current date and time without actually modifying the file's contents.
 Wildcards are allowed.
 
-This is intended for use with recently-created files that, for some 
+This is intended for use with recently-created files that, for some
 reason, are not properly date- and time-stamped.  (Some DOS 3.3-to-
 ProDOS conversion programs, for example, stamp files with an invalid
 date and time.)

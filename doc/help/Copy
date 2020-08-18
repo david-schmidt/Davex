@@ -8,16 +8,16 @@ ex:      copy thing /otherdisk/blah
          copy %= /backup/= -fb
          copy /system.disk/system /ram5/system
 
-Copies files from first path to second path.  Unless -f 
-(force) is given, ask for permission to replace the old 
-copy.  If the old file is LOCKED (access is not "rwnd"), 
+Copies files from first path to second path.  Unless -f
+(force) is given, ask for permission to replace the old
+copy.  If the old file is LOCKED (access is not "rwnd"),
 copy asks for permission even if you use -f.
 
--d deletes the original after a successful copy.  -b clears 
+-d deletes the original after a successful copy.  -b clears
 the backup bit of the original after a successful copy.
 
-If the first pathname refers to a file and the second 
-pathname refers to a directory, 'copy' puts the file INTO 
+If the first pathname refers to a file and the second
+pathname refers to a directory, 'copy' puts the file INTO
 the directory.  (It does not replace the directory with the
 file.)
 
@@ -26,12 +26,12 @@ as though you supplied the current prefix.  Result:  "copy
 pathname" copies a file into the current directory, using
 the original file's filename.
 
-If the first pathname refers to a DIRECTORY, the directory 
-and everything in it (files and/or directories) is copied to 
-the second pathname.  The second pathname must not refer to 
+If the first pathname refers to a DIRECTORY, the directory
+and everything in it (files and/or directories) is copied to
+the second pathname.  The second pathname must not refer to
 an existing directory ("ProDOS error: duplicate file" results).
 
-'copy' will copy sparse files, but the new files will no 
+'copy' will copy sparse files, but the new files will no
 longer be sparse.
 
 'copy' can't copy extended files (storage type 5).  You get

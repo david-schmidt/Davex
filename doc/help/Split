@@ -9,7 +9,7 @@ syntax:  split <input pathname> [<output pathname>] [-s<number>]
 ex:      split infile outfile -s0 -e1023
          split infile -s50 -e100 -bn
          split file1 -s50 -l100 -bn -m60
- 
+
 'Split' splits off a section of the input file into the output file.
 If the output file is not specified, output goes to the screen.  The
 input file is never modified.  Wildcards are supported.

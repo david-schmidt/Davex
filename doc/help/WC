@@ -14,7 +14,7 @@ the given file.  The file type is not checked so any file of any type can
 be given on the command line.  Up to five file names can be given on the
 command line at any one time.  AppleWorks word processor files are
 supported.  The standard delimiter between two words is a space.  The
-standard end of line delimiter is a carriage return.   
+standard end of line delimiter is a carriage return.
 
 If more than one file is given on the command line, 'wc' version 2.0 will
 print the grand total of characters, words, and lines.  If wildcards are
@@ -22,7 +22,7 @@ used, the grand total will be printed after every file matching the
 wildcard starting with the second file.  Printing of the grand total is
 also subject to the -c,-w, and -l options.
 
-Options are as follows: 
+Options are as follows:
 
     -c: print character count.
     -w: print word count.
@@ -36,12 +36,12 @@ Options are as follows:
     -e: delimiter between words.  Enter the ascii value of the character
         after the -e.
 
-    -m: wrap margin.  Use this option to force the number of lines to  
+    -m: wrap margin.  Use this option to force the number of lines to
         increment at either a specific margin or a space within 9 characters
-        of the margin.  This option is good for files that use a carriage  
+        of the margin.  This option is good for files that use a carriage
         return to specify paragraphs instead of lines.  Allowed values are
         0 through 255.  A 0 value has the same effect as not using the
         option.
-     
+
 Note:   You can mix the -c, -w, -l options in different combinations.
         The hi-bit of each character in the file is ignored.

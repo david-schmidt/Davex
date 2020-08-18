@@ -12,11 +12,11 @@ than nothing.  It isn't cleanly implemented and may have some
 problems.  It isn't going to crash your system or fry your disk,
 but I wouldn't recommend trying to print your thesis with it.]
 
-Outputs formatted text generated from text and imbedded "dot 
-commands" in a file.  -c prints credits; -1 is the same as 
+Outputs formatted text generated from text and imbedded "dot
+commands" in a file.  -c prints credits; -1 is the same as
 including ".sp1" in the file.
 
-The dot commands 'fp' recognizes are similar to the ones 
+The dot commands 'fp' recognizes are similar to the ones
 AppleWriter recognizes.  They are (defaults in parentheses):
 
   .lm# (10) -- left margin
@@ -40,8 +40,8 @@ AppleWriter recognizes.  They are (defaults in parentheses):
   .ff# -- begin new page if fewer than # lines remain on
           this page
 
-# is a number from 0 to 255.  Most values can be ADJUSTED up 
-or down by putting a "+" or "-" in front of the number.  
+# is a number from 0 to 255.  Most values can be ADJUSTED up
+or down by putting a "+" or "-" in front of the number.
 Example:
 
   .lm+5    moves left margin right 5 spaces

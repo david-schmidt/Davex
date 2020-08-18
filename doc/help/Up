@@ -5,8 +5,8 @@ syntax:  up
 
 ex:      up
 
-Removes one segment from the end of the prefix.  If the 
-prefix is a volume directory, 'up' makes the prefix null.  
+Removes one segment from the end of the prefix.  If the
+prefix is a volume directory, 'up' makes the prefix null.
 If the prefix is already null, up has no effect.
 
 (see also:  over, prefix, origin, top)

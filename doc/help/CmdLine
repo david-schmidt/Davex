@@ -11,9 +11,9 @@ Ctrl-J (down arrow) = move down on the list of previous commands
 Ctrl-K (up arrow) = move up on the list of previous commands
 Ctrl-L = toggle Caps-lock on/off for Apple II+
 Ctrl-M = return (accept whole line, even the part after the cursor)
-Ctrl-O = if the following character is a control character, inserts it 
-         (control characters can't normally be entered).  If the 
-         following character is "K" to "O" or "k" to "o", a special 
+Ctrl-O = if the following character is a control character, inserts it
+         (control characters can't normally be entered).  If the
+         following character is "K" to "O" or "k" to "o", a special
          character is inserted (useful only on the II+ keyboard):
 
             K L M N O k l m n o

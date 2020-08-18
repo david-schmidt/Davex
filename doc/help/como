@@ -7,17 +7,17 @@ ex:      como listing;type =:txt -h
          como &;cat -t
          como 2;type davex.doc
 
-For commands on the same line only, redirects output that would 
+For commands on the same line only, redirects output that would
 normally appear on the screen.  If the specified file exists,
 output will be appended to it.  If it does not exist, it will be
 created as a TXT file.
 
-Output can be redirected to a device by slot number, as in the 
+Output can be redirected to a device by slot number, as in the
 third example.
 
 '&' (or '0') represents the printer slot set by 'config'.
 
-Even while spooled files are printing, you can redirect output 
+Even while spooled files are printing, you can redirect output
 to a slot.  (Not to the SAME slot 'spool' is printing to.)
 
 Note:  If no pathname is specified, output redirection is
@@ -30,7 +30,7 @@ you can do things like
 
   print help    (same as "como &;help")
 
-  print;pg foo  (same as "como &;;pg foo" 
+  print;pg foo  (same as "como &;;pg foo"
                  [extra ";" doesn't matter])
 
 (see also:  exec, config)

@@ -13,7 +13,7 @@ ex:      what thatfile
 512 bytes and prints whatever interesting information it
 can about the file.
 
-Wildcards are allowed.  Output is, at minimum, the file's 
+Wildcards are allowed.  Output is, at minimum, the file's
 type and name.  For many filetypes, additional information
 appears.
 

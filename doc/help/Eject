@@ -7,8 +7,8 @@ ex:      eject
          eject /mydisk
          eject .52
 
-Ejects the specified 3.5" volume from a UniDisk 3.5 or Apple 
-3.5 drive.  If no volume name is given, all 3.5" disks are 
+Ejects the specified 3.5" volume from a UniDisk 3.5 or Apple
+3.5 drive.  If no volume name is given, all 3.5" disks are
 ejected.
 
 Note that the parameter is a PATHNAME, so a command like

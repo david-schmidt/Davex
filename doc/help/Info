@@ -18,7 +18,7 @@ The information printed is:
   * file type
   * access (r=read, w=write, n=rename, d=delete, B=changed since backup,
             I=invisible)
-  * auxilary type (default load address for BIN, record length for 
+  * auxilary type (default load address for BIN, record length for
     TXT, saved location for BAS; total blocks for VOLUME)
   * number of blocks used
   * date/time created (for a volume, even!)
