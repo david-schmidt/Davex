@@ -1,1 +1,57 @@
-config -- display or change Davex configurationsyntax:  config [-p slot] [-b y|n] [-4 y|n] [-c y|n]                [-h string] [-q integer]ex:      config              -- show current settings         config -p1          -- printer slot 1         config -by          -- use system bell         config -p7 -bn      -- printer slot 7, "blat" bell         config -4n -cy      -- 80 columns, show IIgs clock         config -h .62help   -- set location of help directory         config -q2          -- don't print "welcome" message'config' with no parameters displays the current values of all optionsthat you can set with this command.The -p option sets the default printer slot.  This slot number is usedwhen you specify "&" as the pathname for a "como" or ">" command.  Also,'spool' and Apple-H (hardcopy of screen) always print to the slot youset with 'config'.-b is a yes/no option that determines whether the system beep will beused.  If -bn is given, the standard ProDOS buzz is used.  IIgs usersespecially may want to use -by, since the pitch is configurable throughthe control panel (or through the 'conp' external command).-4 is a yes/no option.  When set to yes, it restricts your display to40 columns (while in Davex) even if you have an 80-column card.  Notethat some things are not formatted well in 40 columns--most notably, thehelp files.  (The new display setting takes effect when you hit RESET orre-enter Davex.)-c is a yes/no option that has effect only on an Apple IIgs.  When setto Yes, the date and time that appear when you hit Return without typinga command will include seconds and will be in the format you have selectedin the Control Panel.-h sets the pathname of the Help directory.  The default is "%help".  Thestring can be a full pathname, or it can start with "%" or with a slot/drive specification (ex: ".62help").  This option is useful if severalpeople are running Davex from separate directories on the same hard driveand want to keep just one copy of the help files.-q controls whether the "welcome" message is printed when you enter Davex.The default is 0, and the message is always printed.  Set to 2 and themessage will not be printed; set to 1 and it will be printed only if nospeech synthesizer is being used.IIgs users:  If your machine is on an AppleTalk network with a LaserWriterand you have the appropriate files in your SYSTEM/SYSTEM.SETUP directoryand you have run CHOOSER.II (supplied on your system disk) to download theImageWriter emulator to the LaserWriter, you can treat the LaserWriter as anImageWriter in slot 7.  (Slot 7 must be set to "Built-in Appletalk," not"Your card.")(see also:  como, spool)
+
+config -- display or change Davex configuration
+
+syntax:  config [-p slot] [-b y|n] [-4 y|n] [-c y|n]
+                [-h string] [-q integer]
+
+ex:      config              -- show current settings
+         config -p1          -- printer slot 1
+         config -by          -- use system bell
+         config -p7 -bn      -- printer slot 7, "blat" bell
+         config -4n -cy      -- 80 columns, show IIgs clock
+         config -h .62help   -- set location of help directory
+         config -q2          -- don't print "welcome" message
+
+'config' with no parameters displays the current values of all options
+that you can set with this command.
+
+The -p option sets the default printer slot.  This slot number is used
+when you specify "&" as the pathname for a "como" or ">" command.  Also,
+'spool' and Apple-H (hardcopy of screen) always print to the slot you
+set with 'config'.
+
+-b is a yes/no option that determines whether the system beep will be
+used.  If -bn is given, the standard ProDOS buzz is used.  IIgs users
+especially may want to use -by, since the pitch is configurable through
+the control panel (or through the 'conp' external command).
+
+-4 is a yes/no option.  When set to yes, it restricts your display to
+40 columns (while in Davex) even if you have an 80-column card.  Note
+that some things are not formatted well in 40 columns--most notably, the
+help files.  (The new display setting takes effect when you hit RESET or
+re-enter Davex.)
+
+-c is a yes/no option that has effect only on an Apple IIgs.  When set
+to Yes, the date and time that appear when you hit Return without typing
+a command will include seconds and will be in the format you have selected
+in the Control Panel.
+
+-h sets the pathname of the Help directory.  The default is "%help".  The
+string can be a full pathname, or it can start with "%" or with a slot/
+drive specification (ex: ".62help").  This option is useful if several
+people are running Davex from separate directories on the same hard drive
+and want to keep just one copy of the help files.
+
+-q controls whether the "welcome" message is printed when you enter Davex.
+The default is 0, and the message is always printed.  Set to 2 and the
+message will not be printed; set to 1 and it will be printed only if no
+speech synthesizer is being used.
+
+IIgs users:  If your machine is on an AppleTalk network with a LaserWriter
+and you have the appropriate files in your SYSTEM/SYSTEM.SETUP directory
+and you have run CHOOSER.II (supplied on your system disk) to download the
+ImageWriter emulator to the LaserWriter, you can treat the LaserWriter as an
+ImageWriter in slot 7.  (Slot 7 must be set to "Built-in Appletalk," not
+"Your card.")
+
+(see also:  como, spool)

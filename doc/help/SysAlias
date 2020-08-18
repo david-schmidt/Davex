@@ -1,1 +1,62 @@
-sysalias -- create an alias for a SYS or S16 file (EXTERNAL) [v1.3]syntax:  sysalias <existing_program> <alias_to_create> [-p prefix]                  [-s startpath]ex:      sysalias /disk/davex/davex.system /disk/dvx.system         sysalias davex.dir/davex /disk/start.system         sysalias /disk/awks/aplworks.system %aw         sysalias /work/applewr/awd.system %awr -p /work/applewr         sysalias /disk1/basic.system basic -s /disk1/tons.o.fun         sysalias /awgs.program/appleworks.gs awgs -s /ss/my.budgetCreates a one-block program file (name = alias_to_create) which runs a given SYS or S16 file (name = existing_program).  Wildcards are allowed.  This allows program files to appear to be in more than one place at a time without taking up much extra disk space.  (S16 filesare useful only on the Apple IIgs.)In most cases, you will want to specify a complete pathname for <existing_program>.  If you specify a partial pathname, the one-block SYS or S16 file created may or may not be able to find the program it's looking for, depending on the prefix at run time.If you use -p, the file created will set the prefix as specified beforerunning its program file.When you sysalias a SYS file that has a startup buffer, the alias willhave one, too; the alias passes the startup information along to theoriginal program.The -s option can be used with SYS files to put a default "startuppathname" in the alias's startup buffer.  This name will be passed onto the application being aliased.  The fifth example above creates afile called "basic" which is an alias for "/disk1/basic.system".If you type "basic" without a parameter, Davex will run BASIC.SYSTEM,and BASIC.SYSTEM will run "/disk2/tons.o.fun", because this wasspecified with the -s option.This alias can still accept a startup path.  If you type"basic /disk3/more.fun" BASIC.SYSTEM will run the program youspecified instead.Note:  It is advisable to use COMPLETE pathnames as startupparameters to BASIC.SYSTEM.  Here's why:  BASIC.SYSTEM handlesthe Prefix as you would expect ONLY if it refers to a subdirectory.If the Prefix is set to a disk's top-level directory, BASIC.SYSTEMwill behave as if you are Prefixed TO THE DISK BASIC.SYSTEM ISRUNNING FROM.  This can be confusing.  (Alternatively, you coulduse a partial pathname AND use the -p option to set a particularsubdirectory prefix.)When you sysalias a S16 application, the -s option tells the aliasto put the specified string in a "files to open" message in the AppleIIgs Message Center, the same way the Finder does.In the last example above, the S16 file AWGS is created.  When you typeAWGS on the Davex command line, Davex launches the file/awgs.program/appleworks.gs AND creates a "files" message containingthe path /ss/my.budget.  Then AppleWorks GS automatically opens thefile /ss/my.budget, just like you clicked on that file's icon in theFinder.
+
+sysalias -- create an alias for a SYS or S16 file (EXTERNAL) [v1.3]
+
+syntax:  sysalias <existing_program> <alias_to_create> [-p prefix]
+                  [-s startpath]
+
+ex:      sysalias /disk/davex/davex.system /disk/dvx.system
+         sysalias davex.dir/davex /disk/start.system
+         sysalias /disk/awks/aplworks.system %aw
+         sysalias /work/applewr/awd.system %awr -p /work/applewr
+         sysalias /disk1/basic.system basic -s /disk1/tons.o.fun
+         sysalias /awgs.program/appleworks.gs awgs -s /ss/my.budget
+
+Creates a one-block program file (name = alias_to_create) which 
+runs a given SYS or S16 file (name = existing_program).  Wildcards are 
+allowed.  This allows program files to appear to be in more than one 
+place at a time without taking up much extra disk space.  (S16 files
+are useful only on the Apple IIgs.)
+
+In most cases, you will want to specify a complete pathname for 
+<existing_program>.  If you specify a partial pathname, the 
+one-block SYS or S16 file created may or may not be able to find the 
+program it's looking for, depending on the prefix at run time.
+
+If you use -p, the file created will set the prefix as specified before
+running its program file.
+
+When you sysalias a SYS file that has a startup buffer, the alias will
+have one, too; the alias passes the startup information along to the
+original program.
+
+The -s option can be used with SYS files to put a default "startup
+pathname" in the alias's startup buffer.  This name will be passed on
+to the application being aliased.  The fifth example above creates a
+file called "basic" which is an alias for "/disk1/basic.system".
+If you type "basic" without a parameter, Davex will run BASIC.SYSTEM,
+and BASIC.SYSTEM will run "/disk2/tons.o.fun", because this was
+specified with the -s option.
+
+This alias can still accept a startup path.  If you type
+"basic /disk3/more.fun" BASIC.SYSTEM will run the program you
+specified instead.
+
+Note:  It is advisable to use COMPLETE pathnames as startup
+parameters to BASIC.SYSTEM.  Here's why:  BASIC.SYSTEM handles
+the Prefix as you would expect ONLY if it refers to a subdirectory.
+If the Prefix is set to a disk's top-level directory, BASIC.SYSTEM
+will behave as if you are Prefixed TO THE DISK BASIC.SYSTEM IS
+RUNNING FROM.  This can be confusing.  (Alternatively, you could
+use a partial pathname AND use the -p option to set a particular
+subdirectory prefix.)
+
+When you sysalias a S16 application, the -s option tells the alias
+to put the specified string in a "files to open" message in the Apple
+IIgs Message Center, the same way the Finder does.
+
+In the last example above, the S16 file AWGS is created.  When you type
+AWGS on the Davex command line, Davex launches the file
+/awgs.program/appleworks.gs AND creates a "files" message containing
+the path /ss/my.budget.  Then AppleWorks GS automatically opens the
+file /ss/my.budget, just like you clicked on that file's icon in the
+Finder.

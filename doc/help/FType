@@ -1,1 +1,28 @@
-ftype -- display or update your filetype name tablesyntax:  ftype [-r<ftype>] [-a<string> -v<ftype>] [-z]ex:      ftype         ftype -rbas         ftype -r1         ftype -aLNK -v$F8         ftype -zDavex has two lists of filetype names:  one is in your %configfile (maximum of 63 entries), and the other one is built intoDavex.  Entries in your table can override built-in entries.'ftype' with no options displays all filetypes in your %configfile, followed by all the filetypes in the internal list.-r removes the given filetype from your list.-a and -v are used together to add one filetype to your list.  Case is unimportant when looking for a filetype in the table,BUT the types are displayed with the case you use in the -aoption.'ftype -z' (zap) wipes out any extra filetypes you haveadded (with ftype -a) to your %config file, leaving onlythe built-in table.
+
+ftype -- display or update your filetype name table
+
+syntax:  ftype [-r<ftype>] [-a<string> -v<ftype>] [-z]
+
+ex:      ftype
+         ftype -rbas
+         ftype -r1
+         ftype -aLNK -v$F8
+         ftype -z
+
+Davex has two lists of filetype names:  one is in your %config
+file (maximum of 63 entries), and the other one is built into
+Davex.  Entries in your table can override built-in entries.
+
+'ftype' with no options displays all filetypes in your %config
+file, followed by all the filetypes in the internal list.
+
+-r removes the given filetype from your list.
+
+-a and -v are used together to add one filetype to your list.  
+Case is unimportant when looking for a filetype in the table,
+BUT the types are displayed with the case you use in the -a
+option.
+
+'ftype -z' (zap) wipes out any extra filetypes you have
+added (with ftype -a) to your %config file, leaving only
+the built-in table.

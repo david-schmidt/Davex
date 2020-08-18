@@ -1,1 +1,30 @@
-expand -- Expand tabs (EXTERNAL) [v1.1]          Written by Jeff Dingsyntax:  expand <pathname> [-c<ascii number>] [-t<number>]                [-s"<tabstop 1,tabstop 2,tabstop 3,....,tabstop 16>"] ex:      expand file.w.tabs         expand merlin.s -c160 -s"14,20,35"         > file.no.tabs ; expand file'Expand' expands up to 16 definable tab stops per line in the givenpathname.  Line lengths of up to 255 characters are supported.  Longerlines are split into multiple lines.  Use output redirection on thecommand line to save output in a file (last example).  The secondexample works great for viewing Merlin source files.Options are as follows:     -c: character for tab.  Enter the ascii value of the character        to use for the tab expansion.  The default character is value 9        for ctrl-I.  The tab character is hi-bit sensitive.    -t: tab spaces.  This is the number of spaces between two consecutive        tab stops, normally 8.  Can be any number from 1 to 255.    -s: tab stops.  Up to 16 tab stops can be defined manually.  Each stop        must be greater than the previous with no value exceeding 255.        If less than 16 stops are defined, the remaining stops are        constructed from the defined tab spaces.
+
+expand -- Expand tabs (EXTERNAL) [v1.1]
+          Written by Jeff Ding
+
+syntax:  expand <pathname> [-c<ascii number>] [-t<number>]
+                [-s"<tabstop 1,tabstop 2,tabstop 3,....,tabstop 16>"] 
+
+ex:      expand file.w.tabs
+         expand merlin.s -c160 -s"14,20,35"
+         > file.no.tabs ; expand file
+
+'Expand' expands up to 16 definable tab stops per line in the given
+pathname.  Line lengths of up to 255 characters are supported.  Longer
+lines are split into multiple lines.  Use output redirection on the
+command line to save output in a file (last example).  The second
+example works great for viewing Merlin source files.
+
+Options are as follows: 
+
+    -c: character for tab.  Enter the ascii value of the character
+        to use for the tab expansion.  The default character is value 9
+        for ctrl-I.  The tab character is hi-bit sensitive.
+
+    -t: tab spaces.  This is the number of spaces between two consecutive
+        tab stops, normally 8.  Can be any number from 1 to 255.
+
+    -s: tab stops.  Up to 16 tab stops can be defined manually.  Each stop
+        must be greater than the previous with no value exceeding 255.
+        If less than 16 stops are defined, the remaining stops are
+        constructed from the defined tab spaces.

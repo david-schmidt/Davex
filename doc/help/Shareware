@@ -1,1 +1,11 @@
-$ -- print copyright notice and shareware noticesyntax:  $ex:      $The '$' command prints a copyright notice and a sharewarenotice for Davex.  You may want to type Apple-H when thenotice is on your screen to print a hard copy to yourprinter.
+
+$ -- print copyright notice and shareware notice
+
+syntax:  $
+
+ex:      $
+
+The '$' command prints a copyright notice and a shareware
+notice for Davex.  You may want to type Apple-H when the
+notice is on your screen to print a hard copy to your
+printer.

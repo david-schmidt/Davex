@@ -1,1 +1,15 @@
-prot -- protect filesyntax:  prot <pathname> [-r] [-w] [-n] [-d]ex:      prot this         prot ? -rwnAllows only the specified rights to a file:  r)ead, w)rite, ren)ame, and d)elete.  Wildcards are allowed.   prot x -r      =       lock x   prot x -rwnd   =       unlock x(see also:  lock, unlock)
+
+prot -- protect file
+
+syntax:  prot <pathname> [-r] [-w] [-n] [-d]
+
+ex:      prot this
+         prot ? -rwn
+
+Allows only the specified rights to a file:  r)ead, w)rite, 
+ren)ame, and d)elete.  Wildcards are allowed.
+
+   prot x -r      =       lock x
+   prot x -rwnd   =       unlock x
+
+(see also:  lock, unlock)

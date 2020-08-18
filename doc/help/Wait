@@ -1,1 +1,14 @@
-wait -- wait for spooled files to finish printingsyntax:  waitex:      wait;ej;park'wait' simply sits there and does nothing until files spooled with the 'spool' command are done printing.  Press any key to abort the wait and return to the command prompt.(The example assumes that 'park' is available as a SYS or S16 file or external Davex command; it would presumably park the heads on your hard drive.)
+
+wait -- wait for spooled files to finish printing
+
+syntax:  wait
+
+ex:      wait;ej;park
+
+'wait' simply sits there and does nothing until files 
+spooled with the 'spool' command are done printing.  Press 
+any key to abort the wait and return to the command prompt.
+
+(The example assumes that 'park' is available as a SYS or 
+S16 file or external Davex command; it would presumably park 
+the heads on your hard drive.)

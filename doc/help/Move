@@ -1,1 +1,17 @@
-move -- copy, deleting the original     Alias for:  copy -dsyntax:  move <source pathname> [<dest pathname>]ex:      move this.file that.dir         move =.0 /disk2/extras         move /disk1/that'move' is an alias for 'copy -d'.  It has the effect of "moving"a file from one directory to another, on a different volume orthe same volume.  Wildcards are allowed.Note:  Before Davex v1.25, move was a built-in command, but itstill worked exactly like 'copy -d'.(see also:  copy)
+
+move -- copy, deleting the original     Alias for:  copy -d
+
+syntax:  move <source pathname> [<dest pathname>]
+
+ex:      move this.file that.dir
+         move =.0 /disk2/extras
+         move /disk1/that
+
+'move' is an alias for 'copy -d'.  It has the effect of "moving"
+a file from one directory to another, on a different volume or
+the same volume.  Wildcards are allowed.
+
+Note:  Before Davex v1.25, move was a built-in command, but it
+still worked exactly like 'copy -d'.
+
+(see also:  copy)

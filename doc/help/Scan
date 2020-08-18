@@ -1,1 +1,29 @@
-scan -- examine or change the scan listsyntax:  scan [-r<string>] [-a<string>] [-z]ex:      scan         scan -z         scan -a /ram         scan -a *         scan -a .61         scan -a .62utils         scan -r /hard2/sys/With no options, prints the list of directories Davex scans when you type something that isn't an internal command.Use the -a and -r options to add or remove a paths from the list.The special path '*' in the scan list tells Davex to scan thedirectory your prefix is set to.Use 'scan -z' to reset the scan list to the default (the defaultis "%" followed by "*").Note:  If '%' and '.##' shorthand forms are used in the scanlist, they are expanded during scanning, not when they are enteredinto the list.  This lets you specify that Davex should scancertain _drives_ (or directories on whatever volumes are found inthem) rather than certain volumes.
+
+scan -- examine or change the scan list
+
+syntax:  scan [-r<string>] [-a<string>] [-z]
+
+ex:      scan
+         scan -z
+         scan -a /ram
+         scan -a *
+         scan -a .61
+         scan -a .62utils
+         scan -r /hard2/sys/
+
+With no options, prints the list of directories Davex scans when 
+you type something that isn't an internal command.
+
+Use the -a and -r options to add or remove a paths from the list.
+
+The special path '*' in the scan list tells Davex to scan the
+directory your prefix is set to.
+
+Use 'scan -z' to reset the scan list to the default (the default
+is "%" followed by "*").
+
+Note:  If '%' and '.##' shorthand forms are used in the scan
+list, they are expanded during scanning, not when they are entered
+into the list.  This lets you specify that Davex should scan
+certain _drives_ (or directories on whatever volumes are found in
+them) rather than certain volumes.

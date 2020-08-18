@@ -1,1 +1,15 @@
-hdr -- print a file's header (the first n lines)  (EXTERNAL)syntax:  hdr <pathname> [-Ln]ex:      hdr thatfile         hdr %help/= -L2Displays lines from the beginning of a file.  Wildcards are allowed.  If -L is given, the specified number of lines is displayed.  If -L is omitted, the first 5 lines are displayed.'hdr' works for AWP files and for any file type that containsplain text (for example, txt or src).
+
+hdr -- print a file's header (the first n lines)  (EXTERNAL)
+
+syntax:  hdr <pathname> [-Ln]
+
+ex:      hdr thatfile
+         hdr %help/= -L2
+
+Displays lines from the beginning of a file.  Wildcards are 
+allowed.  If -L is given, the specified number of lines is 
+displayed.  If -L is omitted, the first 5 lines are 
+displayed.
+
+'hdr' works for AWP files and for any file type that contains
+plain text (for example, txt or src).

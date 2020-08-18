@@ -1,1 +1,56 @@
-(Type "help xxx" for more information, where "xxx" is one ofthe items listed below.  For example, type "help cat" or "help ls"for information on the catalog command.)general info:  topics           help/?    shareware/$  pathnames/path   cmdline   versionworking with volumes and directories:  cat/ls   init    create/mkdir      vstore  online   du      eject/ej          vrestore  doscatmiscellaneous:  boot       mon    dt    deschw     echo/e  cls/home   rep    err   equal/=    num  setdate    date   ram3  viewdhr    viewhrI/O redirection:  como/>     exec/<setting prefix (working directory):  prefix/cd  up     top   origin/or   overfinding and examining files and their attributes:  cat/ls     what       ffind      find    wc  info       size       modchk     hdr     tail  ptypeviewing contents of files:  pg/more    type       blist      dump  strings    expand     trfiddling with files:  touch      rename     delete/rm   tr  copy/cp    move       update      split  lock       unlock     prot        combine  setstart   sysalias   filetype    expandDavex environment:  ftype      dev        scan    config  alias      bye/quit   brun    indexApple IIgs only:  conp       gsbuffprinters:  pset       iw2        spool   wait   mx80       fp         como/>  cls/homeUse 'config' to find out what directory contains your help files.There may be information there not listed here.See Davex.Doc for discussion of general topics like wildcardsand slot/drive shorthand.
+
+(Type "help xxx" for more information, where "xxx" is one of
+the items listed below.  For example, type "help cat" or "help ls"
+for information on the catalog command.)
+
+general info:
+  topics           help/?    shareware/$
+  pathnames/path   cmdline   version
+
+working with volumes and directories:
+  cat/ls   init    create/mkdir      vstore
+  online   du      eject/ej          vrestore
+  doscat
+
+miscellaneous:
+  boot       mon    dt    deschw     echo/e
+  cls/home   rep    err   equal/=    num
+  setdate    date   ram3  viewdhr    viewhr
+
+I/O redirection:
+  como/>     exec/<
+
+setting prefix (working directory):
+  prefix/cd  up     top   origin/or   over
+
+finding and examining files and their attributes:
+  cat/ls     what       ffind      find    wc
+  info       size       modchk     hdr     tail
+  ptype
+
+viewing contents of files:
+  pg/more    type       blist      dump
+  strings    expand     tr
+
+fiddling with files:
+  touch      rename     delete/rm   tr
+  copy/cp    move       update      split
+  lock       unlock     prot        combine
+  setstart   sysalias   filetype    expand
+
+Davex environment:
+  ftype      dev        scan    config
+  alias      bye/quit   brun    index
+
+Apple IIgs only:
+  conp       gsbuff
+
+printers:
+  pset       iw2        spool   wait 
+  mx80       fp         como/>  cls/home
+
+Use 'config' to find out what directory contains your help files.
+There may be information there not listed here.
+
+See Davex.Doc for discussion of general topics like wildcards
+and slot/drive shorthand.

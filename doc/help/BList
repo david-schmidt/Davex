@@ -1,1 +1,24 @@
-blist -- list a BAS file in ASCII (EXTERNAL) [v1.2]syntax:  blist <pathname> [-w <integer>]ex:      blist this         como &;blist ?:bas -w70         como edit.this;blist myprogList a BAS file in readable form.  Wildcards are allowed.  Intended for redirecting to a TXT file to allow editing with a word processor.  The edited file can then be EXECed in BASIC.SYSTEM, turning it back into an Applesoft program which can be SAVEd and RUN.The -w option specifies the wrap margin.  'blist' will starta new line and indent 6 spaces when this margin is hit, orwhen a blank is printed within 10 columns of the margin.If you are using 'blist' to send a listing to your printer,you may need to use -w to prevent long lines from overprintingthemselves.Version 1.2 fixes a spacing bug in REM and DATA statements thatdidn't begin with a blank.
+
+blist -- list a BAS file in ASCII (EXTERNAL) [v1.2]
+
+syntax:  blist <pathname> [-w <integer>]
+
+ex:      blist this
+         como &;blist ?:bas -w70
+         como edit.this;blist myprog
+
+List a BAS file in readable form.  Wildcards are allowed.  
+Intended for redirecting to a TXT file to allow editing with 
+a word processor.  The edited file can then be EXECed in 
+BASIC.SYSTEM, turning it back into an Applesoft program 
+which can be SAVEd and RUN.
+
+The -w option specifies the wrap margin.  'blist' will start
+a new line and indent 6 spaces when this margin is hit, or
+when a blank is printed within 10 columns of the margin.
+If you are using 'blist' to send a listing to your printer,
+you may need to use -w to prevent long lines from overprinting
+themselves.
+
+Version 1.2 fixes a spacing bug in REM and DATA statements that
+didn't begin with a blank.

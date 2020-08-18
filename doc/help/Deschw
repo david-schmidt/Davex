@@ -1,1 +1,30 @@
-deschw -- describe hardware (EXTERNAL) [v1.2]syntax:  deschw [-c] [-s] [-t]ex:      deschw         deschw -t         deschw -ct         deschw -sDescribes system hardware.  Giving no options has the sameeffect as giving them all.-t displays the system type.  Possible types are:   Apple IIgs; ROM version $xx [Machine ID = $xx]      (reports total RAM, too)   Apple IIe (enhanced)   Apple IIe (unenhanced)   Apple ][+   Apple /// (in emulation mode)   Apple IIc (version 1: original)   Apple IIc (version 2: 3.5" disk ROM)   Apple IIc (version 3: memory expandable)   Apple IIc (version 4: revised mem. expandable)   Apple IIc Plus-c tries to identify the cards (and/or ports) in your system.-s displays information about all SmartPort (=Protocol Converter)   cards/ports in your system, and all devices in their chains.
+
+deschw -- describe hardware (EXTERNAL) [v1.2]
+
+syntax:  deschw [-c] [-s] [-t]
+
+ex:      deschw
+         deschw -t
+         deschw -ct
+         deschw -s
+
+Describes system hardware.  Giving no options has the same
+effect as giving them all.
+
+-t displays the system type.  Possible types are:
+   Apple IIgs; ROM version $xx [Machine ID = $xx]
+      (reports total RAM, too)
+   Apple IIe (enhanced)
+   Apple IIe (unenhanced)
+   Apple ][+
+   Apple /// (in emulation mode)
+   Apple IIc (version 1: original)
+   Apple IIc (version 2: 3.5" disk ROM)
+   Apple IIc (version 3: memory expandable)
+   Apple IIc (version 4: revised mem. expandable)
+   Apple IIc Plus
+
+-c tries to identify the cards (and/or ports) in your system.
+
+-s displays information about all SmartPort (=Protocol Converter)
+   cards/ports in your system, and all devices in their chains.

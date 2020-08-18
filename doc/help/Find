@@ -1,1 +1,56 @@
-find -- search a file for lines containing a string (EXTERNAL) [v1.1]syntax:  find <pathname> [<string>] [-L<integer>] [-w<integer>]              [-c] [-n]ex:      find phones frank         find .61= -n         find /info/addresses "John S" -L5'find' searches files for lines containing a specified string.Each matching line (each one containing the string) is displayed(non-printable characters appear as periods).pathname: Specifies what file to search.  Wildcards are allowed.      Note:  'find' is appropriate for searching (AppleWorks Word      Processor (AWP) files as well as "plain text" files (TXT and      SRC, for example).string: Specifies what to search for.  If this string contains      blanks or begins with a "-", you must put quotation marks      around it (use either ["] or [']).  (If you omit the      string, all lines in the file will be counted as matches.)      Uppercase and lowercase letters are considered the same.  -c: Count the number of matching lines instead of displaying      them.  (Use -L1 to display matches *and* the count.)  -L: Specifies the number of consecutive lines to display starting      with each matching line.  If you do not give this option, only      the matching lines are displayed.  (If -c is given, no lines       are displayed unless you also use -L.)      [An additional line printed after a match may itself be a      matching line.  In cases like this, 'find' continues printing      lines until the requested number of lines have been printed      after the last match.]  -n: Causes line numbers to appear before every line displayed.      The line numbers may not correspond exactly to the line      numbers you see in AppleWorks, since 'find' ignores lines      containing formatting commands.  -w: Sets the wrap margin for breaking a file into lines.  You will      probably have no need for this option unless the files you are      searching use carriage-return to mark *paragraphs* rather than      lines (for example, most AppleWriter files).      The wrap margin defaults to 70.  You can specify your own margin      with the -w option (your margin must be in the range 11 to 254).      A line ends when (1) it hits the wrap margin, (2) at a carriage      return, or (3) at a blank within 9 characters of the wrap margin      (whichever comes first).[Note--find v1.0 failed to find strings at the beginning of a line.]
+
+find -- search a file for lines containing a string (EXTERNAL) [v1.1]
+
+syntax:  find <pathname> [<string>] [-L<integer>] [-w<integer>]
+              [-c] [-n]
+
+ex:      find phones frank
+         find .61= -n
+         find /info/addresses "John S" -L5
+
+'find' searches files for lines containing a specified string.
+Each matching line (each one containing the string) is displayed
+(non-printable characters appear as periods).
+
+pathname: Specifies what file to search.  Wildcards are allowed.
+      Note:  'find' is appropriate for searching (AppleWorks Word
+      Processor (AWP) files as well as "plain text" files (TXT and
+      SRC, for example).
+
+string: Specifies what to search for.  If this string contains
+      blanks or begins with a "-", you must put quotation marks
+      around it (use either ["] or [']).  (If you omit the
+      string, all lines in the file will be counted as matches.)
+      Uppercase and lowercase letters are considered the same.
+
+  -c: Count the number of matching lines instead of displaying
+      them.  (Use -L1 to display matches *and* the count.)
+
+  -L: Specifies the number of consecutive lines to display starting
+      with each matching line.  If you do not give this option, only
+      the matching lines are displayed.  (If -c is given, no lines 
+      are displayed unless you also use -L.)
+
+      [An additional line printed after a match may itself be a
+      matching line.  In cases like this, 'find' continues printing
+      lines until the requested number of lines have been printed
+      after the last match.]
+
+  -n: Causes line numbers to appear before every line displayed.
+      The line numbers may not correspond exactly to the line
+      numbers you see in AppleWorks, since 'find' ignores lines
+      containing formatting commands.
+
+  -w: Sets the wrap margin for breaking a file into lines.  You will
+      probably have no need for this option unless the files you are
+      searching use carriage-return to mark *paragraphs* rather than
+      lines (for example, most AppleWriter files).
+
+      The wrap margin defaults to 70.  You can specify your own margin
+      with the -w option (your margin must be in the range 11 to 254).
+
+      A line ends when (1) it hits the wrap margin, (2) at a carriage
+      return, or (3) at a blank within 9 characters of the wrap margin
+      (whichever comes first).
+
+[Note--find v1.0 failed to find strings at the beginning of a line.]

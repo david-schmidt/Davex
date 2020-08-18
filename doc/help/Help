@@ -1,1 +1,33 @@
-help | ? -- display command informationsyntax:  help [string]ex:      help         ?         help topics         ?cat'help' or '?' alone prints a list of built-in commands.'help' or '?' followed by a command name or topic prints informationon that command or topic.  Type "help topics" for a list of availablehelp topics.It is not necessary to put a blank after the '?' command.Note about ALIASES:  'help' doesn't currently understand aliases.To get help on a "command" like "dir" (really an alias for 'cat')you have to type "help cat" (or "?cat"), not "help dir".  ['Help'may be more intelligent about aliases in a future version of Davex;for now, you'll have to type "alias" to see what the real name foryour command is.]To save disk space, most of the help files have been compressed andincluded in the file "indexed.help" in the help directory.  Thehelp directory is normally %help, but the 'config' command can beused to put the help somewhere else.  When you ask for help on agiven topic, 'help' always looks for a file with the same name inthe help directory before consulting the indexed help file.(see also:  config, "help topics")
+
+help | ? -- display command information
+
+syntax:  help [string]
+
+ex:      help
+         ?
+         help topics
+         ?cat
+
+'help' or '?' alone prints a list of built-in commands.
+
+'help' or '?' followed by a command name or topic prints information
+on that command or topic.  Type "help topics" for a list of available
+help topics.
+
+It is not necessary to put a blank after the '?' command.
+
+Note about ALIASES:  'help' doesn't currently understand aliases.
+To get help on a "command" like "dir" (really an alias for 'cat')
+you have to type "help cat" (or "?cat"), not "help dir".  ['Help'
+may be more intelligent about aliases in a future version of Davex;
+for now, you'll have to type "alias" to see what the real name for
+your command is.]
+
+To save disk space, most of the help files have been compressed and
+included in the file "indexed.help" in the help directory.  The
+help directory is normally %help, but the 'config' command can be
+used to put the help somewhere else.  When you ask for help on a
+given topic, 'help' always looks for a file with the same name in
+the help directory before consulting the indexed help file.
+
+(see also:  config, "help topics")

@@ -1,1 +1,36 @@
-viewdhr -- view a double hi-res picture (EXTERNAL) [v1.1]  Written by Jeff Dingsyntax:  viewdhr <pathname> [-f] [-r] ex:      viewdhr /picture.disk/pic.1         viewdhr /picture.disk/pic.1 -f         viewdhr /picture.disk/pic='viewdhr' displays a double hi-res picture on the screen without leavingthe Davex command shell.  Wildcards are accepted in the pathname.Once thepicture is displayed, any key will exit.  Ctrl-C will abort wildcardexpansions.  'viewdhr' will not work on a II+ or 64k //e because they donot have the auxiliary memory needed to display double hi-res pictures. This  program will work on a //c, //e compatible with an extended 80 columncard, and the //gs.In order for 'viewdhr' to work you have to uninstall the ram driver inslot 3 drive 2.  To do that you have to use the 'ram3' external command.The following options are available:     -f: force load -- This option will force the program to load the         picture regardless of the status of the ram drive.  Use this         option with caution as it will destroy any files that might         be stored in that memory     -r: reverse pages -- This option will load the picture in reversed         format.  Normally the first half of the file is loaded into the         auxiliary memory and the second half into the main memory.  Using         this option will switch the main and auxiliary pages in memory.'viewdhr' makes sure the filetype is BIN or FOT and the auxtype is setto $2000.  It then loads the file and displays it on the screen.  Itwill not load the picture if the length is less than $2001 bytes.(see also: ram3)
+
+viewdhr -- view a double hi-res picture (EXTERNAL) [v1.1]  Written by Jeff Ding
+
+syntax:  viewdhr <pathname> [-f] [-r] 
+
+ex:      viewdhr /picture.disk/pic.1
+         viewdhr /picture.disk/pic.1 -f
+         viewdhr /picture.disk/pic=
+
+'viewdhr' displays a double hi-res picture on the screen without leaving
+the Davex command shell.  Wildcards are accepted in the pathname.Once the
+picture is displayed, any key will exit.  Ctrl-C will abort wildcard
+expansions.  'viewdhr' will not work on a II+ or 64k //e because they do
+not have the auxiliary memory needed to display double hi-res pictures. 
+This  program will work on a //c, //e compatible with an extended 80 column
+card, and the //gs.
+
+In order for 'viewdhr' to work you have to uninstall the ram driver in
+slot 3 drive 2.  To do that you have to use the 'ram3' external command.
+The following options are available:
+
+     -f: force load -- This option will force the program to load the
+         picture regardless of the status of the ram drive.  Use this
+         option with caution as it will destroy any files that might
+         be stored in that memory
+
+     -r: reverse pages -- This option will load the picture in reversed
+         format.  Normally the first half of the file is loaded into the
+         auxiliary memory and the second half into the main memory.  Using
+         this option will switch the main and auxiliary pages in memory.
+
+'viewdhr' makes sure the filetype is BIN or FOT and the auxtype is set
+to $2000.  It then loads the file and displays it on the screen.  It
+will not load the picture if the length is less than $2001 bytes.
+
+(see also: ram3)
