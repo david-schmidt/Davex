@@ -1,1 +1,16 @@
-strings -- find printable strings in a file (EXTERNAL) [v1.0]syntax:  strings <pathname> [-L <minimum_length>] [-o] [-m]ex:      strings thatfile         strings ?:sys -o -l10Searches for and displays possibly readable ASCII strings in a fileof any type.  Wildcards are allowed.The -L option specifies the minimum number of consecutive printablecharacters that qualifies as a printable string; the default is 6.The -o option stops the offsets of the found strings from beingdisplayed.  The -m option allows strings to have mixed low-ASCII (bit7 clear) and high-ASCII (bit 7 set) characters in them.
+
+strings -- find printable strings in a file (EXTERNAL) [v1.0]
+
+syntax:  strings <pathname> [-L <minimum_length>] [-o] [-m]
+
+ex:      strings thatfile
+         strings ?:sys -o -l10
+
+Searches for and displays possibly readable ASCII strings in a file
+of any type.  Wildcards are allowed.
+
+The -L option specifies the minimum number of consecutive printable
+characters that qualifies as a printable string; the default is 6.
+The -o option stops the offsets of the found strings from being
+displayed.  The -m option allows strings to have mixed low-ASCII (bit
+7 clear) and high-ASCII (bit 7 set) characters in them.

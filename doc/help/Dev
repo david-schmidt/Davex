@@ -1,1 +1,23 @@
-dev -- list, add, or remove ProDOS devicessyntax:  dev [-r<devnum>] [-a<devnum>] [-z]ex:      dev         dev -z         dev -r.62         dev -a.32With no options, prints list of device numbers ProDOS scans when looking for an unknown volume.  With -r, removes thespecified device from the list.  With -a, adds the specifieddevice to the list.-z (zap) scans all devices in the device list and REMOVES the ones that don't have ProDOS volumes mounted.  This is especially useful if you have Disk IIs that you will not use for a while.  (The next time you re-enter ProDOS 8, all yourdisk devices will again be present in ProDOS's scan list.)Note:  with -a, the low nybble of the device number is always set to 0.  This is not usually a problem.
+
+dev -- list, add, or remove ProDOS devices
+
+syntax:  dev [-r<devnum>] [-a<devnum>] [-z]
+
+ex:      dev
+         dev -z
+         dev -r.62
+         dev -a.32
+
+With no options, prints list of device numbers ProDOS scans 
+when looking for an unknown volume.  With -r, removes the
+specified device from the list.  With -a, adds the specified
+device to the list.
+
+-z (zap) scans all devices in the device list and REMOVES 
+the ones that don't have ProDOS volumes mounted.  This is 
+especially useful if you have Disk IIs that you will not use 
+for a while.  (The next time you re-enter ProDOS 8, all your
+disk devices will again be present in ProDOS's scan list.)
+
+Note:  with -a, the low nybble of the device number is 
+always set to 0.  This is not usually a problem.

@@ -1,1 +1,11 @@
-create -- create a directory or other filesyntax:  create <path>[:<filetype>]ex:      create mydir         create myfile:sys         create something:badCreates a file with the given filetype or, if no filetype is given, of type DIR.
+
+create -- create a directory or other file
+
+syntax:  create <path>[:<filetype>]
+
+ex:      create mydir
+         create myfile:sys
+         create something:bad
+
+Creates a file with the given filetype or, if no filetype is 
+given, of type DIR.

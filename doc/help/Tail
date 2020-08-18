@@ -1,1 +1,33 @@
-tail -- Display end of file (EXTERNAL) [v1.0]        Written by Jeff Dingsyntax:  tail <pathname> [-l<number>] [-w<number>] [-d<ascii number>]ex:      tail long.file         tail read.me -l10         > & ; tail wide.file -w132'Tail' displays the ending of a file without having to wait for thebeginning part to scroll by on the screen.  This command is useful forquickly displaying the ending of any file that is very long.  Wildcardsare supported.Options are as follows:     -l: number of lines to print.  This defaults to 5 lines.  You can        specify 'tail' to print any number of lines from 1 to 255 off        the end of a file.  A 0 value has the same effect as not using        the option.    -w: wrap margin.  Use this option to force the number of lines to          increment at either a specific margin or a space within 9 characters        of the margin.  This option is good for files that use a carriage          return to specify paragraphs instead of lines.  Allowed values are        0 through 255.  A 0 value has the same effect as not using the        option.  The default wrap margin is set to 79.    -d: delimiter for end of line.  Enter the ascii value of the character        after the -d.(see also: hdr)
+
+tail -- Display end of file (EXTERNAL) [v1.0]
+        Written by Jeff Ding
+
+syntax:  tail <pathname> [-l<number>] [-w<number>] [-d<ascii number>]
+
+ex:      tail long.file
+         tail read.me -l10
+         > & ; tail wide.file -w132
+
+'Tail' displays the ending of a file without having to wait for the
+beginning part to scroll by on the screen.  This command is useful for
+quickly displaying the ending of any file that is very long.  Wildcards
+are supported.
+
+Options are as follows: 
+
+    -l: number of lines to print.  This defaults to 5 lines.  You can
+        specify 'tail' to print any number of lines from 1 to 255 off
+        the end of a file.  A 0 value has the same effect as not using
+        the option.
+
+    -w: wrap margin.  Use this option to force the number of lines to  
+        increment at either a specific margin or a space within 9 characters
+        of the margin.  This option is good for files that use a carriage  
+        return to specify paragraphs instead of lines.  Allowed values are
+        0 through 255.  A 0 value has the same effect as not using the
+        option.  The default wrap margin is set to 79.
+
+    -d: delimiter for end of line.  Enter the ascii value of the character
+        after the -d.
+
+(see also: hdr)

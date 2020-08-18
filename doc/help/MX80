@@ -1,1 +1,28 @@
-mx80 -- set up print options for Epson MX80 (EXTERNAL) [v1.1]syntax:  mx80 [-z] [-n] [-1 y|n] [-b y|n] [-e y|n] [-i y|n] [-u y|n]              [-8 y|n] [-s <integer>] [-l <integer>] [-p <integer>]ex:      mx80 -z         mx80 -p17 -by -in -uy         mx80 -s6Set print options, assuming an Epson MX80 is connected.  Each option is explained below:   -z      (zap) set all options to power-up defaults (including top            of form)   -n      (normal) turn off special modes and set 10 cpi   -1 y|n  -1y set unidirectional printing; -1n sets bidirectional   -b y|n  boldface:  yes or no   -e y|n  emphasized: yes or no (double strike)   -i y|n  italics:  yes or no   -u y|n  underlining:  yes or no   -8 y|n  eight lines per inch:  yes or no (no=6 lines per inch)   -s #    set number of lines to skip over at end of page   -l #    set page size in lines (normally 66)   -p #    set pitch; may be 5, 8 (really 8.5), 10, or 17 (really            17.16)'mx80' v1.0 didn't work with recent versions of Davex.
+
+mx80 -- set up print options for Epson MX80 (EXTERNAL) [v1.1]
+
+syntax:  mx80 [-z] [-n] [-1 y|n] [-b y|n] [-e y|n] [-i y|n] [-u y|n]
+              [-8 y|n] [-s <integer>] [-l <integer>] [-p <integer>]
+
+ex:      mx80 -z
+         mx80 -p17 -by -in -uy
+         mx80 -s6
+
+Set print options, assuming an Epson MX80 is connected.  Each option 
+is explained below:
+
+   -z      (zap) set all options to power-up defaults (including top 
+           of form)
+   -n      (normal) turn off special modes and set 10 cpi
+   -1 y|n  -1y set unidirectional printing; -1n sets bidirectional
+   -b y|n  boldface:  yes or no
+   -e y|n  emphasized: yes or no (double strike)
+   -i y|n  italics:  yes or no
+   -u y|n  underlining:  yes or no
+   -8 y|n  eight lines per inch:  yes or no (no=6 lines per inch)
+   -s #    set number of lines to skip over at end of page
+   -l #    set page size in lines (normally 66)
+   -p #    set pitch; may be 5, 8 (really 8.5), 10, or 17 (really 
+           17.16)
+
+'mx80' v1.0 didn't work with recent versions of Davex.

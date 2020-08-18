@@ -1,1 +1,69 @@
-split -- split off sections of files (EXTERNAL) [v1.1]         Written by Jeff Dingsyntax:  split <input pathname> [<output pathname>] [-s<number>]               [-e<number>|-l<number>] [-b y|n] [-f] [-d<number>]               [-w<margin>]ex:      split infile outfile -s0 -e1023         split infile -s50 -e100 -bn         split file1 -s50 -l100 -bn -m60 'Split' splits off a section of the input file into the output file.If the output file is not specified, output goes to the screen.  Theinput file is never modified.  Wildcards are supported.'Split' works with any file type, but the input file is always treatedas a raw collection of bytes.  This means, for example, that you cansplit off a piece of an AWP file, but the resulting smaller file willnot be a valid AWP file.  However, you can always use 'combine' to puta big file back together from pieces created with 'split'.The starting position is determined by the number after -s. The endingposition is determined by either -e (end) or -l (length).  Note thatlength = end - start + 1.The starting/ending/length parameters are measured in either bytes orlines.  Use the -b (count by bytes) parameter with a yes/no value tochoose:  -by to count by bytes; -bn to count by lines.  If you don'tuse the -b option, 'split' counts by bytes.Options are as follows:    output pathname: split section is saved to this file.  If not                     specified, output goes to the screen.  The output                     file type will always be the same as the input                     file type.    -s: starting offset position.  The first byte in a file has an        offset of 0.  The first line in a file has an offset of 1.        If not specified, the start position is set to the beginning        of the file.    -e: ending offset position.  Maximum offset is 16777214.  If not        specified, the ending position is set to the end of the file.    -l: length of section.  Maximum length is 16777214.  Use either        -e OR -l.  If -e is given, -l is ignored.    -b y|n: measurement in bytes (yes) or lines (no).  Bytes is the        default.    -f: force overwrite.  Skips the "Okay to overwrite" question if        the output file already exists.    -d <ascii number>: this determines what character is used for the line                       delimiter.  Use the ascii value for the character.    -w <margin>: wrap margin.  Affects output to the screen only.  This                 will force a carriage return when either the margin or                 a space within 9 characters of the margin is reached.                 Allowed values are 0 through 255.  A 0 value has the same                 effect as not using the option.Version 1.1 fixes a bug when specifying an output file and not usingthe -e option.(see also: combine)
+
+split -- split off sections of files (EXTERNAL) [v1.1]
+         Written by Jeff Ding
+
+syntax:  split <input pathname> [<output pathname>] [-s<number>]
+               [-e<number>|-l<number>] [-b y|n] [-f] [-d<number>]
+               [-w<margin>]
+
+ex:      split infile outfile -s0 -e1023
+         split infile -s50 -e100 -bn
+         split file1 -s50 -l100 -bn -m60
+ 
+'Split' splits off a section of the input file into the output file.
+If the output file is not specified, output goes to the screen.  The
+input file is never modified.  Wildcards are supported.
+
+'Split' works with any file type, but the input file is always treated
+as a raw collection of bytes.  This means, for example, that you can
+split off a piece of an AWP file, but the resulting smaller file will
+not be a valid AWP file.  However, you can always use 'combine' to put
+a big file back together from pieces created with 'split'.
+
+The starting position is determined by the number after -s. The ending
+position is determined by either -e (end) or -l (length).  Note that
+length = end - start + 1.
+
+The starting/ending/length parameters are measured in either bytes or
+lines.  Use the -b (count by bytes) parameter with a yes/no value to
+choose:  -by to count by bytes; -bn to count by lines.  If you don't
+use the -b option, 'split' counts by bytes.
+
+Options are as follows:
+
+    output pathname: split section is saved to this file.  If not
+                     specified, output goes to the screen.  The output
+                     file type will always be the same as the input
+                     file type.
+
+    -s: starting offset position.  The first byte in a file has an
+        offset of 0.  The first line in a file has an offset of 1.
+        If not specified, the start position is set to the beginning
+        of the file.
+
+    -e: ending offset position.  Maximum offset is 16777214.  If not
+        specified, the ending position is set to the end of the file.
+
+    -l: length of section.  Maximum length is 16777214.  Use either
+        -e OR -l.  If -e is given, -l is ignored.
+
+    -b y|n: measurement in bytes (yes) or lines (no).  Bytes is the
+        default.
+
+    -f: force overwrite.  Skips the "Okay to overwrite" question if
+        the output file already exists.
+
+    -d <ascii number>: this determines what character is used for the line
+                       delimiter.  Use the ascii value for the character.
+
+    -w <margin>: wrap margin.  Affects output to the screen only.  This
+                 will force a carriage return when either the margin or
+                 a space within 9 characters of the margin is reached.
+                 Allowed values are 0 through 255.  A 0 value has the same
+                 effect as not using the option.
+
+
+Version 1.1 fixes a bug when specifying an output file and not using
+the -e option.
+
+(see also: combine)

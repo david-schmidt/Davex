@@ -1,1 +1,18 @@
-err -- print ProDOS error messagesyntax:  err <integer>ex:      err 70         err $46Prints the ProDOS error message corresponding to the given error code.  'err 0' prints a list of all the errors in thetable.Davex never prints an error number if a message is available instead.  This command is useful if you get an error code from a program that doesn't have a table of ProDOS error messages built in.  (Applications created by 'sysalias' willprint two-digit error codes if something goes wrong; use"err $xx" to see what they mean.)
+
+err -- print ProDOS error message
+
+syntax:  err <integer>
+
+ex:      err 70
+         err $46
+
+Prints the ProDOS error message corresponding to the given 
+error code.  'err 0' prints a list of all the errors in the
+table.
+
+Davex never prints an error number if a message is available 
+instead.  This command is useful if you get an error code 
+from a program that doesn't have a table of ProDOS error 
+messages built in.  (Applications created by 'sysalias' will
+print two-digit error codes if something goes wrong; use
+"err $xx" to see what they mean.)

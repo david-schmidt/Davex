@@ -1,1 +1,23 @@
-exec -- get keyboard input from a filesyntax:  exec <pathname>ex:      exec foo.barMakes keyboard input come from the specified file until an error occurs or until end of file is reached.  Wildcards are allowed.  The file must be of type TXT ($04), SRC ($B0),or $C6/$8001 (Davex 8 Script).If %autoexec exists, Davex automatically execs it on entry.(If another pathname is passed to Davex in its startup buffer,Davex attempts to exec the specified file instead of %autoexec.)Command prompts and commands will not appear on the screenwhile the file is being exec'ed (but the commands DO getstored in the History buffer, so you can use the up arrow tosee what commands were executed; this is useful if an erroroccurs during the exec).(see also: setstart)
+
+exec -- get keyboard input from a file
+
+syntax:  exec <pathname>
+
+ex:      exec foo.bar
+
+Makes keyboard input come from the specified file until an 
+error occurs or until end of file is reached.  Wildcards are 
+allowed.  The file must be of type TXT ($04), SRC ($B0),
+or $C6/$8001 (Davex 8 Script).
+
+If %autoexec exists, Davex automatically execs it on entry.
+(If another pathname is passed to Davex in its startup buffer,
+Davex attempts to exec the specified file instead of %autoexec.)
+
+Command prompts and commands will not appear on the screen
+while the file is being exec'ed (but the commands DO get
+stored in the History buffer, so you can use the up arrow to
+see what commands were executed; this is useful if an error
+occurs during the exec).
+
+(see also: setstart)

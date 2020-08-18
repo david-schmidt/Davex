@@ -1,1 +1,17 @@
-filetype -- change file's type (& auxtype)syntax:  filetype <pathname> <filetype> [-x<integer>]ex:      filetype myfile sys         filetype ? bin -x$2000Changes the file type (NOT the storage type) of a file.  If -x is given, also sets the auxiliary type (subtype) as specified.NOTE:  Although you can change a DIR file into another type,        and you can change a non-DIR file into a DIR file,        this changes ONLY the file type and will cause much        confusion--it is not recommended.  (The storage type       is not affected.)
+
+filetype -- change file's type (& auxtype)
+
+syntax:  filetype <pathname> <filetype> [-x<integer>]
+
+ex:      filetype myfile sys
+         filetype ? bin -x$2000
+
+Changes the file type (NOT the storage type) of a file.  If 
+-x is given, also sets the auxiliary type (subtype) as 
+specified.
+
+NOTE:  Although you can change a DIR file into another type, 
+       and you can change a non-DIR file into a DIR file, 
+       this changes ONLY the file type and will cause much 
+       confusion--it is not recommended.  (The storage type
+       is not affected.)

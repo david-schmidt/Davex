@@ -1,1 +1,70 @@
-what -- determine what a file is (EXTERNAL) [v2.1]syntax:  what <pathname> [-m] [-c] [-x] [-l] [-s] [-b]                         [-a] [-n]ex:      what thatfile         what %=:bin -a         what =:src -n         what .62 -amc'what' examines a file's type, auxiliary type, and first512 bytes and prints whatever interesting information itcan about the file.Wildcards are allowed.  Output is, at minimum, the file's type and name.  For many filetypes, additional informationappears.Options:  -n:  no blank lines (prevents 'what' from printing a blank       line before each file's information)  -a:  print All information (modification date/time, creation       date/time, auxiliary type, length in bytes, length in       blocks, storage type)  -m:  modification date and time  -c:  creation date and time  -x:  auxiliary type (load address for BIN files, total blocks       for a volume, etc.--meaning depends on filetype)  -l:  length in bytes  -s:  storage type (seedling, sapling, tree, Pascal area,       subdirectory, or volume)  -b:  length in blocksNote: 'what foo -a' is the same as 'what foo -mcsxlb'.  Also, you      can print ALL BUT certain pieces of information by      specifying -a AND the options to omit.  For example,      'what foo -ac' prints all information EXCEPT the creation      date/time.For BIN or $2E files that are external Davex commands, versioninformation, a one-line summary, and the command's execution addressare displayed.SYS files created by the 'sysalias' command are identified, andthe pathname of the aliased application is displayed.  Ifthere is a startup buffer, its size is displayed.SYS files -not- created by 'sysalias' are identified as ProDOS 8applications.  If there is a startup buffer, its length anddefault contents will be displayed (for example, BASIC.SYSTEMnormally has a 65-byte startup buffer containing "startup").BAS files are identified as Applesoft BASIC programs.  'what'computes the correct Aux-type for the file and prints a warningmessage if the file has a different Aux-type.  (Use 'filetype'with -x to correct the problem.)  [Some DOS 3.3-to-ProDOSconversion programs (including Apple's CONVERT utility) alwaysgive BAS files an Aux-type of $0801, which is typically correct.But if the DOS program had been saved from an address other than$801, nastiness will result when you try to load or run theconverted program under ProDOS.]Apple IIgs TOL files (TOOLnnn) are identified as specific systemtools by the last 3 digits of their names.For all GS/OS Object Module Format files (types $B1 through$BE), the OMF Version number is displayed.  Version 1 is thefirst version and will work under all versions of ProDOS 16 andGS/OS.
+
+what -- determine what a file is (EXTERNAL) [v2.1]
+
+syntax:  what <pathname> [-m] [-c] [-x] [-l] [-s] [-b]
+                         [-a] [-n]
+
+ex:      what thatfile
+         what %=:bin -a
+         what =:src -n
+         what .62 -amc
+
+'what' examines a file's type, auxiliary type, and first
+512 bytes and prints whatever interesting information it
+can about the file.
+
+Wildcards are allowed.  Output is, at minimum, the file's 
+type and name.  For many filetypes, additional information
+appears.
+
+Options:
+  -n:  no blank lines (prevents 'what' from printing a blank
+       line before each file's information)
+  -a:  print All information (modification date/time, creation
+       date/time, auxiliary type, length in bytes, length in
+       blocks, storage type)
+  -m:  modification date and time
+  -c:  creation date and time
+  -x:  auxiliary type (load address for BIN files, total blocks
+       for a volume, etc.--meaning depends on filetype)
+  -l:  length in bytes
+  -s:  storage type (seedling, sapling, tree, Pascal area,
+       subdirectory, or volume)
+  -b:  length in blocks
+
+Note: 'what foo -a' is the same as 'what foo -mcsxlb'.  Also, you
+      can print ALL BUT certain pieces of information by
+      specifying -a AND the options to omit.  For example,
+      'what foo -ac' prints all information EXCEPT the creation
+      date/time.
+
+For BIN or $2E files that are external Davex commands, version
+information, a one-line summary, and the command's execution address
+are displayed.
+
+SYS files created by the 'sysalias' command are identified, and
+the pathname of the aliased application is displayed.  If
+there is a startup buffer, its size is displayed.
+
+SYS files -not- created by 'sysalias' are identified as ProDOS 8
+applications.  If there is a startup buffer, its length and
+default contents will be displayed (for example, BASIC.SYSTEM
+normally has a 65-byte startup buffer containing "startup").
+
+BAS files are identified as Applesoft BASIC programs.  'what'
+computes the correct Aux-type for the file and prints a warning
+message if the file has a different Aux-type.  (Use 'filetype'
+with -x to correct the problem.)  [Some DOS 3.3-to-ProDOS
+conversion programs (including Apple's CONVERT utility) always
+give BAS files an Aux-type of $0801, which is typically correct.
+But if the DOS program had been saved from an address other than
+$801, nastiness will result when you try to load or run the
+converted program under ProDOS.]
+
+Apple IIgs TOL files (TOOLnnn) are identified as specific system
+tools by the last 3 digits of their names.
+
+For all GS/OS Object Module Format files (types $B1 through
+$BE), the OMF Version number is displayed.  Version 1 is the
+first version and will work under all versions of ProDOS 16 and
+GS/OS.

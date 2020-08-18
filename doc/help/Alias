@@ -1,1 +1,35 @@
-alias -- display or modify command aliasessyntax:   alias [-s] [-l] [-r] <alias-name> <expansion>ex:       alias          alias foo "cat -am"          alias -r foo          alias -s          alias -lWith no parameters, displays a list of all current aliases.These are stored in the file %aliases (which you can editwith a text editor if you want).Given two strings, 'alias' creates a new alias so that thefirst string, when used as a command, expands into the secondstring.  If there are blanks in the second string, you needto put quotation marks around it.  If the named alias alreadyexists, 'alias' asks for permission to replace it.Given -r and a single string, 'alias' removes an existingalias.Creating or removing an alias does not automatically save it todisk.  To save your aliases to %aliases, use 'alias -s'.  (Notethat if you create or remove an alias and use -s in the samecommand, the saving happens -after- any changes to your aliases.)To re-load your aliases from %aliases, use 'alias -l'.  Davexautomatically loads aliases from there, so this is not normallyneeded.See Davex.Doc for an explanation of aliases and a descriptionof the pre-made aliases provided.
+
+alias -- display or modify command aliases
+
+syntax:   alias [-s] [-l] [-r] <alias-name> <expansion>
+
+ex:       alias
+          alias foo "cat -am"
+          alias -r foo
+          alias -s
+          alias -l
+
+With no parameters, displays a list of all current aliases.
+These are stored in the file %aliases (which you can edit
+with a text editor if you want).
+
+Given two strings, 'alias' creates a new alias so that the
+first string, when used as a command, expands into the second
+string.  If there are blanks in the second string, you need
+to put quotation marks around it.  If the named alias already
+exists, 'alias' asks for permission to replace it.
+
+Given -r and a single string, 'alias' removes an existing
+alias.
+
+Creating or removing an alias does not automatically save it to
+disk.  To save your aliases to %aliases, use 'alias -s'.  (Note
+that if you create or remove an alias and use -s in the same
+command, the saving happens -after- any changes to your aliases.)
+
+To re-load your aliases from %aliases, use 'alias -l'.  Davex
+automatically loads aliases from there, so this is not normally
+needed.
+
+See Davex.Doc for an explanation of aliases and a description
+of the pre-made aliases provided.

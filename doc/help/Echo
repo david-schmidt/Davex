@@ -1,1 +1,31 @@
-echo -- echo string to outputsyntax:  echo <string> [-n]ex:      echo "This is a test of ECHO"         como %n;echo "Don't forget to feed the dog!"         echo "scan -a" -n; = %'echo' just outputs the same string you give it.  The -noption prevents a carriage-return from being printed afterthe string.'echo' is useful only when output is redirected to a fileor to a printer.  For example, if your %autoexec filecontains "pg %n", you can use  como %n;echo "text here"to record a message you will see whenever you enter the shell.  If you do something like that, you may want tocreate an alias called "note" (for example) that standsfor  como %n;echo "This alias could be used like this:  note Finish report for saturday![No closing quote is necessary.](see also:  como, alias)
+
+echo -- echo string to output
+
+syntax:  echo <string> [-n]
+
+ex:      echo "This is a test of ECHO"
+         como %n;echo "Don't forget to feed the dog!"
+         echo "scan -a" -n; = %
+
+'echo' just outputs the same string you give it.  The -n
+option prevents a carriage-return from being printed after
+the string.
+
+'echo' is useful only when output is redirected to a file
+or to a printer.  For example, if your %autoexec file
+contains "pg %n", you can use
+
+  como %n;echo "text here"
+
+to record a message you will see whenever you enter the 
+shell.  If you do something like that, you may want to
+create an alias called "note" (for example) that stands
+for
+  como %n;echo "
+
+This alias could be used like this:
+  note Finish report for saturday!
+
+[No closing quote is necessary.]
+
+(see also:  como, alias)

@@ -1,1 +1,19 @@
-SHORTHAND FOR PATHNAMES'%' stands for the name of the directory Davex is in.  A period (.) followed by a slot and drive number stands forthe name of the volume in the specified slot and drive.'.' stands for the current directory, and '..' stands forthe directory above the current one.Examples:    info .61/prodos    info .61prodos    ../help    ..help    info %/davex    info %davex    ffind . -f sys
+
+SHORTHAND FOR PATHNAMES
+
+'%' stands for the name of the directory Davex is in.  
+
+A period (.) followed by a slot and drive number stands for
+the name of the volume in the specified slot and drive.
+
+'.' stands for the current directory, and '..' stands for
+the directory above the current one.
+
+Examples:
+    info .61/prodos
+    info .61prodos
+    ../help
+    ..help
+    info %/davex
+    info %davex
+    ffind . -f sys

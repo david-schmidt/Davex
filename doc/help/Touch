@@ -1,1 +1,37 @@
-touch -- touch a file's last-mod date, backup bit, invisible bit, or         disable bitsyntax:  touch <pathname> [-b y|n] [-d y|n] [-i y|n]ex:      touch myfile         touch =:bin -iy         touch ?:cda -dn         touch ? -bn'touch' with no options sets a file's modification date/time to thecurrent date and time without actually modifying the file's contents.Wildcards are allowed.This is intended for use with recently-created files that, for some reason, are not properly date- and time-stamped.  (Some DOS 3.3-to-ProDOS conversion programs, for example, stamp files with an invaliddate and time.)The -b option lets you set or clear the "needs backup" bit on afile.  Use -by to set the bit or -bn to clear it.  See also 'copy','update', 'cat', and 'ffind'.The -i option lets you set or clear a file's "invisible" bit.Invisible files don't show up in Davex catalog listings unless thecatalog command's -i option is used.  The "invisible" bit has beenrecently defined by Apple, and other programs may or may not payattention to the invisibility of a file.The -d option lets you ENABLE or DISABLE certain types of Apple IIgsfiles.  A disabled file is not loaded automatically at boot time.The filetypes that can be disabled are $B6 (permanent init file), $B7(temporary init file), $B8 (new desk accessory), $B9 (classic deskaccessory), $BB (driver), $BC (generic load file), and $BD (GS/OS filesystem translator).  [Bit 15 of the auxiliary type for these filetypesis the disable bit.]
+
+touch -- touch a file's last-mod date, backup bit, invisible bit, or
+         disable bit
+
+syntax:  touch <pathname> [-b y|n] [-d y|n] [-i y|n]
+
+ex:      touch myfile
+         touch =:bin -iy
+         touch ?:cda -dn
+         touch ? -bn
+
+'touch' with no options sets a file's modification date/time to the
+current date and time without actually modifying the file's contents.
+Wildcards are allowed.
+
+This is intended for use with recently-created files that, for some 
+reason, are not properly date- and time-stamped.  (Some DOS 3.3-to-
+ProDOS conversion programs, for example, stamp files with an invalid
+date and time.)
+
+The -b option lets you set or clear the "needs backup" bit on a
+file.  Use -by to set the bit or -bn to clear it.  See also 'copy',
+'update', 'cat', and 'ffind'.
+
+The -i option lets you set or clear a file's "invisible" bit.
+Invisible files don't show up in Davex catalog listings unless the
+catalog command's -i option is used.  The "invisible" bit has been
+recently defined by Apple, and other programs may or may not pay
+attention to the invisibility of a file.
+
+The -d option lets you ENABLE or DISABLE certain types of Apple IIgs
+files.  A disabled file is not loaded automatically at boot time.
+The filetypes that can be disabled are $B6 (permanent init file), $B7
+(temporary init file), $B8 (new desk accessory), $B9 (classic desk
+accessory), $BB (driver), $BC (generic load file), and $BD (GS/OS file
+system translator).  [Bit 15 of the auxiliary type for these filetypes
+is the disable bit.]

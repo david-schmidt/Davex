@@ -1,1 +1,39 @@
-gsbuff -- examine or set sizes of IIgs serial port bufferssyntax:  gsbuff <portnum> [-i <integer>] [-o <integer>]ex:      gsbuff 1           --shows printer buffer info         gsbuff 2           --shows moddem buffer info         gsbuff 1 -o 20000  --sets printer output buffer size                              to 20000 bytes         gsbuff 2 -i 65535  --sets modem input buffer size to                              65535 bytes'gsbuff' lets you change the size of the input and outputbuffers on the Apple IIgs serial ports (normally, port 1is used for a printer and port 2 is used for a modem).You should turn on buffering in the control panel (underPrinter Port or Modem Port) before setting up buffers with'gsbuff'.  (When you do this, the ROM allocates bufers thatare only 2048 bytes long.)Use -i to set the input buffer size and -o to set theoutput buffer size.  Buffer sizes must be in the range 1to 65535 bytes.  Note that 'gsbuff' always allocates NEWmemory for buffering and never frees up previously-allocatedmemory.After allocating a buffer with 'gsbuff', it is recommendedthat you use Apple-Ctrl-RESET or "boot -i" if you restartyour system (rather than "PR#n" from BASIC or "boot -sn"from Davex).  This will insure that the ROM does not tryto use a buffer that is no longer present.NOTE:  Printer buffering has very limited usefullness withthe current Apple IIgs ROM (version 01; see 'deschw'), sincethe ROM empties your printer buffer whenever something newis printed.  If you are willing to always wait until yourprevious document is done printing before printing anythingelse, then buffering will be useful to you.
+
+gsbuff -- examine or set sizes of IIgs serial port buffers
+
+syntax:  gsbuff <portnum> [-i <integer>] [-o <integer>]
+
+ex:      gsbuff 1           --shows printer buffer info
+         gsbuff 2           --shows moddem buffer info
+         gsbuff 1 -o 20000  --sets printer output buffer size
+                              to 20000 bytes
+         gsbuff 2 -i 65535  --sets modem input buffer size to
+                              65535 bytes
+
+'gsbuff' lets you change the size of the input and output
+buffers on the Apple IIgs serial ports (normally, port 1
+is used for a printer and port 2 is used for a modem).
+
+You should turn on buffering in the control panel (under
+Printer Port or Modem Port) before setting up buffers with
+'gsbuff'.  (When you do this, the ROM allocates bufers that
+are only 2048 bytes long.)
+
+Use -i to set the input buffer size and -o to set the
+output buffer size.  Buffer sizes must be in the range 1
+to 65535 bytes.  Note that 'gsbuff' always allocates NEW
+memory for buffering and never frees up previously-allocated
+memory.
+
+After allocating a buffer with 'gsbuff', it is recommended
+that you use Apple-Ctrl-RESET or "boot -i" if you restart
+your system (rather than "PR#n" from BASIC or "boot -sn"
+from Davex).  This will insure that the ROM does not try
+to use a buffer that is no longer present.
+
+NOTE:  Printer buffering has very limited usefullness with
+the current Apple IIgs ROM (version 01; see 'deschw'), since
+the ROM empties your printer buffer whenever something new
+is printed.  If you are willing to always wait until your
+previous document is done printing before printing anything
+else, then buffering will be useful to you.

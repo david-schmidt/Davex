@@ -1,1 +1,27 @@
-info -- print info on file, directory, or volumesyntax:  info <pathname>ex:      info myfile         info =:sys         info .61         info %help/=Displays info for file, subdirectory, or volume.  Wildcards are allowed.The information printed is:  * complete pathname  * device number of the drive containing the file/directory  * storage type (seedling, sapling, tree, Pascal area, extended,    directory, or volume)  * file type  * access (r=read, w=write, n=rename, d=delete, B=changed since backup,            I=invisible)  * auxilary type (default load address for BIN, record length for     TXT, saved location for BAS; total blocks for VOLUME)  * number of blocks used  * date/time created (for a volume, even!)  * date/time last modified(see also: size, what)
+
+info -- print info on file, directory, or volume
+
+syntax:  info <pathname>
+
+ex:      info myfile
+         info =:sys
+         info .61
+         info %help/=
+
+Displays info for file, subdirectory, or volume.  Wildcards are allowed.
+The information printed is:
+
+  * complete pathname
+  * device number of the drive containing the file/directory
+  * storage type (seedling, sapling, tree, Pascal area, extended,
+    directory, or volume)
+  * file type
+  * access (r=read, w=write, n=rename, d=delete, B=changed since backup,
+            I=invisible)
+  * auxilary type (default load address for BIN, record length for 
+    TXT, saved location for BAS; total blocks for VOLUME)
+  * number of blocks used
+  * date/time created (for a volume, even!)
+  * date/time last modified
+
+(see also: size, what)

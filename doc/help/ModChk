@@ -1,1 +1,30 @@
-modchk -- compare modification dates on pairs of files (EXTERNAL)syntax:  modchk <pathname1> <pathname2> [-q] [-o] [-n] [-s]ex:      modchk thisfile thatfile         modchk /disk/= /backup/= -o -n         modchk =.s = -nChecks the last-modification dates on a pair of files.  Wildcards are allowed.  If none of -o (older), -n (newer), or -s (same) is given, a message of the form     <pathname1> <relation> <pathname2>is displayed.  Relation is "<" (older), "=" (same), or ">" (newer).  If one or more of -o, -n, or -s appears, pathname1 is displayed only if the files satisfy one of the specified conditions.The second example above displays the names of files on /disk which are older OR newer than the files with the same names on /backup.  The third example above displays the names of ".s" files that have been modified since their corresponding files without the ".s" suffix.  This is useful for insuring that you have not changed an assembly language source file without recompiling it.If -q (quiet) is given, no complaint is displayed if the second file doesn't exist.
+
+modchk -- compare modification dates on pairs of files (EXTERNAL)
+
+syntax:  modchk <pathname1> <pathname2> [-q] [-o] [-n] [-s]
+
+ex:      modchk thisfile thatfile
+         modchk /disk/= /backup/= -o -n
+         modchk =.s = -n
+
+Checks the last-modification dates on a pair of files.  Wildcards 
+are allowed.  If none of -o (older), -n (newer), or -s (same) is 
+given, a message of the form
+
+     <pathname1> <relation> <pathname2>
+
+is displayed.  Relation is "<" (older), "=" (same), or ">" 
+(newer).  If one or more of -o, -n, or -s appears, pathname1 is 
+displayed only if the files satisfy one of the specified 
+conditions.
+
+The second example above displays the names of files on /disk 
+which are older OR newer than the files with the same names on 
+/backup.  The third example above displays the names of ".s" 
+files that have been modified since their corresponding files 
+without the ".s" suffix.  This is useful for insuring that you 
+have not changed an assembly language source file without 
+recompiling it.
+
+If -q (quiet) is given, no complaint is displayed if the second 
+file doesn't exist.

@@ -1,1 +1,13 @@
-cls -- clear screensyntax:  clsex:      cls         como &;cls     -- new page on printerClears the screen.  If redirected to the printer, as in the last example, begins a new page.('cls' just outputs a Ctrl-L.)
+
+cls -- clear screen
+
+syntax:  cls
+
+ex:      cls
+         como &;cls     -- new page on printer
+
+Clears the screen.  If redirected to the printer, as in the 
+last example, begins a new page.
+
+('cls' just outputs a Ctrl-L.)
+

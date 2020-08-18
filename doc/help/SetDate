@@ -1,1 +1,20 @@
-setdate -- a crude way to set the datesyntax:  setdate <month> <day> <year> <hours> <minutes> [-p]ex:      setdate 4 10 88 22 40     --April 10, 1988 at 10:40 pm         setdate 4 10 88 10 40 -p  --same date         setdate 3 28 67 0 10      --March 28, 1967 at 12:10 am'setdate' is a straightforward command for setting theProDOS date and time.  -p means "p.m." and is the same asadding 12 to the hours value.'setdate' is useful only if your Apple does not have a clockcard.  (The Apple IIgs has a clock built in; if ProDOS does notknow the time on your GS, it's because you are using ProDOS 1.1.1or earlier.)If you want to be weird, you can type BF06:60 from the monitorto disconnect the clock driver from ProDOS.
+
+setdate -- a crude way to set the date
+
+syntax:  setdate <month> <day> <year> <hours> <minutes> [-p]
+
+ex:      setdate 4 10 88 22 40     --April 10, 1988 at 10:40 pm
+         setdate 4 10 88 10 40 -p  --same date
+         setdate 3 28 67 0 10      --March 28, 1967 at 12:10 am
+
+'setdate' is a straightforward command for setting the
+ProDOS date and time.  -p means "p.m." and is the same as
+adding 12 to the hours value.
+
+'setdate' is useful only if your Apple does not have a clock
+card.  (The Apple IIgs has a clock built in; if ProDOS does not
+know the time on your GS, it's because you are using ProDOS 1.1.1
+or earlier.)
+
+If you want to be weird, you can type BF06:60 from the monitor
+to disconnect the clock driver from ProDOS.
