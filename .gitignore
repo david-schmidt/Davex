@@ -2,3 +2,5 @@
 /obj/
 *.lst
 Davex.properties
+.DS_Store
+build/indexed.help

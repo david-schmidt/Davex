@@ -1,85 +1,85 @@
-./index.py create indexed.help 1400
-./index.py add indexed.help ../doc/help/Alias
-./index.py add indexed.help ../doc/help/BList
-./index.py add indexed.help ../doc/help/BRun
-./index.py add indexed.help ../doc/help/Boot
-./index.py add indexed.help ../doc/help/Bye quit
-./index.py add indexed.help ../doc/help/Cat ls
-./index.py add indexed.help ../doc/help/Cls home
-./index.py add indexed.help ../doc/help/CmdLine
-./index.py add indexed.help ../doc/help/Combine
-./index.py add indexed.help ../doc/help/ConP
-./index.py add indexed.help ../doc/help/Config
-./index.py add indexed.help ../doc/help/Copy cp
-./index.py add indexed.help ../doc/help/Create mkdir
-./index.py add indexed.help ../doc/help/DOSCat
-./index.py add indexed.help ../doc/help/DT
-./index.py add indexed.help ../doc/help/DU
-./index.py add indexed.help ../doc/help/Date
-./index.py add indexed.help ../doc/help/Delete rm
-./index.py add indexed.help ../doc/help/Deschw
-./index.py add indexed.help ../doc/help/Dev
-./index.py add indexed.help ../doc/help/Dump
-./index.py add indexed.help ../doc/help/Echo  e
-./index.py add indexed.help ../doc/help/Eject ej
-./index.py add indexed.help ../doc/help/Equal "="
-./index.py add indexed.help ../doc/help/Err
-./index.py add indexed.help ../doc/help/Exec "<"
-./index.py add indexed.help ../doc/help/Expand
-./index.py add indexed.help ../doc/help/FFind
-./index.py add indexed.help ../doc/help/FP
-./index.py add indexed.help ../doc/help/FType
-./index.py add indexed.help ../doc/help/Filetype
-./index.py add indexed.help ../doc/help/Find
-./index.py add indexed.help ../doc/help/GSBuff
-./index.py add indexed.help ../doc/help/Hdr
-./index.py add indexed.help ../doc/help/Help "?"
-./index.py add indexed.help ../doc/help/IW2
-./index.py add indexed.help ../doc/help/Index
-./index.py add indexed.help ../doc/help/Info
-./index.py add indexed.help ../doc/help/Init
-./index.py add indexed.help ../doc/help/Lock
-./index.py add indexed.help ../doc/help/MX80
-./index.py add indexed.help ../doc/help/ModChk
-./index.py add indexed.help ../doc/help/Mon
-./index.py add indexed.help ../doc/help/Move
-./index.py add indexed.help ../doc/help/Num
-./index.py add indexed.help ../doc/help/Online o
-./index.py add indexed.help ../doc/help/Origin or
-./index.py add indexed.help ../doc/help/Over
-./index.py add indexed.help ../doc/help/PG more
-./index.py add indexed.help ../doc/help/PSet
-./index.py add indexed.help ../doc/help/PType
-./index.py add indexed.help ../doc/help/Pathnames path
-./index.py add indexed.help ../doc/help/Prefix cd
-./index.py add indexed.help ../doc/help/Prot
-./index.py add indexed.help ../doc/help/RAM3
-./index.py add indexed.help ../doc/help/Rename
-./index.py add indexed.help ../doc/help/Rep
-./index.py add indexed.help ../doc/help/Scan
-./index.py add indexed.help ../doc/help/SetDate
-./index.py add indexed.help ../doc/help/SetStart
-./index.py add indexed.help ../doc/help/Shareware '$'
-./index.py add indexed.help ../doc/help/Size
-./index.py add indexed.help ../doc/help/Split
-./index.py add indexed.help ../doc/help/Spool
-./index.py add indexed.help ../doc/help/Strings
-./index.py add indexed.help ../doc/help/SysAlias
-./index.py add indexed.help ../doc/help/TR
-./index.py add indexed.help ../doc/help/Tail
-./index.py add indexed.help ../doc/help/Top
-./index.py add indexed.help ../doc/help/Topics
-./index.py add indexed.help ../doc/help/Touch
-./index.py add indexed.help ../doc/help/Type
-./index.py add indexed.help ../doc/help/Unlock
-./index.py add indexed.help ../doc/help/Up "\\"
-./index.py add indexed.help ../doc/help/Update
-./index.py add indexed.help ../doc/help/VRestore
-./index.py add indexed.help ../doc/help/VStore
-./index.py add indexed.help ../doc/help/Version
-./index.py add indexed.help ../doc/help/ViewDHR
-./index.py add indexed.help ../doc/help/ViewHR
-./index.py add indexed.help ../doc/help/WC
-./index.py add indexed.help ../doc/help/Wait
-./index.py add indexed.help ../doc/help/What
-./index.py add indexed.help ../doc/help/como ">"
+python3 python3 ./index.py create indexed.help 1400
+python3 ./index.py add indexed.help ../doc/help/Alias
+python3 ./index.py add indexed.help ../doc/help/BList
+python3 ./index.py add indexed.help ../doc/help/BRun
+python3 ./index.py add indexed.help ../doc/help/Boot
+python3 ./index.py add indexed.help ../doc/help/Bye quit
+python3 ./index.py add indexed.help ../doc/help/Cat ls
+python3 ./index.py add indexed.help ../doc/help/Cls home
+python3 ./index.py add indexed.help ../doc/help/CmdLine
+python3 ./index.py add indexed.help ../doc/help/Combine
+python3 ./index.py add indexed.help ../doc/help/ConP
+python3 ./index.py add indexed.help ../doc/help/Config
+python3 ./index.py add indexed.help ../doc/help/Copy cp
+python3 ./index.py add indexed.help ../doc/help/Create mkdir
+python3 ./index.py add indexed.help ../doc/help/DOSCat
+python3 ./index.py add indexed.help ../doc/help/DT
+python3 ./index.py add indexed.help ../doc/help/DU
+python3 ./index.py add indexed.help ../doc/help/Date
+python3 ./index.py add indexed.help ../doc/help/Delete rm
+python3 ./index.py add indexed.help ../doc/help/Deschw
+python3 ./index.py add indexed.help ../doc/help/Dev
+python3 ./index.py add indexed.help ../doc/help/Dump
+python3 ./index.py add indexed.help ../doc/help/Echo  e
+python3 ./index.py add indexed.help ../doc/help/Eject ej
+python3 ./index.py add indexed.help ../doc/help/Equal "="
+python3 ./index.py add indexed.help ../doc/help/Err
+python3 ./index.py add indexed.help ../doc/help/Exec "<"
+python3 ./index.py add indexed.help ../doc/help/Expand
+python3 ./index.py add indexed.help ../doc/help/FFind
+python3 ./index.py add indexed.help ../doc/help/FP
+python3 ./index.py add indexed.help ../doc/help/FType
+python3 ./index.py add indexed.help ../doc/help/Filetype
+python3 ./index.py add indexed.help ../doc/help/Find
+python3 ./index.py add indexed.help ../doc/help/GSBuff
+python3 ./index.py add indexed.help ../doc/help/Hdr
+python3 ./index.py add indexed.help ../doc/help/Help "?"
+python3 ./index.py add indexed.help ../doc/help/IW2
+python3 ./index.py add indexed.help ../doc/help/Index
+python3 ./index.py add indexed.help ../doc/help/Info
+python3 ./index.py add indexed.help ../doc/help/Init
+python3 ./index.py add indexed.help ../doc/help/Lock
+python3 ./index.py add indexed.help ../doc/help/MX80
+python3 ./index.py add indexed.help ../doc/help/ModChk
+python3 ./index.py add indexed.help ../doc/help/Mon
+python3 ./index.py add indexed.help ../doc/help/Move
+python3 ./index.py add indexed.help ../doc/help/Num
+python3 ./index.py add indexed.help ../doc/help/Online o
+python3 ./index.py add indexed.help ../doc/help/Origin or
+python3 ./index.py add indexed.help ../doc/help/Over
+python3 ./index.py add indexed.help ../doc/help/PG more
+python3 ./index.py add indexed.help ../doc/help/PSet
+python3 ./index.py add indexed.help ../doc/help/PType
+python3 ./index.py add indexed.help ../doc/help/Pathnames path
+python3 ./index.py add indexed.help ../doc/help/Prefix cd
+python3 ./index.py add indexed.help ../doc/help/Prot
+python3 ./index.py add indexed.help ../doc/help/RAM3
+python3 ./index.py add indexed.help ../doc/help/Rename
+python3 ./index.py add indexed.help ../doc/help/Rep
+python3 ./index.py add indexed.help ../doc/help/Scan
+python3 ./index.py add indexed.help ../doc/help/SetDate
+python3 ./index.py add indexed.help ../doc/help/SetStart
+python3 ./index.py add indexed.help ../doc/help/Shareware '$'
+python3 ./index.py add indexed.help ../doc/help/Size
+python3 ./index.py add indexed.help ../doc/help/Split
+python3 ./index.py add indexed.help ../doc/help/Spool
+python3 ./index.py add indexed.help ../doc/help/Strings
+python3 ./index.py add indexed.help ../doc/help/SysAlias
+python3 ./index.py add indexed.help ../doc/help/TR
+python3 ./index.py add indexed.help ../doc/help/Tail
+python3 ./index.py add indexed.help ../doc/help/Top
+python3 ./index.py add indexed.help ../doc/help/Topics
+python3 ./index.py add indexed.help ../doc/help/Touch
+python3 ./index.py add indexed.help ../doc/help/Type
+python3 ./index.py add indexed.help ../doc/help/Unlock
+python3 ./index.py add indexed.help ../doc/help/Up "\\"
+python3 ./index.py add indexed.help ../doc/help/Update
+python3 ./index.py add indexed.help ../doc/help/VRestore
+python3 ./index.py add indexed.help ../doc/help/VStore
+python3 ./index.py add indexed.help ../doc/help/Version
+python3 ./index.py add indexed.help ../doc/help/ViewDHR
+python3 ./index.py add indexed.help ../doc/help/ViewHR
+python3 ./index.py add indexed.help ../doc/help/WC
+python3 ./index.py add indexed.help ../doc/help/Wait
+python3 ./index.py add indexed.help ../doc/help/What
+python3 ./index.py add indexed.help ../doc/help/como ">"
