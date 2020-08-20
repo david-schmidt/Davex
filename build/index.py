@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # index create indexed.help <index-size-in-bytes>
-# index add    indexed.help <text-file-to-add> [additional-entry-name-aliases-for-this-file]
+# index add    indexed.help <text-file-to-add>
 
 # Format of an indexed file is:
 #
@@ -13,11 +13,11 @@
 # +052  start of index
 #
 # Index is:
-#   length-pfx'd string, offset(4), uncompressed-length(4)
+#   length-pfx'd string, offset(4), uncompressed-length-never-used(4)
 #    :
-#   $00
+#   compressed data (in chunks of 5 or 8 bits), ending with an encoded $00
 #
-# Text chunks are terminated by a $00. The data
+# Text chunks are terminated by a (compressed) $00. The data
 # is compressed, with 16 common characters using
 # only 5 bits (%1xxxx), and the remaining ones
 # using 8 bits (%0xxxxxxx).
@@ -31,6 +31,33 @@ def Compress(ch):
 	if fourBits != -1:
 		return "{:0>5b}".format(16 + fourBits)
 	return "{:0>8b}".format(ch)
+
+def ExtraNamesFor(entry):
+	extraNames = {
+		"bye" : [ "quit" ],
+		"cat" : [ "ls" ],
+		"cls" : [ "home" ],
+		"create" : [ "mkdir" ],
+		"como" : [ ">" ],
+		"delete" : [ "rm" ],
+		"echo" : [ " e" ],
+		"eject" : [ "ej" ],
+		"equal" : [ "=" ],
+		"exec" : [ "<" ],
+		"help" : [ "?" ],
+		"online" : [ "o" ],
+		"origin" : [ "or" ],
+		"pg" : [ "more" ],
+		"pathnames" : [ "path" ],
+		"prefix" : [ "cd" ],
+		"shareware" : [ "$" ],
+		"up" : [ "\\" ]
+	};
+
+	if entry in extraNames.keys():
+		return extraNames[entry]
+	return []
+
 
 verb = sys.argv[1]
 indexFile = sys.argv[2]
@@ -83,7 +110,7 @@ if verb == "add":
 	outFile.write(struct.pack('i', addFileUncompressedSize))
 
 	# Optionally write additional index entries for the same text we are adding.
-	for extraName in sys.argv[4:]:
+	for extraName in ExtraNamesFor(entryName):
 		outFile.write(struct.pack('B', len(extraName)))
 		outFile.write(bytes(extraName, "utf8"))
 		outFile.write(struct.pack('i', offsetToNewText))
