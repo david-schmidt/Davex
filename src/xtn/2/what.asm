@@ -77,7 +77,7 @@
 orgadr	= $9000
 ; org orgadr
 
-MyVersion	= $21
+MyVersion	= $22
 MinVersion	= $10
 
 DvxAuxtype	= $8001
@@ -183,9 +183,7 @@ pr_name_type:
 	lda info_ftype
 	jsr xprint_ftype
 	jsr maybe_aux
-	jsr xmess
-	asc "    "
-	.byte 0
+	xmessage_cstr "    "
 	lda path+1
 	ldy path
 	jsr xprint_path
@@ -228,6 +226,7 @@ maybe_stype:
 	tax
 styp1:	lda stypes,x
 	beq @done
+	ora #$80
 	jsr cout
 	inx
 	bne styp1
@@ -354,22 +353,16 @@ is_vstore:
 	jmp show_vstore
 
 is_binii:
-	jsr xmess
-	asc "   Binary II [v"
-	.byte 0
+	xmessage_cstr "   Binary II [v"
 	ldy filebuff2+126
 	lda #0
 	jsr xprdec_2
-	jsr xmess
-	asc "]; contains "
-	.byte 0
+	xmessage_cstr "]; contains "
 	ldy filebuff2+127
 	iny
 	lda #0
 	jsr xprdec_2
-	jsr xmess
-	asc " file"
-	.byte 0
+	xmessage_cstr " file"
 	ldy filebuff2+127
 	iny
 	lda #0
@@ -382,9 +375,7 @@ mw1:	lda filebuff2+128,x
 	bne mwx
 	dex
 	bpl mw1
-	jsr xmess
-	asc "   [WARNING: 2nd 128 bytes are identical to 1st 128!]"
-	.byte cr,0
+	xmessage_cstr_cr "   [WARNING: 2nd 128 bytes are identical to 1st 128!]"
 mwx:	rts
 
 check_binii:
@@ -455,6 +446,7 @@ show_vstore:
 	asc "   Stored-volume image (vstore/vrestore)"
 	.byte cr
 	cstr "   File #"
+
 	ldy filebuff2+$40
 	lda #0
 	jsr xprdec_2
@@ -494,7 +486,7 @@ notvs:	sec
 	rts
 
 HdrImg:	.byte $60
-	asc "VSTORE [Davex]"		; [TODO] verify high-bit status from original vstore files
+	asc "VSTORE [Davex]"		; Verified in Davex 1.26 that the high bits are clear here.
 
 ;*********************************************
 type_list:
@@ -614,216 +606,100 @@ eof_val:
 ;*********************************************
 ;*********************************************
 guess_2a:
-	jsr xmess
-	asc "   Apple II Source Code"
-	.byte 13,0
+	xmessage_cstr_cr "   Apple II Source Code"
 	rts
 guess_2b:
-	jsr xmess
-	asc "   Apple II Object Code"
-	.byte 13,0
+	xmessage_cstr_cr "   Apple II Object Code"
 	rts
 guess_2c:
-	jsr xmess
-	asc "   Apple II Interpreted Code"
-	.byte 13,0
+	xmessage_cstr_cr "   Apple II Interpreted Code"
 	rts
 guess_2d:
-	jsr xmess
-	asc "   Apple II Language Data"
-	.byte 13,0
+	xmessage_cstr_cr "   Apple II Language Data"
 	rts
-guess_42:	jsr xmess
-
-	
-	asc "   File Type Names"
-	
-	.byte 13,0
+guess_42:
+	xmessage_cstr_cr "   File Type Names"
 	rts
-guess_50:	jsr xmess
-
-	
-	asc "   IIgs Word Processor"
-	
-	.byte 13,0
+guess_50:
+	xmessage_cstr_cr "   IIgs Word Processor"
 	rts
-guess_51:	jsr xmess
-
-	
-	asc "   IIgs Spreadsheet"
-	
-	.byte 13,0
+guess_51:
+	xmessage_cstr_cr "   IIgs Spreadsheet"
 	rts
-guess_52:	jsr xmess
-
-	
-	asc "   IIgs Data Base"
-	
-	.byte 13,0
+guess_52:
+	xmessage_cstr_cr "   IIgs Data Base"
 	rts
-guess_53:	jsr xmess
-
-	
-	asc "   Drawing"
-	
-	.byte 13,0
+guess_53:
+	xmessage_cstr_cr  "   Drawing"
 	rts
-guess_54:	jsr xmess
-
-	
-	asc "   Desktop Publishing"
-	
-	.byte 13,0
+guess_54:
+	xmessage_cstr_cr "   Desktop Publishing"
 	rts
-guess_55:	jsr xmess
-
-	
-	asc "   Hypermedia"
-	
-	.byte 13,0
+guess_55:
+	xmessage_cstr_cr "   Hypermedia"
 	rts
-guess_56:	jsr xmess
-
-	
-	asc "   Educational Data"
-	
-	.byte 13,0
+guess_56:
+	xmessage_cstr_cr "   Educational Data"
 	rts
-guess_58:	jsr xmess
-
-	
-	asc "   Help File"
-	
-	.byte 13,0
+guess_58:
+	xmessage_cstr_cr "   Help File"
 	rts
-guess_59:	jsr xmess
-
-	
-	asc "   Communications File"
-	
-	.byte 13,0
+guess_59:
+	xmessage_cstr_cr "   Communications File"
 	rts
-guess_5a:	jsr xmess
-
-	
-	asc "   Configuration File"
-	
-	.byte 13,0
+guess_5a:
+	xmessage_cstr_cr "   Configuration File"
 	rts
-guess_5b:	jsr xmess
-
-	
-	asc "   Animation File"
-	
-	.byte 13,0
+guess_5b:
+	xmessage_cstr_cr "   Animation File"
 	rts
-guess_5c:	jsr xmess
-
-	
-	asc "   Multimedia document"
-	
-	.byte 13,0
+guess_5c:
+	xmessage_cstr_cr "   Multimedia document"
 	rts
-guess_doc:	jsr xmess
-
-	
-	asc "   GS/OS document"
-	
-	.byte 13,0
+guess_doc:
+	xmessage_cstr_cr "   GS/OS document"
 	rts
-guess_c5:	jsr xmess
-
-	
-	asc "   Object-oriented graphics"
-	
-	.byte 13,0
+guess_c5:
+	xmessage_cstr_cr "   Object-oriented graphics"
 	rts
-guess_cdv:	jsr xmess
-
-	
-	asc "   Control Panel document"
-	
-	.byte 13,0
+guess_cdv:
+	xmessage_cstr_cr "   Control Panel document"
 	rts
-guess_d5:	jsr xmess
-
-	
-	asc "   Music sequence"
-	
-	.byte 13,0
+guess_d5:
+	xmessage_cstr_cr "   Music sequence"
 	rts
-guess_d6:	jsr xmess
-
-	
-	asc "   Instrument"
-	
-	.byte 13,0
+guess_d6:
+	xmessage_cstr_cr "   Instrument"
 	rts
-guess_d7:	jsr xmess
-
-	
-	asc "   MIDI data"
-	
-	.byte 13,0
+guess_d7:
+	xmessage_cstr_cr "   MIDI data"
 	rts
-guess_d8:	jsr xmess
-
-	
-	asc "   Audio IFF document"
-	
-	.byte 13,0
+guess_d8:
+	xmessage_cstr_cr "   Audio IFF document"
 	rts
-guess_db:	jsr xmess
-
-	
-	asc "   DB Master document"
-	
-	.byte 13,0
+guess_db:
+	xmessage_cstr_cr "   DB Master document"
 	rts
-guess_e0:	jsr xmess
-
-	
-	asc "   Archival Library: "
-	
-	.byte 0
+guess_e0:
+	xmessage_cstr "   Archival Library: "
 ;%%%
 	jmp crout
-guess_e2:	jsr xmess
-
-	
-	asc "   AppleTalk data"
-	
-	.byte 13,0
+guess_e2:
+	xmessage_cstr_cr "   AppleTalk data"
 	rts
-guess_f0:	jsr xmess
-
-	
-	asc "   BASIC command"
-	
-	.byte 13,0
+guess_f0:
+	xmessage_cstr_cr "   BASIC command"
 	rts
-guess_f9:	jsr xmess
-
-	
-	asc "   GS/OS system file"
-	
-	.byte 13,0
+guess_f9:
+	xmessage_cstr_cr "   GS/OS system file"
 	rts
 ;
-guess_bdf:	jsr xmess
-
-	
-	asc "   IIgs BASIC data file"
-	
-	.byte cr,0
+guess_bdf:
+	xmessage_cstr_cr "   IIgs BASIC data file"
 	rts
 ;
-guess_bas:	jsr xmess
-
-	
-	asc "   Applesoft BASIC program"
-	
-	.byte cr,0
+guess_bas:
+	xmessage_cstr_cr "   Applesoft BASIC program"
 	lda filebuff2
 	ora filebuff2+1
 	beq wbok
@@ -838,18 +714,12 @@ warnbas:	tax
 	pha
 	txa
 	pha
-	jsr xmess
-
-	
-	asc "   [Warning!  Aux-type should be $"
-	
-	.byte 0
+	xmessage_cstr "   [Warning!  Aux-type should be $"
 	pla
 	jsr prbyte
 	pla
 	jsr prbyte
-	jsr xmess
-	.byte $80+']',cr,0
+	xmessage_cstr_cr "]"
 	rts
 ;
 ; compute correct aux-type (=load address) for a BAS file; first
@@ -881,25 +751,19 @@ scaneol:
 	rts
 
 guess_bad:
-	jsr xmess
-	asc "   bad file"
-	.byte cr,0
+	xmessage_cstr_cr "   bad file"
 	rts
 
 guess_sys:
 	jsr check_alias8
 	bcc was_alias
-	jsr xmess
-	asc "   ProDOS 8 application"
-	.byte cr,0
+	xmessage_cstr_cr "   ProDOS 8 application"
 was_alias:
 	jsr chk_startup
 	cmp #0
 	beq gsysz
 	pha
-	jsr xmess
-	asc "   ["
-	.byte 0
+	xmessage_cstr "   ["
 	pla
 	tay
 	lda #0
@@ -949,7 +813,7 @@ check_alias8:
 	bne g8no
 	jsr xmess
 	asc "   sysalias for "
-	.byte $A2
+	.byte $A2	; double quote
 	.byte 0
 	lda #>(filebuff2+$E5)
 	ldy #<filebuff2+$E5
@@ -962,9 +826,7 @@ g8no:	sec
 	rts
 
 guess_fon:
-	jsr xmess
-	asc "   IIgs font: "
-	.byte 0
+	xmessage_cstr "   IIgs font: "
 	ldy filebuff2
 	ldx #1
 fontnm1:
@@ -986,109 +848,67 @@ fnmx:	inx
 	jmp crout
 ;
 guess_obj:
-	jsr xmess
-	asc "   IIgs object file (for linker)"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs object file (for linker)"
 	rts
 ;
 guess_lib:
-	jsr xmess
-	asc "   IIgs library file"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs library file"
 	rts
 ;
 guess_s16:
-	jsr xmess
-	asc "   IIgs application"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs application"
 	rts
 ;
 guess_rtl:
-	jsr xmess
-	asc "   IIgs run-time library"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs run-time library"
 	rts
 ;
 guess_exe:
-	jsr xmess
-	asc "   IIgs shell application"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs shell application"
 	rts
 ;
 guess_nda:
-	jsr xmess
-	asc "   IIgs New Desk Accessory (under Apple menu)"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs New Desk Accessory (under Apple menu)"
 	rts
 ;
 guess_cda:
-	jsr xmess
-	asc "   IIgs Classic Desk Accessory (Apple-Ctrl-ESC)"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs Classic Desk Accessory (Apple-Ctrl-ESC)"
 	rts
 ;
 guess_awp:
-	jsr xmess
-	asc "   AppleWorks Word Processor file"
-	.byte cr,0
+	xmessage_cstr_cr "   AppleWorks Word Processor file"
 	rts
 ;
 guess_adb:
-	jsr xmess
-	asc "   AppleWorks Database file"
-	.byte cr,0
+	xmessage_cstr_cr "   AppleWorks Database file"
 	rts
 ;
 guess_asp:
-	jsr xmess
-	asc "   AppleWorks Spreadsheet file"
-	.byte cr,0
+	xmessage_cstr_cr "   AppleWorks Spreadsheet file"
 	rts
 ;
 guess_icn:
-	jsr xmess
-	asc "   IIgs Icon file"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs Icon file"
 	rts
 ;
-guess_fnd:	jsr xmess
-
-	
-	asc "   IIgs Finder data file"
-	
-	.byte cr,0
+guess_fnd:
+	xmessage_cstr_cr "   IIgs Finder data file"
 	rts
 ;
-guess_tif:	jsr xmess
-
-	
-	asc "   IIgs temporary init file"
-	
-	.byte cr,0
+guess_tif:
+	xmessage_cstr_cr "   IIgs temporary init file"
 	rts
 ;
-guess_pif:	jsr xmess
-
-	
-	asc "   IIgs permanent init file"
-	
-	.byte cr,0
+guess_pif:
+	xmessage_cstr_cr "   IIgs permanent init file"
 	rts
 ;
-guess_glf:	jsr xmess
-
-	
-	asc "   IIgs Generic Load File"
-	
-	.byte cr,0
+guess_glf:
+	xmessage_cstr_cr "   IIgs Generic Load File"
 	rts
 ;
-guess_fst:	jsr xmess
-
-	
-	asc "   GS/OS File System Translator"
-	
-	.byte cr,0
+guess_fst:
+	xmessage_cstr_cr "   GS/OS File System Translator"
 	rts
 ;
 ;%%%
@@ -1101,42 +921,24 @@ guess_drv:	lda info_aux+1
 	beq drv2
 	cmp #1
 	bne drv_unkn
-	jsr xmess
-
-	
-	asc "   IIgs printer driver"
-	
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs printer driver"
 	rts
-drv2:	jsr xmess
-
-	
-	asc "   IIgs interface driver"
-	
-	.byte cr,0
+drv2:
+	xmessage_cstr_cr "   IIgs interface driver"
 	rts
-drv_unkn:	jsr xmess
-
-	
-	asc "   unknown IIgs Driver"
-	
-	.byte cr,0
+drv_unkn:
+	xmessage_cstr_cr "   unknown IIgs Driver"
 	rts
-drv3:	jsr xmess
-	asc "   IIgs AppleTalk driver"
-	.byte cr,0
+drv3:
+	xmessage_cstr_cr "   IIgs AppleTalk driver"
 	rts
 ;
 guess_gsb:
-	jsr xmess
-	asc "   IIgs BASIC program"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs BASIC program"
 	rts
 ;
 guess_tdf:
-	jsr xmess
-	asc "   IIgs BASIC Tool Definition File"
-	.byte cr,0
+	xmessage_cstr_cr "   IIgs BASIC Tool Definition File"
 	rts
 ;
 guess_pic:
@@ -1147,27 +949,15 @@ guess_pic:
 	bcs pic_unkn
 	cmp #0
 	beq pic_32k
-	jsr xmess
-
-	
-	asc "   unpacked QD PICT"
-	
-	.byte cr,0
+	xmessage_cstr_cr "   unpacked QD PICT"
 	rts
-pic_32k:	jsr xmess
 
-	
-	asc "   unpacked super-hires picture (32K)"
-	
-	.byte cr,0
+pic_32k:
+	xmessage_cstr_cr "   unpacked super-hires picture (32K)"
 	rts
+
 pic_unkn:
-	jsr xmess
-
-	
-	asc "   unpacked super-hires picture; unknown format"
-	
-	.byte cr,0
+	xmessage_cstr_cr "   unpacked super-hires picture; unknown format"
 	rts
 ;
 guess_2e:
@@ -1181,9 +971,7 @@ guess_2e:
 	bcs notDvxCmd
 	rts
 notDvxCmd:
-	jsr xmess
-	asc "   ProDOS 8 code module"
-	.byte cr,0
+	xmessage_cstr_cr "   ProDOS 8 code module"
 	rts
 ;
 guess_bin	= *
@@ -1206,58 +994,28 @@ chk_xtn	= *
 	cmp filebuff2+2
 	bne xtn_no
 xtn_yes	= *
-	jsr xmess
-
-	
-	asc "   external command ("
-	
-	.byte 0
+	xmessage_cstr "   external command ("
 	lda filebuff2+3
 	jsr xprint_ver
-	jsr xmess
-
-	
-	asc ") for Davex "
-	
-	.byte 0
+	xmessage_cstr ") for Davex "
 	lda filebuff2+4
 	jsr xprint_ver
 	lda filebuff2+12
-	ora #'0'+$80
+	ora #_'0'
 	jsr cout
-	jsr xmess
-
-	
-	asc "+  (at $"
-	
-	.byte 0
+	xmessage_cstr "+  (at $"
 	lda filebuff2+9
 	jsr prbyte
 	lda filebuff2+8
 	jsr prbyte
-	jsr xmess
-
-	
-	asc ")"
-	
-	.byte 13,0
+	xmessage_cstr_cr ")"
 ;
 	lda filebuff2+6
 	ora filebuff2+7
 	beq no_purp
-	jsr xmess
-
-	
-	asc "   {"
-	
-	.byte 0
+	xmessage_cstr "   {"
 	jsr print_purp
-	jsr xmess
-
-	
-	asc "}"
-	
-	.byte cr,0
+	xmessage_cstr_cr "}"
 no_purp:	clc
 	rts
 ;
@@ -1313,10 +1071,10 @@ guess_00:
 guess_src:
 	xmessage_cstr "   APW "
 	lda info_aux+1
-	bne src_unkn
+	bne src_unkn_cr
 	lda info_aux
 	cmp #30+1
-	bcs src_unkn
+	bcs src_unkn_cr
 	jsr printsrc
 	jmp crout
 
@@ -1363,151 +1121,86 @@ src_table:
 	.addr src_unkn-1	;29
 	.addr SRC_TML-1		;30
 
-src_unkn: xmessage_cstr_cr "[unknown]"
+src_unkn_cr:
+	jsr src_unkn
+	jmp crout
+
+src_unkn: xmessage_cstr "[unknown]"   ; is the CR here a bug?
 	rts
 
-SRCprotext:	jsr xmess
-
-	
-	asc "ProDOS text file"
-	
-	.byte 0
-	rts
-;
-SRCtext:	jsr xmess
-
-	
-	asc "text"
-	
-	.byte 0
+SRCprotext:
+	xmessage_cstr "ProDOS text file"
 	rts
 ;
-SRC6502:	jsr xmess
-
-	
-	asc "6502 assembly"
-	
-	.byte 0
+SRCtext:
+	xmessage_cstr "text"
 	rts
 ;
-SRC65816:	jsr xmess
-
-	
-	asc "65816 assembly"
-	
-	.byte 0
+SRC6502:
+	xmessage_cstr "6502 assembly"
 	rts
 ;
-SRCbasic:	jsr xmess
-
-	
-	asc "BASIC"
-	
-	.byte 0
+SRC65816:
+	xmessage_cstr "65816 assembly"
 	rts
 ;
-SRCbwpascal:	jsr xmess
-
-	
-	asc "Byte Works Pascal"
-	
-	.byte 0
+SRCbasic:
+	xmessage_cstr "BASIC"
 	rts
 ;
-SRCexec:	jsr xmess
-
-	
-	asc "exec file"
-	
-	.byte 0
+SRCbwpascal:
+	xmessage_cstr "Byte Works Pascal"
 	rts
 ;
-SRCsmallc:	jsr xmess
-
-	
-	asc "Byte Works Small C"
-	
-	.byte 0
+SRCexec:
+	xmessage_cstr "exec file"
 	rts
 ;
-SRCbwc:	jsr xmess
-
-	
-	asc "Byte Works C"
-	
-	.byte 0
+SRCsmallc:
+	xmessage_cstr "Byte Works Small C"
 	rts
 ;
-SRCbwbasic:	jsr xmess
-
-	
-	asc "Byte Works BASIC"
-	
-	.byte 0
+SRCbwc:
+	xmessage_cstr "Byte Works C"
 	rts
-;
-SRCcc:	jsr xmess
 
-	
-	asc "C"
-	
-	.byte 0
+SRCbwbasic:
+	xmessage_cstr "Byte Works BASIC"
 	rts
-;
-SRCpascal:	jsr xmess
 
-	
-	asc "Pascal"
-	
-	.byte 0
+SRCcc:
+	xmessage_cstr "C"
 	rts
-;
-SRCcmd:	jsr xmess
 
-	
-	asc "command processor window"
-	
-	.byte 0
+SRCpascal:
+	xmessage_cstr "Pascal"
 	rts
-;
-SRClinked:	jsr xmess
 
-	
-	asc "linker script"
-	
-	.byte 0
+SRCcmd:
+	xmessage_cstr "command processor window"
 	rts
-;
-SRC_TML:	jsr xmess
 
-	
-	asc "TML Pascal"
-	
-	.byte 0
+SRClinked:
+	xmessage_cstr "linker script"
+	rts
+
+SRC_TML:
+	xmessage_cstr "TML Pascal"
 	rts
 ;*********************************************
-guess_dir	= *
+guess_dir:
 	lda info_stype
 	cmp #15
 	beq is_vol
 	cmp #13
 	beq is_subd
-	jsr xmess
-
-	
-	asc "   Ouch!  Not really a directory"
-	
-	.byte cr,0
-is_subd	= *
-is_vol	= *
+	xmessage_cstr_cr "   Ouch!  Not really a directory"
+is_subd:
+is_vol:
 	rts
 ;
-guess_pnt:	jsr xmess
-
-	
-	asc "   "
-	
-	.byte 0
+guess_pnt:
+	xmessage_cstr "   "
 	lda info_aux+1
 	bne pnt_unkn
 	lda info_aux
@@ -1515,7 +1208,7 @@ guess_pnt:	jsr xmess
 	bcs pnt_unkn
 	asl a
 	tax
-	lda #>pntx-1
+	lda #>(pntx-1)
 	pha
 	lda #<pntx-1
 	pha
@@ -1527,19 +1220,16 @@ guess_pnt:	jsr xmess
 
 pnttbl:	.addr pnt_pw-1,pnt_pack-1,pnt_apple-1,pnt_ppict-1
 
-pnt_pw:	jsr xmess
-	asc "packed PaintWorks"	
-	.byte 0
+pnt_pw:
+	xmessage_cstr "packed PaintWorks"
 	rts
 
-pnt_pack:	jsr xmess
-	asc "PackBytes"
-	.byte 0
+pnt_pack:
+	xmessage_cstr "PackBytes"
 	rts
 
-pnt_apple:	jsr xmess
-	asc "Apple preferred"
-	.byte 0
+pnt_apple:
+	xmessage_cstr "Apple preferred"
 	rts
 
 pnt_ppict:
@@ -1548,7 +1238,8 @@ pnt_ppict:
 
 pnt_unkn:
 	xmessage_cstr "unknown"
-pntx:	xmessage_cstr_cr " format"
+pntx:
+	xmessage_cstr_cr " format"
 	rts
 
 toolnum: .byte 0
@@ -1579,10 +1270,11 @@ guess_tol:
 	xmessage_cstr "   "
 
 	lda toolnum
-	cmp #53
+	cmp #54
 	bcc lessmaxt
 	lda #0
-lessmaxt:	asl a
+lessmaxt:
+	asl a
 	tax
 	lda toolnames+1,x
 	sta myP+1
@@ -1591,12 +1283,12 @@ lessmaxt:	asl a
 	ldy #0
 	lda (myP),y
 	tax
-tooln:	iny
+:	iny
 	lda (myP),y
 	ora #$80
 	jsr cout
 	dex
-	bne tooln
+	bne :-
 	jsr crout
 tolx:	rts
 
@@ -1622,7 +1314,7 @@ toolnames:
 	.addr tool24,tool25,tool26,tool27,tool28,tool29,tool30,tool31
 	.addr tool32,tool33,tool34,tool35,tool36,tool37,tool38,tool39
 	.addr tool40,tool41,tool42,tool43,tool44,tool45,tool46,tool47
-	.addr tool48,tool49,tool50,tool51,tool52
+	.addr tool48,tool49,tool50,tool51,tool52,tool53
 
 tool0	= *
 tool1	= *
@@ -1640,10 +1332,7 @@ tool12	= *
 tool13	= *
 tool30	= *
 tool31	= *
-tool35	= *
 tool36	= *
-tool37	= *
-tool38	= *
 tool39	= *
 tool40	= *
 tool41	= *
@@ -1676,8 +1365,11 @@ tool29:	pstr "Audio Compression/Expansion"
 tool32:	pstr "MIDI Tools"
 tool33:	pstr "Video Overlay tools"
 tool34:	pstr "Text Edit"
+tool35: pstr "MIDI Synth toolset"
+tool37: pstr "Animation"
+tool38: pstr "Media Control toolset"
 tool50:	pstr "Male speech (TML Systems/First Byte)"
 tool51:	pstr "Female speech (TML Systems/First Byte)"
 tool52:	pstr "English to phonetics (TML Systems)"
-	
+tool53: pstr "Call Box TPS (So What Software)"
 ;*********************************************
