@@ -63,7 +63,7 @@
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/setstart.lst ${srcdir}/xtn/2/setstart.asm -o ${obj2xtndir}/setstart.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/storage.lst ${srcdir}/xtn/2/storage.asm -o ${obj2xtndir}/storage.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/strings.lst ${srcdir}/xtn/2/strings.asm -o ${obj2xtndir}/strings.o" /></exec>
-<!--		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/sysalias.lst ${srcdir}/xtn/2/sysalias.asm -o ${obj2xtndir}/sysalias.o" /></exec> -->
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/sysalias.lst ${srcdir}/xtn/2/sysalias.asm -o ${obj2xtndir}/sysalias.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vrestore.lst ${srcdir}/xtn/2/vrestore.asm -o ${obj2xtndir}/vrestore.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/vstore.lst ${srcdir}/xtn/2/vstore.asm -o ${obj2xtndir}/vstore.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.lst ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
@@ -128,7 +128,7 @@
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o setstart -m setstart.map -C ${srcdir}/xtn/2/xtn_9000.cfg setstart.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o storage -m storage.map -C ${srcdir}/xtn/2/xtn_a000.cfg storage.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o strings -m strings.map -C ${srcdir}/xtn/2/xtn_a000.cfg strings.o" /></exec>
-<!--		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o sysalias -m sysalias.map -C ${srcdir}/xtn/2/xtn_a000.cfg sysalias.o" /></exec> -->
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o sysalias -m sysalias.map -C ${srcdir}/xtn/2/xtn_a000.cfg sysalias.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o vrestore -m vrestore.map -C ${srcdir}/xtn/2/xtn_a800.cfg vrestore.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o vstore -m vstore.map -C ${srcdir}/xtn/2/xtn_a800.cfg vstore.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o what -m what.map -C ${srcdir}/xtn/2/xtn_9000.cfg what.o" /></exec>
@@ -204,7 +204,7 @@
 		<appleCommander command="p" input="${obj2xtndir}/setstart" imagename="${distdir}/DavexProDOS.po" filename="xtn/setstart" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/storage" imagename="${distdir}/DavexProDOS.po" filename="xtn/storage" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/strings" imagename="${distdir}/DavexProDOS.po" filename="xtn/strings" type="p8c" address="32769"/>
-<!--		<appleCommander command="p" input="${obj2xtndir}/sysalias" imagename="${distdir}/DavexProDOS.po" filename="xtn/sysalias" type="p8c" address="32769"/> -->
+		<appleCommander command="p" input="${obj2xtndir}/sysalias" imagename="${distdir}/DavexProDOS.po" filename="xtn/sysalias" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/vrestore" imagename="${distdir}/DavexProDOS.po" filename="xtn/vrestore" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/vstore" imagename="${distdir}/DavexProDOS.po" filename="xtn/vstore" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/what" imagename="${distdir}/DavexProDOS.po" filename="xtn/what" type="p8c" address="32769"/>
