@@ -27,6 +27,7 @@ rc_spch:
 x98:	jmp (ksw)
 
 rdchar2:
+	lsr ControlKeyDown
 	bit speech
 	bmi rc_spch
 	jmp (ksw)
@@ -95,7 +96,8 @@ rc_l1:	lda keyboard
 	jsr poll_inslot
 	bcs rc_l1
 	bcc h_key2
-h_key:	sta kbdstrb
+h_key:	jsr CaptureModifierState
+	sta kbdstrb
 h_key2:	sta theKey
 	pla
 	sta invflg
@@ -104,6 +106,22 @@ h_key2:	sta theKey
 	jsr pr_bs
 	lda theKey
 	rts
+
+CaptureModifierState:
+	pha
+; If running on an Apple IIgs, check the Control key in the modifiers register.
+	lda xc_req
+	and #8
+	beq @notGS
+	lda $c025	;bit 1 (value $02) = Control down
+	lsr a
+	lsr a		; into Carry flag
+	ror ControlKeyDown
+@notGS:	pla
+	rts
+
+ControlKeyDown:
+	.byte 0		; bit 7 set if Control was down on last keypress
 theKey:	.byte 0
 vcout:	jmp (vid_csw)
 ;
@@ -347,8 +365,8 @@ mygetln2:
 	sta exec_flag	;bit 7
 	ldx #0
 	stx longest
-	stx insert_mode
 	lda #<-1
+	sta insert_mode	; insert mode is on by default
 	sta hist_level
 mg_l1:	ldy longest
 	lda #space
@@ -471,11 +489,11 @@ mgdispatch:
 	.addr ctrlr-1
 	.addr mg_err-1	;s
 	.addr mg_err-1	;t
-	.addr ctrlu-1
+	.addr ctrlu-1	;u = right arrow
 	.addr mg_err-1	;v
 	.addr mg_err-1	;w
 	.addr ctrlx-1
-	.addr ctrly-1	;y
+	.addr ctrly-1	;y - erase remainder of line
 	.addr mg_err-1	;z
 	.addr ctrlx-1	;esc = ctrlx (for new //e kbd "clear")
 	.addr mg_err-1	;ctrl-backslash
@@ -513,7 +531,7 @@ tglInsert:
 	sta insert_mode
 	jmp mg_l1
 ;**********************
-ctrly:	stx xsave	;truncate cmd lin at cursor
+ctrly:	stx xsave	;truncate cmd line at cursor
 
 yblanks:
 	jsr pr_sp
@@ -578,7 +596,6 @@ f_cont:	pha
 	jmp mgfind_l1
 
 ctrlh:			;backspace
-	lsr insert_mode
 	cpx #0
 	bne bs_ok
 	jmp mg_err
@@ -596,7 +613,6 @@ ctrli:	sec
 	jmp mg_l1
 
 ctrlx:
-	lsr insert_mode
 	jsr mg_can
 	sec
 	rts
@@ -607,7 +623,6 @@ mg_can:	jsr backx
 	jsr backx
 	ldx #0
 	stx longest
-	lsr insert_mode
 	rts
 
 mgdelete:
@@ -658,11 +673,14 @@ ctrlj:	;down arrow
 	bmi ctrlk
 	jmp ctrlr
 
-ctrlk:	;up arrow
-	inc hist_level
+ctrlk:	;up arrow or Control-K
+	bit ControlKeyDown
+	bpl :+
+	jmp ctrly
+:	inc hist_level
 	jmp ctrlr
 
-ctrld:	lsr insert_mode	;delete at cursor
+ctrld:
 	cpx longest
 	bcc len_ok
 	jmp mg_err
@@ -685,9 +703,11 @@ dl_back:
 	bne dl_back
 	jmp mg_l1
 
-ctrlu:
-	lsr insert_mode
-	cpx longest
+ctrlu:	; right arrow or Control-U
+	bit ControlKeyDown
+	bpl :+
+	jmp ctrlx
+:	cpx longest	; right arrow
 	bcc len_ok2
 	jmp mg_err
 len_ok2:
