@@ -1,0 +1,36 @@
+# Configuration for Davex external command
+
+SYMBOLS {
+    __EXEHDR__:    type = import;
+    __FILETYPE__:  type = weak, value = $0006; # ProDOS file type
+    __AUXTYPE__:   type = weak, value = $789A;
+    __STACKSIZE__: type = weak, value = $0800; # 2k stack
+}
+MEMORY {
+    ZP:     file = "", define = yes, start = $0080,         size = $001A;
+    HEADER: file = %O,               start = $2000 - $003A, size = $003A;
+    MAIN:   file = %O, define = yes, start = $2000,         size = $BF00 - $2000;
+    BSS:    file = "",               start = __ONCE_RUN__,  size = $BF00 - __STACKSIZE__ - __ONCE_RUN__;
+}
+SEGMENTS {
+    ZEROPAGE: load = ZP,             type = zp;
+    EXEHDR:   load = HEADER,         type = ro,  optional = yes;
+    STARTUP:  load = MAIN,           type = ro;
+    LOWCODE:  load = MAIN,           type = ro,  optional = yes;
+    CODE:     load = MAIN,           type = ro;
+    RODATA:   load = MAIN,           type = ro;
+    DATA:     load = MAIN,           type = rw;
+    INIT:     load = MAIN,           type = rw;
+    ONCE:     load = MAIN,           type = ro,  define   = yes;
+    BSS:      load = BSS,            type = bss, define   = yes;
+}
+FEATURES {
+    CONDES: type    = constructor,
+            label   = __CONSTRUCTOR_TABLE__,
+            count   = __CONSTRUCTOR_COUNT__,
+            segment = ONCE;
+    CONDES: type    = destructor,
+            label   = __DESTRUCTOR_TABLE__,
+            count   = __DESTRUCTOR_COUNT__,
+            segment = RODATA;
+}
