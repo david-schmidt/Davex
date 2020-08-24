@@ -69,6 +69,9 @@
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/what.lst ${srcdir}/xtn/2/what.asm -o ${obj2xtndir}/what.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.lst ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.lst ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
+		<echo message="Compiling Davex externals..."/>
+		<exec dir="${srcdir}" executable="${assemblerPath}/cl65"><arg line="-t apple2 -I . -Oi -C ${srcdir}/xtn/2-cc65/apple2-DavexXC.cfg --start-addr 0x9000 ${srcdir}/xtn/2-cc65/DavexXC.s ${srcdir}/xtn/2-cc65/cctest.c -o ${obj2xtndir}/cctest -Wa,-I,${srcdir}/common/2" /></exec>
+
 		<!-- Disassembled Batch -->
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.lst ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/barcode.lst ${srcdir}/xtn/2/barcode.asm -o ${obj2xtndir}/barcode.o" /></exec>
@@ -235,6 +238,8 @@
 		<appleCommander command="p" input="${obj2xtndir}/viewdhr" imagename="${distdir}/DavexProDOS.po" filename="xtn/viewdhr" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/viewhr" imagename="${distdir}/DavexProDOS.po" filename="xtn/viewhr" type="p8c" address="32769"/>
 		<appleCommander command="p" input="${obj2xtndir}/wc" imagename="${distdir}/DavexProDOS.po" filename="xtn/wc" type="p8c" address="32769"/>
+
+		<appleCommander command="p" input="${obj2xtndir}/cctest" imagename="${distdir}/DavexProDOS.po" filename="xtn/cctest" type="p8c" address="32769"/>
 
 		<echo message="ProDOS 3.5 disk externals complete."/>
 	</target>

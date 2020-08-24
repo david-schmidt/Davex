@@ -1,12 +1,12 @@
 
-;	.include "../../Common/2/Globals2.asm"	-- relative include of common/globals.asm doesn't work from Globals2.asm, under cl65
+;	.include "Common/2/Globals2.asm"	; trying to use -Wa,-I,${srcdir}/... to make this work
 ;	.include "Common/2/Apple.Globals2.asm"
 ;	.include "Common/2/Mli.globals2.asm"
 ;	.include "Common/Macros.asm"
 
 CSTACK = $B000	; AF00..AFFF
 
-.segment "STARTUP"
+	.segment "STARTUP"
 __STARTUP__:
 _STARTUP:
 	.export __STARTUP__
@@ -20,6 +20,10 @@ _STARTUP:
 	stx sp
 ; [TODO] Call constructors/inits, and initialize any static data
 	jmp _main
+
+; Override the library COUT, which would enable language-card memory afterwards.
+        .export         COUT
+COUT    = $fded
 
 
 ;-----
