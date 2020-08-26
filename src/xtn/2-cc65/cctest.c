@@ -8,37 +8,8 @@ extern void STARTUP();
 #define kMinDavexVersion 0x14
 #define kMinDavexVersionMinor 0
 
-#define PARM_COUNT 5
-
-// [TODO] Move this into DavexXC.h:
-
-enum
-{
-	t_nil		= 0,	// parameter with no associated value
-	t_int2		= 1,	// 2-byte integer
-	t_int3		= 2,	// 3-byte integer
-	t_path		= 3,	// pathname
-	t_wildpath	= 4,	// pathname allowing wildcards
-	t_string	= 5,	// string
-	t_int1		= 6,	// 1-byte integer
-	t_yesno		= 7,	// Yes/No
-	t_ftype		= 8,	// filetype
-	t_devnum	= 9		// device number (.sd)
-};
-
-struct XCHeader
-{
-	unsigned char fRTS, fEE1, fEE2;
-	unsigned char fXCVersion, fDavexVersion;
-	unsigned char fHardwareRequirements;
-	const char* fDescription;
-	const struct XCHeader* fOrigin;
-	void (*fEntryPoint)();
-	unsigned char fMinDavexVersionMinor;
-	unsigned char fReserved1, fReserved2, fReserved3;
-	unsigned char fParameters[PARM_COUNT+1][2];	// pairs of bytes, ending with 0,0
-};
-
+#define PARM_COUNT 8	// define before including DavexXC.h
+#include "DavexXC.h"
 
 const struct XCHeader gCommandHeader =
 {
@@ -53,38 +24,42 @@ const struct XCHeader gCommandHeader =
 	0, 0, 0,
 	// Parameters
 	{
-		{ 0x80+'a', t_nil },	// ASCII only
-		{ 0x80+'h', t_nil },	// hex only
-		{ 0x80+'o', t_nil },	// no offsets
-		{ 0x80+'s', t_int3 },	// starting offset
-		{ 0x80+'e', t_int3 },	// ending offset
+		{ 0, t_string },		// string
+		{ 0x80+'x', t_nil },	// optional -x
+		{ 0x80+'y', t_yesno },
+		{ 0x80+'1', t_int1 },
+		{ 0x80+'2', t_int2 },
+		{ 0x80+'3', t_int3 },
+		{ 0x80+'d', t_devnum },
+		{ 0x80+'f', t_ftype },
 		{ 0, 0 }
 	}
 };
 
 const char gDescription[] = "\x17This is the description";
 
+const int kFive = 5;
 
-extern void __fastcall__ xprint_ver(unsigned char);
-extern void __fastcall__ xpoll_io();
-extern unsigned char __fastcall__ xgetnump();
-
-// #define FUNC(addr) ((void __fastcall__ (*)())addr)
-// void __fastcall__ xpoll_io() { FUNC(0xB05B)(); }
-
-int kFive = 5;
+void CROUT() { putchar('\r'); }
+void Space() { putchar(' '); }
 
 void main()
 {
-	puts("Testing 2 3 4: ");
-	xprint_ver(0x42);
-	putchar('\r');
-	xprint_ver(kFive);
-	putchar('\r');
-	xprint_ver(strlen((char*)0x200));
-	putchar('\r');
+	xmessage("Testing 2 3 4");	// [TODO] _puts is forcing to uppercase -- library not initialized?
+	CROUT();
+	xprint_ver(0x42); CROUT();
+	xprint_sd(0xE0); CROUT();
+	xpr_date(0); Space(); xpr_date(0x3333); CROUT();
+	xpr_time(0x0A0A); Space(); xpr_time(0x0123); CROUT();
+	xprint_ver(kFive); CROUT();
+	xprdec_2(520); CROUT();
+	xprdec_3(67890L); CROUT();
+	xprdec_pad(78901); CROUT();
+	xprint_ver(strlen((char*)0x200)); CROUT();
 	xpoll_io();
-	xprint_ver(xgetnump());
-	putchar('\r');
-}
+	xprint_ver(xgetnump());	CROUT();
+	xprint_path(xbuild_local("\006config")); CROUT();	// [TODO] "Pascal" strings vs. C strings
 
+	if (xgetparm_ch_nil('x'))
+		xmessage("Passed -x");
+}
