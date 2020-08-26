@@ -7721,7 +7721,7 @@ err_text:
 	asc_hi "number too big"
 	.byte 0
 	.byte der_ynexp
-	asc_hi "y' or 'n' expected"
+	asc_hi "'y' or 'n' expected"
 	.byte 0
 	.byte der_nosbf
 	asc_hi "no startup buffer"
