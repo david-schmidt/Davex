@@ -7577,191 +7577,77 @@ EjCtrl:	.addr 0
 ; Codes for Davex  are $80..$FF
 ;
 ;**********************************************
+.macro	ErrorEntry byte, string
+	.byte byte
+	asc_hi string
+	.byte 0
+.endmacro
+;**********************************************
 err_text:
-	.byte $2f
-	asc_hi "no disk"
-	.byte 0
-	.byte err_badcall
-	asc_hi "bad ProDOS call"
-	.byte 0
-	.byte err_badcnt
-	asc_hi "bad pcount"
-	.byte 0
-	.byte err_ifull
-	asc_hi "inttbl full"
-	.byte 0
-	.byte err_io
-	asc_hi "disk I/O"
-	.byte 0
-	.byte err_nodev
-	asc_hi "no device connected"
-	.byte 0
-	.byte err_wrprot
-	asc_hi "disk write-protected"
-	.byte 0
-	.byte err_switched
-	asc_hi "disk switched"
-	.byte 0
-	.byte err_2slow
-	asc_hi "drive too slow"
-	.byte 0
-	.byte err_2fast
-	asc_hi "drive too fast"
-	.byte 0
-	.byte err_pnsyntax
-	asc_hi "bad pathname syntax"
-	.byte 0
-	.byte err_fcbfull
-	asc_hi "FCB full"
-	.byte 0
-	.byte err_ivlref
-	asc_hi "bad refnum"
-	.byte 0
-	.byte err_dirnotfnd
-	asc_hi "directory not found"
-	.byte 0
-	.byte err_volnotfnd
-	asc_hi "volume not found"
-	.byte 0
-	.byte err_filnotfnd
-	asc_hi "file not found"
-	.byte 0
-	.byte err_dupfil
-	asc_hi "duplicate file"
-	.byte 0
-	.byte err_full
-	asc_hi "volume full"
-	.byte 0
-	.byte err_dirfull
-	asc_hi "directory full"
-	.byte 0
-	.byte err_filfmt
-	asc_hi "file format error"
-	.byte 0
-	.byte err_strgtype
-	asc_hi "bad storage type"
-	.byte 0
-	.byte err_eof
-	asc_hi "end of file"
-	.byte 0
-	.byte err_badpos
-	asc_hi "bad file pos"
-	.byte 0
-	.byte err_locked
-	asc_hi "file locked"
-	.byte 0
-	.byte err_filopen
-	asc_hi "file open"
-	.byte 0
-	.byte err_dircnt
-	asc_hi "dir count"
-	.byte 0
-	.byte err_notprodos
-	asc_hi "volume is not ProDOS"
-	.byte 0
-	.byte err_ivlparm
-	asc_hi "invalid param"
-	.byte 0
-	.byte err_vcbtfull
-	asc_hi "VCB full"
-	.byte 0
-	.byte err_badbufadr
-	asc_hi "bad buff addr"
-	.byte 0
-	.byte err_dupvol
-	asc_hi "duplicate volume"
-	.byte 0
-	.byte err_badmap
-	asc_hi "baked bit-map"
-	.byte 0
+	ErrorEntry $2f, "no disk"
+	ErrorEntry err_badcall, "bad ProDOS call"
+	ErrorEntry err_badcnt, "bad pcount"
+	ErrorEntry err_ifull, "inttbl full"
+	ErrorEntry err_io, "disk I/O"
+	ErrorEntry err_nodev, "no device connected"
+	ErrorEntry err_wrprot, "disk write-protected"
+	ErrorEntry err_switched, "disk switched"
+	ErrorEntry err_2slow, "drive too slow"
+	ErrorEntry err_2fast, "drive too fast"
+	ErrorEntry err_pnsyntax, "bad pathname syntax"
+	ErrorEntry err_fcbfull, "FCB full"
+	ErrorEntry err_ivlref, "bad refnum"
+	ErrorEntry err_dirnotfnd, "directory not found"
+	ErrorEntry err_volnotfnd, "volume not found"
+	ErrorEntry err_filnotfnd, "file not found"
+	ErrorEntry err_dupfil, "duplicate file"
+	ErrorEntry err_full, "volume full"
+	ErrorEntry err_dirfull, "directory full"
+	ErrorEntry err_filfmt, "file format error"
+	ErrorEntry err_strgtype, "bad storage type"
+	ErrorEntry err_eof, "end of file"
+	ErrorEntry err_badpos, "bad file pos"
+	ErrorEntry err_locked, "file locked"
+	ErrorEntry err_filopen, "file open"
+	ErrorEntry err_dircnt, "dir count"
+	ErrorEntry err_notprodos, "volume is not ProDOS"
+	ErrorEntry err_ivlparm, "invalid param"
+	ErrorEntry err_vcbtfull, "VCB full"
+	ErrorEntry err_badbufadr, "bad buff addr"
+	ErrorEntry err_dupvol, "duplicate volume"
+	ErrorEntry err_badmap, "baked bit-map"
 ;=======================================
 ;
 ; Part II of error table:  Davex errors
 ;
-	.byte der_illegparm
-	asc_hi "illegal option"
-	.byte 0
-	.byte der_toomany
-	asc_hi "too many parameters"
-	.byte 0
-	.byte der_badtype
-	asc_hi "bad parm type"
-	.byte 0
-	.byte der_unknftyp
-	asc_hi "unknown filetype"
-	.byte 0
-	.byte der_dupopt
-	asc_hi "duplicate option"
-	.byte 0
-	.byte der_baddev
-	asc_hi "devnum format is .61"
-	.byte 0
-	.byte der_abort
-	asc_hi "aborted"
-	.byte 0
-	.byte der_waitspool
-	asc_hi "wait for files to print or use spool -z"
-	.byte 0
-	.byte $88
-	asc_hi "illegal block read/write"
-	.byte 0
-	.byte der_needs3
-	asc_hi "filetype needs 3 chars"
-	.byte 0
-	.byte der_missopt
-	asc_hi "missing option"
-	.byte 0
-	.byte der_badhware
-	asc_hi "missing hardware"
-	.byte 0
-	.byte der_badnum
-	asc_hi "bad number"
-	.byte 0
-	.byte der_bignum
-	asc_hi "number too big"
-	.byte 0
-	.byte der_ynexp
-	asc_hi "'y' or 'n' expected"
-	.byte 0
-	.byte der_nosbf
-	asc_hi "no startup buffer"
-	.byte 0
-	.byte der_smallsbf
-	asc_hi "startup buffer too small"
-	.byte 0
-	.byte der_notxtn
-	asc_hi "not an external command"
-	.byte 0
-	.byte der_adrlow
-	asc_hi "cmd address too low"
-	.byte 0
-	.byte der_notfnd
-	asc_hi "not found"
-	.byte 0
-	.byte der_semiexp
-	asc_hi "missing ';'"
-	.byte 0
-	.byte der_nottxt
-	asc_hi "not script file"
-	.byte 0
-	.byte der_notdir
-	asc_hi "not DIR"
-	.byte 0
-	.byte der_levels
-	asc_hi "too many dir levels"
-	.byte 0
-	.byte der_1wild
-	asc_hi "1 wildcard only"
-	.byte 0
-	.byte der_badwild
-	asc_hi "bad wildcard"
-	.byte 0
-	.byte der_outmem
-	asc_hi "out of memory"
-	.byte 0
-	.byte der_outroom
-	asc_hi "out of room"
-	.byte 0
+	ErrorEntry der_illegparm, "illegal option"
+	ErrorEntry der_toomany, "too many parameters"
+	ErrorEntry der_badtype, "bad parm type"
+	ErrorEntry der_unknftyp, "unknown filetype"
+	ErrorEntry der_dupopt, "duplicate option"
+	ErrorEntry der_baddev, "devnum format is .61"
+	ErrorEntry der_abort, "aborted"
+	ErrorEntry der_waitspool, "wait for files to print or use spool -z"
+;; [TODO] Remove...unused for decades?	ErrorEntry $88, "illegal block read/write"
+	ErrorEntry der_needs3, "filetype needs 3 chars"
+	ErrorEntry der_missopt, "missing option"
+	ErrorEntry der_badhware, "missing hardware"
+	ErrorEntry der_badnum, "bad number"
+	ErrorEntry der_bignum, "number too big"
+	ErrorEntry der_ynexp, "'y' or 'n' expected"
+	ErrorEntry der_nosbf, "no startup buffer"
+	ErrorEntry der_smallsbf, "startup buffer too small"
+	ErrorEntry der_notxtn, "not an external command"
+	ErrorEntry der_adrlow, "cmd address too low"
+	ErrorEntry der_notfnd, "not found"
+	ErrorEntry der_semiexp, "missing ';'"
+	ErrorEntry der_nottxt, "not script file"
+	ErrorEntry der_notdir, "not DIR"
+	ErrorEntry der_levels, "too many dir levels"
+	ErrorEntry der_1wild, "1 wildcard only"
+	ErrorEntry der_badwild, "bad wildcard"
+	ErrorEntry der_outmem, "out of memory"
+	ErrorEntry der_outroom, "out of room"
 ;====================================
 	.byte 0
 
