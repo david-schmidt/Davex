@@ -7628,7 +7628,6 @@ err_text:
 	ErrorEntry der_baddev, "devnum format is .61"
 	ErrorEntry der_abort, "aborted"
 	ErrorEntry der_waitspool, "wait for files to print or use spool -z"
-;; [TODO] Remove...unused for decades?	ErrorEntry $88, "illegal block read/write"
 	ErrorEntry der_needs3, "filetype needs 3 chars"
 	ErrorEntry der_missopt, "missing option"
 	ErrorEntry der_badhware, "missing hardware"

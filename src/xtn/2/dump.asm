@@ -106,7 +106,7 @@ no_end:
 	lsr skip_asc
 not_both	= *
 ;
-; Width (bytes per line) = 16 if .byte $is being printed,
+; Width (bytes per line) = 16 if hex is being printed,
 ; otherwise 64 (whether ASCII is there or not)
 ;
 	lda #16

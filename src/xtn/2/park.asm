@@ -445,7 +445,7 @@ Seek_DCB:	.byte $0B	; Set as Seek Opcode.
 	.byte $07	;
 	.addr Paramtrs	; Not actually used by Seek command,
 ;                           but must be included.
-Rom_IDs:	.byte $A9,$20,$A9,$00 ; First 14 .byte $values in Host adapter.
+Rom_IDs:	.byte $A9,$20,$A9,$00 ; First 14 HEX values in Host adapter.
 	.byte $A9,$03,$A9,$3C
 	.byte $2C,$FF,$CF,$20
 	.byte $0C,$C8
