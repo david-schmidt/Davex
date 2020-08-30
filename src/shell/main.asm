@@ -169,7 +169,7 @@ nextcmd:
 	jsr munch_space
 prompt0:
 	beq prompt
-	cmp #$80+';'
+	cmp #_';'
 	beq FoundSemi
 
 	lda #10
@@ -190,7 +190,7 @@ Expanded:
 
 	jsr chrgot
 	beq prompt0
-	cmp #$80+';'
+	cmp #_';'
 	beq FoundSemi
 
 	lda #der_semiexp
@@ -294,7 +294,7 @@ wentD:
 nullcmd:
 	rts
 nullentr:
-	.byte $80+'x',0
+	.byte 'x',0
 	.addr nullcmd
 	.byte 0,0	;no parms
 
@@ -318,16 +318,16 @@ parse_word:
 parsew1:
 	jsr chrgot
 	beq pw_x
-	cmp #$80+' '
+	cmp #_' '
 	beq pw_x0
-	cmp #$80+';'
+	cmp #_';'
 	beq pw_x
 	jsr downcase
 	sta (p),y
 	iny
-	cmp #$80+'?'
+	cmp #_'?'
 	beq pw_x2
-	cmp #$80+'-'
+	cmp #_'-'
 	beq pw_x2
 	jsr chrget
 	jmp parsew1
@@ -356,6 +356,8 @@ point_nxtcmd:
 skipparm:
 	jsr adv_cmdptr	;pointing at addr+1
 	jsr adv_cmdptr	;pointing at parm1
+	cmp #$ff		;1.4: a single $FF byte can end the parameter table (or the old $00, $00)
+	beq adv_cmdptr
 	iny
 	ora (cmd_ptr),y
 	bne skipparm
@@ -410,7 +412,7 @@ ms0:	jsr chrget
 munch_space:
 	jsr chrgot
 	beq :+
-	cmp #$80+' '
+	cmp #_' '
 	beq ms0
 :	jmp chrgot
 
@@ -513,7 +515,7 @@ another:
 	bcc another
 	jsr chrgot
 	beq sortprm
-	cmp #$80+';'
+	cmp #_';'
 	beq sortprm
 	lda #der_toomany	;too many parameters
 	jmp der
@@ -610,7 +612,7 @@ calc_pindex:
 posit_parm:
 	ldy #0
 	lda (cmd_ptr),y
-	bne posit_done	;option character present
+	bne posit_done	;option character present (or $FF marking end of parameter list)
 	iny
 	lda (cmd_ptr),y	;end of parm list?
 	beq posit_done
@@ -632,17 +634,18 @@ posit_done:
 one_parm:
 	jsr munch_space
 	beq posit_parm
-	cmp #$80+'-'
+	cmp #_'-'
 	bne posit_parm
 	jsr chrget
-	bne opt_ok
-	jmp illeg_parm	;"-" at end of line
+	beq to_illeg_parm 	;"-" at end of line
 opt_ok:	jsr downcase
 	sta optchar
 	jsr chrget	;point to char after option
-;jsr munch_space ;24-Jan-90 DL
 	ldy #0
 chk_allowed:
+	lda (cmd_ptr),y	 ; 1.4: a single byte $FF can end the parameter list (like the old $00, $00)
+	cmp #$ff
+	beq to_illeg_parm
 	iny
 	lda (cmd_ptr),y
 	dey
@@ -650,9 +653,11 @@ chk_allowed:
 	bne p_legal
 	lda (cmd_ptr),y
 	bne p_legal
+to_illeg_parm:
 	jmp illeg_parm
 p_legal:
 	lda (cmd_ptr),y
+	ora #$80		; 1.4: the high bit is no longer required to be set on the "option" characters
 	cmp optchar
 	beq this_parm
 	iny
@@ -679,15 +684,15 @@ noMunchEm:
 
 	jsr chrgot
 	beq fudgex
-	cmp #$80+'-'
+	cmp #_'-'
 	beq fudgex
-	cmp #$80+';'
+	cmp #_';'
 	beq fudgex
 	ldx last_type
 	bne fudgex
-	cmp #$80+' '
+	cmp #_' '
 	beq fudgex
-; %%% multiple-flags disabled by removing next line
+; %%% multiple options after a single '-': disabled by removing next line
 	jmp opt_ok
 fudgex:	clc
 	rts
@@ -820,6 +825,7 @@ gpn_x:	rts
 ;  return SEC if that parm was not given
 ;
 getparm_ch:
+	ora #$80		; 1.4: the caller no longer needs to set bit 7
 	ldx #0
 	ldy num_parms
 	sec
@@ -871,9 +877,9 @@ fsbxx:	rts
 pv_yesno:
 	jsr chrgot
 	jsr downcase
-	cmp #$80+'y'
+	cmp #_'y'
 	beq @yes
-	cmp #$80+'n'
+	cmp #_'n'
 	beq @no
 	lda #der_ynexp
 	jmp ProDOS_err
@@ -895,7 +901,7 @@ pv_int:	lda #0
 	sta num+2
 	sta num+3
 	jsr chrgot
-	cmp #$80+'$'
+	cmp #_'$'
 	bne not_hex
 	jmp hex_num
 not_hex:
@@ -952,9 +958,9 @@ overflow:
 	bne der3
 
 chk_dig:
-	cmp #'9'+1+$80
+	cmp #_'9'+1
 	bcs chkdig_no
-	cmp #$80+'0'
+	cmp #_'0'
 	bcc chkdig_no
 	clc
 	rts
@@ -1021,7 +1027,7 @@ hex_1:	pha
 	adc num
 	sta num
 	bcc hnum_ok
-	inc num+1
+	inc num+1		; the following long-standing BCC is buggy, but actually we can never get SEC here
 	bcc hnum_ok
 	inc num+2
 	bne hnum_ok
@@ -1038,13 +1044,13 @@ hex_exp:
 
 chk_hex:
 	jsr downcase
-	cmp #$80+'0'
+	cmp #_'0'
 	bcc hex_x
-	cmp #'f'+1+$80
+	cmp #_'f'+1
 	bcs hex_x
-	cmp #'9'+1+$80
+	cmp #_'9'+1
 	bcc is_hex
-	cmp #$80+'a'
+	cmp #_'a'
 	bcs is_hex0
 hex_x:	sec
 	rts
@@ -1079,11 +1085,11 @@ pv_string:
 	sty string_index
 	jsr munch_space
 	jsr chrgot
-	cmp #$80+'-'
+	cmp #_'-'
 	beq strdun
-	cmp #$A7
+	cmp #$A7	;apostrophe
 	beq gotqch
-	cmp #$A2	;double quote
+	cmp #_'"'	;double quote
 	bne pstr_1
 gotqch:	sta quotechr
 pstr_0:	jsr chrget
@@ -1092,16 +1098,16 @@ pstr_1:	jsr chrgot
 	ldx quotechr
 	bne sep_allowed
 ; if unquoted, check for blank, ";", comma
-	cmp #$80+' '
+	cmp #_' '
 	beq strdun
-	cmp #$80+','
+	cmp #_','
 	beq strdun0
-	cmp #$80+';'
+	cmp #_';'
 	beq strdun
 	ldy ptype
 	cpy #t_string
 	beq sep_allowed
-	cmp #$80+':'
+	cmp #_':'
 	beq typespec
 sep_allowed:
 	cmp quotechr
@@ -1157,7 +1163,7 @@ ftyp_ok:
 
 pv_ftype:
 	jsr munch_space
-	cmp #$80+'$'
+	cmp #_'$'
 	beq ftyp_int
 	jsr chk_dig
 	bcc ftyp_int
@@ -1246,12 +1252,12 @@ p2ok2:	lda filetyp0,x
 ;
 pv_devnum:
 	jsr chrgot
-	cmp #$80+'.'
+	cmp #_'.'
 	bne dvnerr
 	jsr chrget
-	cmp #$80+'1'
+	cmp #_'1'
 	bcc dvnerr
-	cmp #$80+'8'
+	cmp #_'8'
 	bcs dvnerr
 	and #%00001111
 	asl a
@@ -1260,9 +1266,9 @@ pv_devnum:
 	asl a
 	sta temp
 	jsr chrget
-	cmp #$80+'1'
+	cmp #_'1'
 	bcc dvnerr
-	cmp #$80+'3'
+	cmp #_'3'
 	bcs dvnerr
 	and #%00000001
 	ror a
@@ -1350,9 +1356,9 @@ pp1:	lda (p),y
 ; upcase
 ;
 upcase:	ora #%10000000
-	cmp #$80+'a'
+	cmp #_'a'
 	bcc uc_x
-	cmp #'z'+1+$80
+	cmp #_'z'+1
 	bcs uc_x
 	and #%11011111
 uc_x:	rts
@@ -1362,9 +1368,9 @@ uc_x:	rts
 ;
 downcase:
 	ora #%10000000
-	cmp #$80+'A'
+	cmp #_'A'
 	bcc :+
-	cmp #'Z'+1+$80
+	cmp #_'Z'+1
 	bcs :+
 	ora #%00100000
 :	rts
@@ -1375,7 +1381,7 @@ downcase:
 ;
 clear_sc:
 .if IsDavex2
-	lda #$80+'L'-ctrl
+	lda #_'L'-ctrl
 	jsr cout
 	lda #0
 	jsr redirect
@@ -1406,7 +1412,7 @@ pDavexVer:
 	message_cstr "Davex "
 	lda #myversion
 	jsr print_ver
-	lda #AuxVersion+$80+'0'
+	lda #AuxVersion+_'0'
 	jsr cout
 	jsr mess
 .if  Proto 
@@ -1497,7 +1503,7 @@ fudgeCR:	.byte 0
 .endmacro
 
 .macro NoMoreParameters
-	.byte 0,0
+	.byte $ff
 .endmacro
 
 ;************************************
@@ -1521,12 +1527,12 @@ cmdtbl:
 
 	CommandName "config"
 	.addr go_config
-	.byte $80+'p',t_int1
-	.byte $80+'4',t_yesno
-	.byte $80+'c',t_yesno
-	.byte $80+'b',t_yesno
-	.byte $80+'q',t_int1
-	.byte $80+'h',t_string
+	.byte 'p',t_int1
+	.byte '4',t_yesno
+	.byte 'c',t_yesno
+	.byte 'b',t_yesno
+	.byte 'q',t_int1
+	.byte 'h',t_string
 	NoMoreParameters
 
 	CommandName "como"
@@ -1546,8 +1552,8 @@ cmdtbl:
 
 	CommandName "boot"
 	.addr go_boot
-	.byte $80+'s',t_int1
-	.byte $80+'i',t_nil	;ice cold!
+	.byte 's',t_int1
+	.byte 'i',t_nil	;ice cold!
 	NoMoreParameters
 
 	CommandName "mon"
@@ -1574,7 +1580,7 @@ cmdtbl:
 
 	CommandName "online"
 	.addr go_online
-	.byte $80+'o',t_nil
+	.byte 'o',t_nil
 	NoMoreParameters
 
 	CommandName "cls"
@@ -1584,23 +1590,23 @@ cmdtbl:
 	CommandName "type"
 	.addr go_type
 	.byte 0,t_wildpath
-	.byte $80+'h',t_nil
-	.byte $80+'f',t_nil
-	.byte $80+'u',t_nil
-	.byte $80+'l',t_nil
-	.byte $80+'p',t_nil
-	.byte $80+'t',t_string
+	.byte 'h',t_nil
+	.byte 'f',t_nil
+	.byte 'u',t_nil
+	.byte 'l',t_nil
+	.byte 'p',t_nil
+	.byte 't',t_string
 	NoMoreParameters
 
 	CommandName "pg"
 	.addr go_more
 	.byte 0,t_wildpath
-	.byte $80+'h',t_nil
-	.byte $80+'f',t_nil
-	.byte $80+'u',t_nil
-	.byte $80+'l',t_nil
-	.byte $80+'p',t_nil
-	.byte $80+'t',t_string
+	.byte 'h',t_nil
+	.byte 'f',t_nil
+	.byte 'u',t_nil
+	.byte 'l',t_nil
+	.byte 'p',t_nil
+	.byte 't',t_string
 	NoMoreParameters
 
 	CommandName "rename"
@@ -1613,7 +1619,7 @@ cmdtbl:
 	.addr go_ctype
 	.byte 0,t_wildpath
 	.byte 0,t_ftype
-	.byte $80+'x',t_int2
+	.byte 'x',t_int2
 	NoMoreParameters
 
 	CommandName "create"
@@ -1628,7 +1634,7 @@ cmdtbl:
 	CommandName "delete"
 	.addr go_del
 	.byte 0,t_wildpath
-	.byte $80+'u',t_nil
+	.byte 'u',t_nil
 	NoMoreParameters
 
 	CommandName "lock"
@@ -1644,38 +1650,38 @@ cmdtbl:
 	CommandName "prot"
 	.addr go_prot
 	.byte 0,t_wildpath
-	.byte $80+'r',t_nil
-	.byte $80+'w',t_nil
-	.byte $80+'d',t_nil
-	.byte $80+'n',t_nil
+	.byte 'r',t_nil
+	.byte 'w',t_nil
+	.byte 'd',t_nil
+	.byte 'n',t_nil
 	NoMoreParameters
 
 	CommandName "scan"
 	.addr go_scan
-	.byte $80+'a',t_string
-	.byte $80+'r',t_string
-	.byte $80+'z',t_nil
-	.byte $80+'i',t_string
+	.byte 'a',t_string
+	.byte 'r',t_string
+	.byte 'z',t_nil
+	.byte 'i',t_string
 	NoMoreParameters
 
 	CommandName "cat"
 	.addr go_cat
 	.byte 0,t_wildpath
-	.byte $80+'a',t_string
-	.byte $80+'t',t_nil
-	.byte $80+'s',t_nil
-	.byte $80+'f',t_ftype
-	.byte $80+'i',t_nil
+	.byte 'a',t_string
+	.byte 't',t_nil
+	.byte 's',t_nil
+	.byte 'f',t_ftype
+	.byte 'i',t_nil
 	NoMoreParameters
 
 	CommandName "spool"
 	.addr go_spool
 	.byte 0,t_wildpath
-;dfb $80+'h',t_string ;header
-;dfb $80+'l',t_int1 ;lines/page
-;dfb $80+'w',t_int1 ;page width
-	.byte $80+'x',t_int1	;cancel 1
-	.byte $80+'z',t_nil	;zap (cancel all)
+;dfb 'h',t_string ;header
+;dfb 'l',t_int1 ;lines/page
+;dfb 'w',t_int1 ;page width
+	.byte 'x',t_int1	;cancel 1
+	.byte 'z',t_nil	;zap (cancel all)
 	NoMoreParameters
 
 	CommandName "info"
@@ -1687,49 +1693,49 @@ cmdtbl:
 	.addr go_update
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
-	.byte $80+'f',t_nil
-	.byte $80+'b',t_nil
+	.byte 'f',t_nil
+	.byte 'b',t_nil
 	NoMoreParameters
 
 	CommandName "copy"
 	.addr go_copy
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
-	.byte $80+'d',t_nil	;delete orig
-	.byte $80+'f',t_nil	;force delete
-	.byte $80+'b',t_nil	;clr bkup bit
+	.byte 'd',t_nil	;delete orig
+	.byte 'f',t_nil	;force delete
+	.byte 'b',t_nil	;clr bkup bit
 	NoMoreParameters
 
 	CommandName "move"
 	.addr go_move
 	.byte 0,t_wildpath
 	.byte 0,t_wildpath
-	.byte $80+'f',t_nil	;force delete
+	.byte 'f',t_nil	;force delete
 	NoMoreParameters
 
 	CommandName "touch"
 	.addr go_touch
 	.byte 0,t_wildpath
-	.byte $80+'b',t_yesno
-	.byte $80+'d',t_yesno
-	.byte $80+'i',t_yesno
+	.byte 'b',t_yesno
+	.byte 'd',t_yesno
+	.byte 'i',t_yesno
 	NoMoreParameters
 
 .if IsDavex2
 	CommandName "dev"
 	.addr go_dev
-	.byte $80+'r',t_devnum
-	.byte $80+'a',t_devnum
-	.byte $80+'z',t_nil
+	.byte 'r',t_devnum
+	.byte 'a',t_devnum
+	.byte 'z',t_nil
 	NoMoreParameters
 .endif
 
 	CommandName "ftype"
 	.addr go_ftype
-	.byte $80+'r',t_ftype
-	.byte $80+'a',t_string
-	.byte $80+'v',t_ftype
-	.byte $80+'z',t_nil
+	.byte 'r',t_ftype
+	.byte 'a',t_string
+	.byte 'v',t_ftype
+	.byte 'z',t_nil
 	NoMoreParameters
 
 ; [TODO] "appl" to associate applications with filetypes,
@@ -1738,9 +1744,9 @@ cmdtbl:
 ;;;;;
 ; CommandName "appl"
 ; .addr go_appl
-; .byte $80+'r',t_ftype
-; .byte $80+'a',t_ftype
-; .byte $80+'p',t_string
+; .byte 'r',t_ftype
+; .byte 'a',t_ftype
+; .byte 'p',t_string
 ; NoMoreParameters
 
 	CommandName "err"
@@ -1762,7 +1768,7 @@ cmdtbl:
 	CommandName "echo"
 	.addr go_echo
 	.byte 0,t_string
-	.byte $80+'n',t_nil	;no CR
+	.byte 'n',t_nil	;no CR
 	NoMoreParameters
 
 	CommandName "eject"
@@ -1785,11 +1791,6 @@ cmdtbl:
 	.byte 0,t_int1
 	NoMoreParameters
  .endif
-
-
-; CommandName "mem" -- [TODO] dump RAM contents at address [length]
-; .addr go_mem
-; NoMoreParameters
 
 ; end of command table
 	.byte 0,0
@@ -1905,7 +1906,7 @@ go_boot:
 	lda #$c0
 	sta $c039
 ; if -i, trash $5f in the Keyboard Micro's RAM
-	lda #$80+'i'
+	lda #_'i'
 	jsr getparm_ch
 	bcs no_ice
 	jsr ice_it
@@ -1915,10 +1916,10 @@ rb_NotGS:
 	jsr off80
 	jsr home
 	start_normal
-	lda #$80+'i'	;
+	lda #_'i'	;
 	jsr getparm_ch	;
 	bcc badslot	;
-	lda #$80+'s'
+	lda #_'s'
 	jsr getparm_ch
 	bcc boot_slot
 badslot:
@@ -2057,7 +2058,7 @@ go_top:	jsr get_pfx
 countSlashes:
 	lda string2-1,x
 	ora #$80
-	cmp #$80+'/'
+	cmp #_'/'
 	bne cs_not
 	iny
 cs_not:	dex
@@ -2082,15 +2083,15 @@ go_type:
 type_pg:
 	ror pause_flag
 
-	lda #$80+'f'
+	lda #'f'
 	jsr getparm_ch
 	ror a
 	sta filter
 
-	lda #$80+'l'
+	lda #'l'
 	jsr getparm_ch
 	ror case_flags
-	lda #$80+'u'
+	lda #'u'
 	jsr getparm_ch
 	ror case_flags
 
@@ -2122,7 +2123,7 @@ typeopened:
 ;
 ; print header if -h given
 ;
-	lda #$80+'h'
+	lda #'h'
 	jsr getparm_ch
 	bcs no_head
 	message_cstr "******* "
@@ -2160,7 +2161,7 @@ typerr9:
 treadok:
 	ora #%10000000
 	sta saved_tchr
-	cmp #$80+'M'-ctrl
+	cmp #_'M'-ctrl
 	bne not_typeret
 typeret:
 	ldx scr_width
@@ -2186,7 +2187,7 @@ type_chk1:
 	jsr type_percent
 	jsr prdec_1
 	message_cstr "% --- more"
-	lda #$80+'y'	;default = Yes
+	lda #_'y'	;default = Yes
 	jsr yesno2
 	jsr restore
 	beq type_finish
@@ -2196,7 +2197,7 @@ type_chk1:
 not_typeret:
 	cmp #$89
 	bne not_TAB
-	lda #$80+'t'
+	lda #'t'
 	jsr getparm_ch
 	bcs not_TAB0
 	jsr print_path
@@ -2232,7 +2233,7 @@ t_no_down:
 
 
 type_finish:
-	lda #$80+'p'
+	lda #'p'
 	jsr getparm_ch
 	bcs type_done
 	jsr clear_sc
@@ -2320,7 +2321,7 @@ go_ctype:
 	jsr getparm_n
 	sta info_type
 ; if -x given, change aux type
-	lda #$80+'x'
+	lda #'x'
 	jsr getparm_ch
 	bcs same_aux
 	stx info_auxtype+1
@@ -2392,25 +2393,25 @@ protect:
 go_prot:
 	lda #%00000000
 	pha
-	lda #$80+'r'
+	lda #'r'
 	jsr getparm_ch
 	bcs protp1
 	pla
 	ora #%00000001	;R
 	pha
-protp1:	lda #$80+'w'
+protp1:	lda #'w'
 	jsr getparm_ch
 	bcs protp2
 	pla
 	ora #%00000010	;W
 	pha
-protp2:	lda #$80+'n'
+protp2:	lda #'n'
 	jsr getparm_ch
 	bcs protp3
 	pla
 	ora #%01000000	;N
 	pha
-protp3:	lda #$80+'d'
+protp3:	lda #'d'
 	jsr getparm_ch
 	bcs protp4
 	pla
@@ -2477,11 +2478,11 @@ scanz1:	iny
 	jmp makedirt
 
 scan_parms:
-	lda #$80+'z'
+	lda #'z'
 	jsr getparm_ch
 	bcs @notz
 	jsr scan_zap
-@notz:	lda #$80+'r'
+@notz:	lda #'r'
 	jsr getparm_ch
 	bcs @notrem
 	jsr findscan_x
@@ -2500,7 +2501,7 @@ scan_parms:
 	bpl @squish
 
 @notrem:
-	lda #$80+'a'
+	lda #'a'
 	jsr getparm_ch
 	bcs scan_notadd
 	jsr findscan_x
@@ -2816,12 +2817,12 @@ show_invis:
 go_cat:	lda #0
 	sta indent_level
 	sta cat_ftype
-	lda #$80+'i'
+	lda #'i'
 	jsr getparm_ch
 	ror a
 	eor #$80
 	sta show_invis
-	lda #$80+'f'
+	lda #'f'
 	jsr getparm_ch
 	bcs c_noftp
 	sta cat_ftype
@@ -2846,7 +2847,7 @@ c_cmp_tdir:
 	lda #der_notdir
 	jmp ProDOS_err
 cat_isdir:
-	lda #$80+'a'	;arrange
+	lda #'a'	;arrange
 	jsr getparm_ch
 	bcs cat_unsort
 	sta sort_str+1
@@ -2866,7 +2867,7 @@ dir_1:	jsr read1dir_vis
 	lda catbuff+16	;type
 	cmp #tDIR
 	bne cat_xnest
-	lda #$80+'t'
+	lda #'t'
 	jsr getparm_ch
 	bcs cat_xnest
 	jsr push_level
@@ -2964,7 +2965,7 @@ sortdir:
 	lda #1
 	sta (sort_str),y
 	iny
-	lda #$80+'n'
+	lda #_'n'
 	sta (sort_str),y
 sort_given:
 	lda keep_count+1
@@ -3032,7 +3033,7 @@ cond1:	lda sortstr_i
 	beq cond1
 	php
 	lda sort_char
-	cmp #$80+'a'
+	cmp #_'a'
 	bcc revSort
 	plp
 	bcs need2swap
@@ -3045,23 +3046,23 @@ sortdun:
 need2swap:
 	jmp swap_two
 
-doCmp:	cmp #$80+'n'
+doCmp:	cmp #_'n'
 	beq cmpNAME
-	cmp #$80+'b'
+	cmp #_'b'
 	beq cmpBACKUP
-	cmp #$80+'f'
+	cmp #_'f'
 	beq cmpTYPE
-	cmp #$80+'t'
+	cmp #_'t'
 	beq cmpTYPE
-	cmp #$80+'d'
+	cmp #_'d'
 	beq cmpModDATE
-	cmp #$80+'m'
+	cmp #_'m'
 	beq cmpModDATE
-	cmp #$80+'x'
+	cmp #_'x'
 	beq cmpAUX
-	cmp #$80+'s'
+	cmp #_'s'
 	beq cmpSIZE
-	cmp #$80+'c'
+	cmp #_'c'
 	beq cmpCrDATE
 	lda #der_illegparm
 	jmp ProDOS_err
@@ -3275,7 +3276,7 @@ cat_header:
 	jsr crout
 	jsr crout
 	message_cstr "name                       type"
-	lda #$80+'s'
+	lda #'s'
 	jsr getparm_ch
 	bcc catshort1
 	message_cstr "        blocks   modified               access"
@@ -3285,7 +3286,7 @@ catshort1:
 	jsr mess
 	.byte cr
 	cstr "----                       ----"
-	lda #$80+'s'
+	lda #'s'
 	jsr getparm_ch
 	bcc catshort2
 	message_cstr "------  ------   --------               ------"
@@ -3293,7 +3294,7 @@ catshort2:
 	jmp crout
 
 cat_trailer:
-	lda #$80+'s'
+	lda #'s'
 	jsr getparm_ch
 	bcs catlong2
 	rts
@@ -3339,7 +3340,7 @@ von_ok:	lda catbuff
 	tax
 	inx
 	stx catbuff-1
-	lda #$80+'/'
+	lda #_'/'
 	sta catbuff
 	lda #>(catbuff-1)
 	ldy #<(catbuff-1)
@@ -3358,7 +3359,7 @@ print1dir:
 	lda catbuff+16
 	cmp #tDIR
 	bne notthis2
-	lda #$80+'t'
+	lda #'t'
 	jsr getparm_ch
 	bcc dothis2
 notthis2:
@@ -3394,19 +3395,19 @@ tabType:
 	iny
 	bne tabType
 tabbedType:
-	ldx #$80+' '
+	ldx #_' '
 	lda catbuff
 	and #$f0
 	cmp #$50
 	bne not_xtnd
-	ldx #$80+'+'
+	ldx #_'+'
 not_xtnd:
 	txa
 	jsr cout
 	lda catbuff+16
 	jsr print_ftype
 ; short form -s?
-	lda #$80+'s'
+	lda #'s'
 	jsr getparm_ch
 	bcs longcat
 	jsr crout
@@ -3429,10 +3430,10 @@ longcat:
 	sty num
 	jsr prdec_pad
 
-	lda #$80+' '
+	lda #_' '
 	bit speech
 	bpl store_char
-	lda #$80+','
+	lda #_','
 store_char:
 	sta spComma
 
@@ -3536,9 +3537,9 @@ ftExt1:	cmp #0
 	jsr oneFTchar
 	jsr oneFTchar
 	jsr oneFTchar
-	lda #$80+'='
+	lda #_'='
 	jsr cout
-	lda #$80+'$'
+	lda #_'$'
 	jsr cout
 	pla
 	jsr prbyte
@@ -3565,7 +3566,7 @@ oneFTch:
 	jmp cout
 
 ftype_p:
-	lda #$80+'z'
+	lda #'z'
 	jsr getparm_ch
 	bcs no_zapft
 	lda #0
@@ -3573,7 +3574,7 @@ ftype_p:
 	jsr makedirt
 no_zapft:
 
-	lda #$80+'r'
+	lda #'r'
 	jsr getparm_ch
 	bcs ftype_add
 ; remove type A
@@ -3610,7 +3611,7 @@ ftr_f1:	lda filetyp+1,x
 	jsr makedirt
 
 ftype_add:
-	lda #$80+'a'
+	lda #'a'
 	jsr getparm_ch
 	bcs ftype_x
 	sta p2+1
@@ -3621,7 +3622,7 @@ ftype_add:
 	beq fta3
 	lda #der_needs3
 der2:	jmp ProDOS_err
-fta3:	lda #$80+'v'
+fta3:	lda #'v'
 	jsr getparm_ch
 	bcc fta4
 	lda #der_missopt
@@ -3707,10 +3708,10 @@ go_equal:
 	iny
 	lda (p2),y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	beq eq_compl
 	jsr print_pfx
-	lda #$80+'/'
+	lda #_'/'
 	jsr cout
 eq_compl:
 	lda p2+1
@@ -3775,7 +3776,7 @@ echo1:	iny
 	jsr cout
 	dex
 	bne echo1
-echoed:	lda #$80+'n'
+echoed:	lda #'n'
 	jsr getparm_ch
 	bcc echo_noCR
 	jsr crout
@@ -3814,7 +3815,7 @@ touch_set:
 	jmp setinfo
 
 touch_b:
-	lda #$80+'b'
+	lda #'b'
 	jsr getparm_ch
 	bcs touch_bx
 	tax
@@ -3832,7 +3833,7 @@ touch_bx:
 	rts
 
 touch_i:
-	lda #$80+'i'
+	lda #'i'
 	jsr getparm_ch
 	bcs touch_ix
 	tax
@@ -3849,7 +3850,7 @@ touch_ix:
 	rts
 
 touch_d:
-	lda #$80+'d'
+	lda #'d'
 	jsr getparm_ch
 	bcs touch_dx
 	tax
@@ -3891,7 +3892,7 @@ bad_disable:
 go_config:
 	lda num_parms
 	beq cfg_show
-	lda #$80+'p'
+	lda #'p'
 	jsr getparm_ch
 	bcs cfg2
 	cpy #7+1
@@ -3900,7 +3901,7 @@ go_config:
 	beq cfgperr
 	sty print_slot
 	jsr makedirt
-cfg2:	lda #$80+'4'
+cfg2:	lda #'4'
 	jsr getparm_ch
 	bcs cfg3
 	sta cfg40
@@ -3908,24 +3909,24 @@ cfg2:	lda #$80+'4'
 	jsr config_set_columns
 .endif
 	jsr makedirt
-cfg3:	lda #$80+'b'
+cfg3:	lda #'b'
 	jsr getparm_ch
 	bcs cfg4
 	sta cfgbell
 	jsr makedirt
-cfg4:	lda #$80+'c'
+cfg4:	lda #'c'
 	jsr getparm_ch
 	bcs cfg5
 	sta cfgclock
 	jsr makedirt
-cfg5:	lda #$80+'q'
+cfg5:	lda #'q'
 	jsr getparm_ch
 	bcs cfg6
 	cpy #3
 	bcs cfgperr
 	sty cfgquiet
 	jsr makedirt
-cfg6:	lda #$80+'h'
+cfg6:	lda #'h'
 	jsr getparm_ch
 	bcs cfg7
 	sta p+1
@@ -3952,7 +3953,7 @@ cfgperr:
 cfg_show:
 	message_cstr "   Printer slot: "
 	lda print_slot
-	ora #$80+'0'
+	ora #_'0'
 	jsr cout
 	jsr mess
 	.byte cr
@@ -3973,7 +3974,7 @@ cfg_show:
 	.byte cr
 	cstr "    Quiet level: "
 	lda cfgquiet
-	ora #$80+'0'
+	ora #_'0'
 	jsr cout
 	jsr mess
 	.byte cr
@@ -4127,7 +4128,7 @@ del_flag:	.res 1
 go_copy:
 	sta cp_pn1+1
 	sty cp_pn1
-	lda #$80+'d'
+	lda #'d'
 	jsr getparm_ch
 	ror del_flag
 goc_2:
@@ -4221,7 +4222,7 @@ cp_ask:
 	cmp #%11000011
 	bne ask_anyway
 
-	lda #$80+'f'
+	lda #'f'
 	jsr getparm_ch
 	bcc cp_created
 
@@ -4237,7 +4238,7 @@ ask_anyway:
 	cmp #%11000011
 	beq cpyn
 	message_cstr " [LOCKED] "
-cpyn:	lda #$80+'n'	;default = No
+cpyn:	lda #_'n'	;default = No
 	jsr yesno2
 	jsr restore	;must save N!
 	bmi cp_created
@@ -4299,7 +4300,7 @@ copied:
 ;
 ; clr backup bit on original if -b
 ;
-	lda #$80+'b'
+	lda #'b'
 	jsr getparm_ch
 	bcs no_clearbb
 	lda #$ff
@@ -4596,13 +4597,13 @@ go_del:	sta del_path+1
 	jsr go_size
 	jsr TalkCont
 	message_cstr "Okay to destroy directory"
-	lda #$80+'n'	;default = No
+	lda #_'n'	;default = No
 	jsr yesno2
 	jsr restore
 	beq deldun
 del_ndir:
 del_recurse:
-	lda #$80+'u'	;unlock first?
+	lda #'u'	;unlock first?
 	jsr getparm_ch
 	bcs del_unlx
 	jsr go_unlock
@@ -4697,14 +4698,14 @@ dv_list:
 	rts
 
 dv_some:
-	lda #$80+'r'
+	lda #'r'
 	jsr getparm_ch
 	bcs dv_notr
 	jsr dev_rm1
 	jmp dv_nota
 
 dv_notr:
-	lda #$80+'a'
+	lda #'a'
 	jsr getparm_ch
 	bcs dv_nota
 	ldx devcnt
@@ -4717,7 +4718,7 @@ devcntok:
 	inx
 	sta devlst,x
 dv_nota:
-	lda #$80+'z'
+	lda #'z'
 	jsr getparm_ch
 	bcs dv_notz
 ;
@@ -4811,7 +4812,7 @@ upd_recurse:	jsr check_wait
 	bne uperr
 	message_cstr_cr "new file"
 
-	lda #$80+'f'
+	lda #'f'
 	jsr getparm_ch
 	bcc crenew
 
@@ -4836,7 +4837,7 @@ upd_ok2:
 	message_cstr "filetypes differ ("
 	lda up_type1
 	jsr print_ftype
-	lda #$80+','
+	lda #_','
 	jsr cout
 	lda info_type
 	jsr print_ftype
@@ -4848,7 +4849,7 @@ upd_ok2:
 	beq cantRepl
 ; ask
 	message_cstr ". Continue"
-	lda #$80+'n'	;default = No
+	lda #_'n'	;default = No
 	jsr yesno2
 	bne match0
 	rts
@@ -5097,7 +5098,7 @@ cmd_ok:
 	iny
 	lda (p),y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne part_path
 ;
 ; full pathname specified; try once
@@ -5128,7 +5129,7 @@ scan_more:
 	bne not_curdir
 	lda scanlist+1,x
 	ora #%10000000
-	cmp #$80+'*'
+	cmp #_'*'
 	bne not_curdir
 	ldy #0
 	sty cmdpath
@@ -5382,7 +5383,7 @@ plural:
 	cpy #1
 	bne plur_s
 	rts
-plur_s:	lda #'s'+$80
+plur_s:	lda #_'s'
 	jmp cout
 
 ;
@@ -5395,14 +5396,14 @@ prnt_compl:
 	ldy #1
 	lda (p),y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	beq fullpn
 	lda p+1
 	pha
 	lda p
 	pha
 	jsr print_pfx
-	lda #$80+'/'
+	lda #_'/'
 	jsr cout
 	pla
 	sta p
@@ -5426,16 +5427,16 @@ check_wait:
 	bmi cw_wait
 	lda keyboard
 	bpl cw_x
-	cmp #$80+'X'-ctrl
+	cmp #_'X'-ctrl
 	beq cw_x
 	cmp #$9b	;esc
 	beq cw_xxx
-	cmp #$80+'C'-ctrl
+	cmp #_'C'-ctrl
 	beq cw_abort
-	cmp #$80+'S'-ctrl
+	cmp #_'S'-ctrl
 	beq cw_wait
 	jsr chk_appleper
-	cmp #$80+' '
+	cmp #_' '
 	bne cw_x
 	sta kbdstrb
 cw_wait:
@@ -5445,18 +5446,18 @@ cw_wait:
 	sta kbdstrb	;munch bad chars in case type-ahead active
 	jsr CheckHC
 	bcc cw_wait
-	cmp #$9b
+	cmp #$9b	;Escape
 	beq cw_xxx
-	cmp #$80+'C'-ctrl
+	cmp #_'C'-ctrl
 	beq cw_abort
-	cmp #$80+'X'-ctrl
+	cmp #_'X'-ctrl
 	beq cw_xx
-	cmp #$80+'S'-ctrl
+	cmp #_'S'-ctrl
 	beq cw_done
-	cmp #$80+'Q'-ctrl
+	cmp #_'Q'-ctrl
 	beq cw_done
 	jsr chk_appleper
-	cmp #$a0
+	cmp #_' '
 	bne cw_x	;was cw_wait
 	ror stepping
 	clc
@@ -5479,7 +5480,7 @@ cw_abort:
 	jmp yn_abort
 
 chk_appleper:
-	cmp #$80+'.'
+	cmp #_'.'
 	bne notAper
 	bit button0	;Apple
 	bpl notAper
@@ -5621,9 +5622,9 @@ fixup_path_ay:
 	beq :+
 	iny
 	jsr pchar
-	cmp #$80+'%'
+	cmp #_'%'
 	beq fp_shelld
-	cmp #$80+'.'
+	cmp #_'.'
 	beq fixup_dot
 :	rts
 
@@ -5631,7 +5632,7 @@ fp_shelld:
 	jsr shorten_p
 	ldy #1
 	jsr pchar
-	cmp #$80+'/'
+	cmp #_'/'
 	bne fpsh2
 	jsr shorten_p
 fpsh2:	lda p+1
@@ -5651,7 +5652,7 @@ fixup_dot:
 	bcc not_parent
 	ldy #2
 	jsr pchar
-	cmp #$80+'.'
+	cmp #_'.'
 	bne not_parent
 ; .. = parent directory
 	jsr shorten_p
@@ -5661,7 +5662,7 @@ fixup_dot:
 	beq parent_nosl
 	iny
 	jsr pchar
-	cmp #$80+'/'
+	cmp #_'/'
 	bne parent_nosl
 	jsr shorten_p
 parent_nosl:
@@ -5694,9 +5695,9 @@ not_parent:
 	bcc chk_dot
 	ldy #2
 	jsr pchar
-	cmp #$80+'1'
+	cmp #_'1'
 	bcc chk_dot
-	cmp #$80+'8'
+	cmp #_'8'
 	bcs chk_dot
 	and #%00001111
 	asl a
@@ -5706,9 +5707,9 @@ not_parent:
 	sta temp
 	iny
 	jsr pchar
-	cmp #$80+'1'
+	cmp #_'1'
 	bcc :+
-	cmp #$80+'3'
+	cmp #_'3'
 	bcs :+
 	and #%00000001
 	ror a
@@ -5726,7 +5727,7 @@ chk_dot:
 	beq singleDOT
 	iny
 	jsr pchar
-	cmp #$80+'/'
+	cmp #_'/'
 	bne singleDOT
 	jsr shorten_p
 	jmp singleDOT
@@ -5771,7 +5772,7 @@ splice_sd:
 	ldy #4
 	lda (ptr),y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne splpth2
 	iny
 splpth2:
@@ -5917,7 +5918,7 @@ off80:
 	jsr finish_oredir
 .if IsDavex2
 	jsr mess
-	.byte $80+'U'-ctrl,$80+'T'-ctrl,$80+'A',$80+'1',0
+	.byte _'U'-ctrl,_'T'-ctrl,_'A',_'1',0	; for an old 80-column card on Apple II+?
 	jsr $fe89
 	jsr $fe93
 	jsr hook_speech
@@ -6030,7 +6031,7 @@ do2:	jsr pr_sp
 skip2:
 	bit wild_flags
 	bpl noquery
-	lda #$80+'n'	;default = No
+	lda #_'n'	;default = No
 	jsr yesno2
 	jsr restore
 	beq nxtwld
@@ -6455,21 +6456,21 @@ contains_wild:
 	beq cw_no
 cw1:	lda wildstring1,y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne cwnslsh
 ;;;	sec
 	ror temp
 cwnslsh:
-	cmp #$80+'*'
+	cmp #_'*'
 	beq cwyes0
-	cmp #$80+'='
+	cmp #_'='
 	beq cwyes
-	cmp #$80+'?'
+	cmp #_'?'
 	bne cwno
 	lda #%10000000	;query flag
 	ora wild_flags
 	sta wild_flags
-cwyes0:	lda #$80+'='
+cwyes0:	lda #_'='
 	sta wildstring1,y
 cwyes:	ldx wild_index
 	bne extra_wild
@@ -6485,7 +6486,7 @@ cw_no:	sec
 cw_yes:	ldy #1
 	lda wildstring1,y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne not_wvol
 	ldx #1	;'/' count
 wvolchk:
@@ -6494,7 +6495,7 @@ wvolchk:
 	bcs wvchecked
 	lda wildstring1,y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne wvolchk
 	inx
 	bne wvolchk
@@ -6525,7 +6526,7 @@ build_wpath:
 	ldy wild_index
 bwp2:	lda wildstring1,y
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	beq bwp_len
 	dey
 	bne bwp2
@@ -6622,7 +6623,7 @@ cmp_left:
 	ldy #0
 cleft1:	lda wildseg+1,y
 	jsr downcase
-	cmp #$80+'='
+	cmp #_'='
 	beq cleftok
 	sta temp
 	lda catbuff+1,y
@@ -6652,7 +6653,7 @@ cmp_right:
 cright1:
 	lda wildseg,y
 	jsr downcase
-	cmp #$80+'='
+	cmp #_'='
 	beq crightok
 	sta temp
 	lda catbuff,x
@@ -6761,11 +6762,11 @@ ew_p:	.addr 0
 ;
 replch:
 	ora #%10000000
-	cmp #$80+'?'
+	cmp #_'?'
 	beq replwc
-	cmp #$80+'*'
+	cmp #_'*'
 	beq replwc
-	cmp #$80+'='
+	cmp #_'='
 	bne repl_addch
 
 replwc:
@@ -7286,14 +7287,14 @@ fill_awp:
 	sta fm_bufsz
 	inc fm_bufsz
 	tax
-	lda #$80+'M'-ctrl
+	lda #_'M'-ctrl
 	sta pagebuff+2,x
 	lda pagebuff
 	sta awp_blanks
 	pla
 filled:	rts
 
-awp_cr:	lda #$80+'M'-ctrl
+awp_cr:	lda #_'M'-ctrl
 	sta pagebuff+2
 	ldx #0
 	stx fm_bufidx
@@ -7471,7 +7472,7 @@ callSP3: jsr $ffff
 	.byte 1	;readblock
 	.addr ej_rb2
 	bcs decid_no
-	lda #$80+'/'
+	lda #_'/'
 	sta pagebuff+1
 	lda filebuff+4
 	and #%00001111
@@ -7789,7 +7790,7 @@ load_txttalk:
 	and #$30
 	cmp #$30
 	bne no_tt
-	lda #$60
+	lda #$60	; this makes PT_OBJ load into AuxMem at $01/6000.
 	sta ttcheat+2
 	jsr is_slotb
 	beq no_tt
@@ -7840,7 +7841,7 @@ ttdone:	lda tt_ref
 	jsr $3a9
 
 	jsr mess
-	.byte $85,$80+'C',0	;compressed speech (fast)
+	.byte $85,_'C',0	;compressed speech (fast)
 	rts
 
 tt3img:
@@ -7995,7 +7996,7 @@ exp_alias:
 	ldy #0
 	lda (p),y
 	ora #$80
-	cmp #$80+'~'
+	cmp #_'~'
 	beq isTilde
 ExpA1:	ldy #0
 	lda (p2),y
@@ -8040,9 +8041,9 @@ MaybeExp:
 Comp:	lda (p),y
 	beq SourceEnd
 	jsr downcase
-	cmp #$80+';'
+	cmp #_';'
 	beq SourceEnd
-	cmp #$80+' '
+	cmp #_' '
 	beq SourceEnd
 	sta temp
 	lda (p2),y
@@ -8063,7 +8064,7 @@ NoMatch:
 SourceEnd:
 	lda (p2),y
 	jsr downcase
-	cmp #$80+' '
+	cmp #_' '
 	beq YesMatch
 	cmp #$8d
 	beq YesMatch
@@ -8121,7 +8122,7 @@ KillBlanks:
 	ldy #1
 	lda (p),y
 	ora #$80
-	cmp #$a0
+	cmp #_' '
 	bne :+
 	jsr KillOneChar
 	jmp KillBlanks
@@ -8587,7 +8588,7 @@ NextLine:
 	jsr mess
 	.byte cr
 	cstr "--- more"
-	lda #$80+'y'	;default = Yes
+	lda #_'y'	;default = Yes
 	jsr yesno2
 	jmp restore	;(preserves P)
 
@@ -8595,6 +8596,7 @@ no_stop:
 	lda #1
 	rts
 
+.if 1
 ;---------------------------------------------------------
 ; dumphex: Dump out successive bytes of a memory range, given an address
 ; dumphex_ptr: Dump out successive bytes of a memory range, given a pointer to be dereferenced first
@@ -8657,7 +8659,7 @@ dumphex_go:
 	jsr prbyte
 	lda dump_ptr_2
 	jsr prbyte
-	lda #$80+':'
+	lda #_':'
 	jsr cout
 	lda num
 	ldy #$00
@@ -8697,6 +8699,7 @@ sto_p:	.res 1
 dumphex_mode:
 	.byte 0		; nonzero = second parm is a memory address (no dereference)
 			; $00 = second parm is a pointer to be dereferenced 
+.endif
 
 ;******************************************
 ;
