@@ -1,20 +1,18 @@
 
-;	.include "Common/2/Globals2.asm"	; trying to use -Wa,-I,${srcdir}/... to make this work
-;	.include "Common/2/Apple.Globals2.asm"
-;	.include "Common/2/Mli.globals2.asm"
-;	.include "Common/Macros.asm"
+	.include "Common/2/Globals2.asm"
+	.include "Common/2/Apple.Globals2.asm"
+	.include "Common/2/Mli.globals2.asm"
+	.include "Common/Macros.asm"
 
 CSTACK = $B000	; AF00..AFFF
 
 	.segment "STARTUP"
-__STARTUP__:
-_STARTUP:
-	.export __STARTUP__
-	.export _STARTUP
+_XC_STARTUP:
+	.export _XC_STARTUP
 	.import _main
 	.importzp sp
 	.importzp sreg
-	.importzp num
+	.import popa
 
 	lda #>CSTACK
 	ldx #<CSTACK
@@ -23,68 +21,19 @@ _STARTUP:
 ; [TODO] Call constructors/inits, and initialize any static data
 	jmp _main
 
-; Override the library COUT, which would enable language-card memory afterwards.
-        .export         COUT
-COUT    = $fded
+; Override the library COUT, which would enable language-card memory afterwards. This is called by puts(), for example.
+.export COUT
+COUT = $fded
 
+.export _PRBYTE
+_PRBYTE = $fdda
 
-;-----
-
-; [TODO] .h declarations for all these
-; [TODO] glue for the nontrivial ones
-.if 1	; [TODO] get from include file instead
-
-xspeech = $60	; zero page, 1 byte
-xnum = $61		; zero page, 4 bytes
-
-xgetparm_ch	= $b000
-xgetparm_n	= $b003
-xmess		= $b006
-xprint_ftype	= $b009
-xprint_access	= $b00c
-xprdec_2	= $b00f
-xprdec_3	= $b012
-xprdec_pad	= $b015
-xprint_path	= $b018
-xbuild_local	= $b01b
-xprint_sd	= $b01e
-xprint_drvr	= $b021
-xredirect	= $b024
-xpercent	= $b027
-xyesno		= $b02a
-xgetln		= $b02d
-xbell		= $b030
-xdowncase	= $b033
-xplural		= $b036
-xcheck_wait	= $b039
-xpr_date_ay	= $b03c
-xpr_time_ay	= $b03f
-xProDOS_err	= $b042
-xProDOS_er	= $b045
-xerr		= $b048
-xprdec_pady	= $b04b
-xdir_setup	= $b04e
-xdir_finish	= $b051
-xread1dir	= $b054
-xpmgr		= $b057
-xmmgr		= $b05a
-xpoll_io	= $b05d
-xprint_ver	= $b060
-xpush_level	= $b063
-xfman_open	= $b066
-xfman_read	= $b069
-xrdkey		= $b06c ;v1.1
-xdirty		= $b06f ;v1.1
-xgetnump	= $b072 ;v1.1
-xyesno2		= $b075 ;v1.2
-xdir_setup2	= $b078 ;v1.23
-xshell_info	= $b07b ;v1.25
-.endif
+; export COUT() for direct use from C: Prints character in inverse if bit 7 is clear.
+.export _COUT
+_COUT = $fded
 
 ; __fastcall__ calling convention: last parameter is in sreg+1/sreg/X/A
-; return value in A, XA, sreg+1/sreg/X/A
-
-
+; return value in XA, or sreg+1/sreg/X/A
 
 ;	extern _Bool __fastcall__ xgetparm_ch_nil(uint8_t optionCharacter);
 .export _xgetparm_ch_nil
@@ -94,23 +43,88 @@ _xgetparm_ch_nil:
 	jmp returnTrueForCLC
 
 ;	extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // int1, filetype, devnum, yesno
+; [TODO]
+
 ;	extern _Bool __fastcall__ xgetparm_ch_int2(uint8_t optionCharacter, uint16_t* outValue);
+; [TODO]
+
 ;	extern _Bool __fastcall__ xgetparm_ch_int3(uint8_t optionCharacter, uint32_t* outValue);
+.export _xgetparm_ch_int3
+_xgetparm_ch_int3:
+	stx num+1
+	sta num
+	jsr popa			; option character
+	ora #$80			; [TODO] change shell not to require high bit
+	jsr xgetparm_ch
+getparm_return_int3:
+	bcs :+
+; Result is in AXY, and we need to store it at (num) as 4 bytes
+	pha
+	tya
+	ldy #0
+	sta (num),y
+	txa
+	iny
+	sta (num),y
+	pla
+	iny
+	sta (num),y			; carry is still clear for no-error return
+	lda #0
+	iny
+	sta (num),y
+:	jmp returnTrueForCLC
+
+;	extern _Bool __fastcall__ xgetparm_n_int3(uint8_t index, uint32_t* outValue);
+.export _xgetparm_n_int3
+_xgetparm_n_int3:
+	stx num+1
+	sta num
+	jsr popa			; option character
+	ora #$80			; [TODO] change shell not to require high bit
+	jsr xgetparm_n
+	jmp getparm_return_int3	;[TODO] Better to turn this into a library, and just let this code be not-linked-in
+
+
 ;	extern _Bool __fastcall__ xgetparm_ch_string(uint8_t optionCharacter, uint8_t** outString);
+; [TODO]
+
 ;	extern _Bool __fastcall__ xgetparm_ch_path(uint8_t optionCharacter, uint8_t** outPath);
+; [TODO]
+
 ;	extern _Bool __fastcall__ xgetparm_ch_path_and_filetype(uint8_t optionCharacter, uint8_t** outPath, uint8_t* outFiletype);
+; [TODO]
 
 ;	extern _Bool __fastcall__ xgetparm_n_byte(uint8_t index, uint8_t* outValue); // int1, filetype, devnum, yesno
-;	extern _Bool __fastcall__ xgetparm_n_int2(uint8_t index, uint16_t* outValue);
-;	extern _Bool __fastcall__ xgetparm_n_int3(uint8_t index, uint32_t* outValue);
-;	extern _Bool __fastcall__ xgetparm_n_string(uint8_t index, uint8_t** outString);
-;	extern _Bool __fastcall__ xgetparm_n_path(uint8_t index, uint8_t** outPath);
-;	extern _Bool __fastcall__ xgetparm_n_path_and_filetype(uint8_t index, uint8_t** outPath, uint8_t* outFiletype);
+; [TODO]
 
-;	extern void __fastcall__ xmessage(const uint8_t*); // calls puts() for now
-.import _puts
+;	extern _Bool __fastcall__ xgetparm_n_int2(uint8_t index, uint16_t* outValue);
+; [TODO]
+
+;	extern _Bool __fastcall__ xgetparm_n_string(uint8_t index, uint8_t** outString);
+; [TODO]
+
+;	extern _Bool __fastcall__ xgetparm_n_path(uint8_t index, uint8_t** outPath);
+; [TODO]
+
+;	extern _Bool __fastcall__ xgetparm_n_path_and_filetype(uint8_t index, uint8_t** outPath, uint8_t* outFiletype);
+; [TODO]
+
+
+;	extern void __fastcall__ xmessage(const uint8_t*);
 .export _xmessage
-_xmessage = _puts
+_xmessage:
+	stx loadCharacter+2
+	sta loadCharacter+1
+	ldy #0
+loadCharacter: lda $7777,y	; operand modified
+	beq :+
+	ora #$80
+	jsr cout
+	iny
+	bne loadCharacter
+	inc loadCharacter+2
+	bne loadCharacter
+:	rts
 
 ;	extern void __fastcall__ xprint_ftype(uint8_t); // print a filetype
 .export _xprint_ftype

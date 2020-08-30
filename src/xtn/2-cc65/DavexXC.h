@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+extern void XC_STARTUP();
+
 enum
 {
 	t_nil		= 0,	// parameter with no associated value
@@ -18,6 +20,7 @@ enum
 
 enum XCHardwareRequirements
 {
+	kRequiresNothingSpecial = 0,
 	kRequires40ColumnScreen = 0b10000000,
 	kRequires80ColumnScreen = 0b01000000,
 	kRequiresIIeOrIIgs = 0b00100000,
@@ -37,6 +40,11 @@ struct XCHeader
 	uint8_t fReserved1, fReserved2, fReserved3;
 	uint8_t fParameters[PARM_COUNT+1][2];	// pairs of bytes, ending with 0,0
 };
+
+
+extern void PRBYTE(uint8_t);
+extern void COUT(uint8_t);
+// [TODO] CROUT directly from ROM
 
 // #define FUNC(addr) ((void __fastcall__ (*)())addr)
 // void __fastcall__ xpoll_io() { FUNC(0xB05B)(); }

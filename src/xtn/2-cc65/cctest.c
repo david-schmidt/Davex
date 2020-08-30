@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-extern const char gDescription[];
-extern void STARTUP();
+extern const char gDescription[];	// forward declaration, because gCommandHeader must come firs
 
 #define kMyVersion 0x10
 #define kMinDavexVersion 0x14
@@ -16,10 +15,10 @@ const struct XCHeader gCommandHeader =
 	0x60, 0xEE, 0xEE,
 	kMyVersion,
 	kMinDavexVersion,
-	0,	// hardware requirements
+	kRequiresNothingSpecial,
 	gDescription,
 	&gCommandHeader,
-	STARTUP,
+	XC_STARTUP,
 	kMinDavexVersionMinor,
 	0, 0, 0,
 	// Parameters

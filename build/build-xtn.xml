@@ -70,7 +70,11 @@
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/x10.lst ${srcdir}/xtn/2/x10.asm -o ${obj2xtndir}/x10.o" /></exec>
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/xc.lst ${srcdir}/xtn/2/xc.asm -o ${obj2xtndir}/xc.o" /></exec>
 		<echo message="Compiling Davex externals..."/>
-		<exec dir="${srcdir}" executable="${assemblerPath}/cl65"><arg line="-t apple2 -I . -Oi -C ${srcdir}/xtn/2-cc65/apple2-DavexXC.cfg --start-addr 0x9000 ${srcdir}/xtn/2-cc65/DavexXC.s ${srcdir}/xtn/2-cc65/cctest.c -o ${obj2xtndir}/cctest -Wa,-I,${srcdir}/common/2" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t apple2 -I . -l ${srcdir}/xtn/2/DavexXC.lst ${srcdir}/xtn/2-cc65/DavexXC.asm -o ${obj2xtndir}/DavexXC.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/cc65"><arg line="-t apple2 -I . -Oi ${srcdir}/xtn/2-cc65/cctest.c -o ${obj2xtndir}/cctest.asm" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/cctest.lst ${obj2xtndir}/cctest.asm -o ${obj2xtndir}/cctest.o" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/cc65"><arg line="-t apple2 -I . -Oi ${srcdir}/xtn/2-cc65/hexdump.c -o ${obj2xtndir}/hexdump.asm" /></exec>
+		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/hexdump.lst ${obj2xtndir}/hexdump.asm -o ${obj2xtndir}/hexdump.o" /></exec>
 
 		<!-- Disassembled Batch -->
 		<exec dir="${srcdir}" executable="${assemblerPath}/ca65"><arg line="-t none -I . -l ${srcdir}/xtn/2/aaf.lst ${srcdir}/xtn/2/aaf.asm -o ${obj2xtndir}/aaf.o" /></exec>
@@ -163,6 +167,11 @@
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o viewdhr -m viewdhr.map -C ${srcdir}/xtn/2/xtn_ac00.cfg viewdhr.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o viewhr -m viewhr.map -C ${srcdir}/xtn/2/xtn_ae00.cfg viewhr.o" /></exec>
 		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="-o wc -m wc.map -C ${srcdir}/xtn/2/xtn_a000.cfg wc.o" /></exec>
+
+		<echo message="Linking C externals..."/>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="--start-addr 0xA000 -o cctest -m cctest.map -C ${srcdir}/xtn/2-cc65/apple2-DavexXC.cfg cctest.o DavexXC.o ${assemblerPath}/../lib/apple2.lib" /></exec>
+		<exec dir="${obj2xtndir}" executable="${assemblerPath}/ld65"><arg line="--start-addr 0xA000 -o hexdump -m hexdump.map -C ${srcdir}/xtn/2-cc65/apple2-DavexXC.cfg hexdump.o DavexXC.o ${assemblerPath}/../lib/apple2.lib" /></exec>
+
 	</target>
 	<target name="xtn-builddsk">
 		<!--
@@ -240,6 +249,7 @@
 		<appleCommander command="p" input="${obj2xtndir}/wc" imagename="${distdir}/DavexProDOS.po" filename="xtn/wc" type="p8c" address="32769"/>
 
 		<appleCommander command="p" input="${obj2xtndir}/cctest" imagename="${distdir}/DavexProDOS.po" filename="xtn/cctest" type="p8c" address="32769"/>
+		<appleCommander command="p" input="${obj2xtndir}/hexdump" imagename="${distdir}/DavexProDOS.po" filename="xtn/hexdump" type="p8c" address="32769"/>
 
 		<echo message="ProDOS 3.5 disk externals complete."/>
 	</target>
