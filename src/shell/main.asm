@@ -294,9 +294,9 @@ wentD:
 nullcmd:
 	rts
 nullentr:
-	.byte 'x',0
+	.byte 'x',0	; command name
 	.addr nullcmd
-	.byte 0,0	;no parms
+	.byte $FF	;no parms
 
 gdParms:
 	.byte 1
@@ -957,19 +957,18 @@ overflow:
 	lda #der_bignum
 	bne der3
 
+; CLC if character is a digit, SEC otherwise
 chk_dig:
-	cmp #_'9'+1
-	bcs chkdig_no
 	cmp #_'0'
 	bcc chkdig_no
-	clc
+	cmp #_'9'+1
 	rts
 chkdig_no:
 	sec
 	rts
 
 ;
-; mult10um - multiply num (4 bytes) by 10
+; mult10num - multiply num (4 bytes) by 10
 ;
 ; destroys temp (4 bytes)
 ;
@@ -1023,16 +1022,8 @@ hex_1:	pha
 	jsr mult2num
 	jsr mult2num
 	pla
-	clc
-	adc num
+	ora num		;never overflows byte here
 	sta num
-	bcc hnum_ok
-	inc num+1		; the following long-standing BCC is buggy, but actually we can never get SEC here
-	bcc hnum_ok
-	inc num+2
-	bne hnum_ok
-	jmp overflow
-hnum_ok:
 	jsr chrget
 	jsr chk_hex
 	bcc hex_1
@@ -1677,9 +1668,9 @@ cmdtbl:
 	CommandName "spool"
 	.addr go_spool
 	.byte 0,t_wildpath
-;dfb 'h',t_string ;header
-;dfb 'l',t_int1 ;lines/page
-;dfb 'w',t_int1 ;page width
+;.byte 'h',t_string ;header
+;.byte 'l',t_int1 ;lines/page
+;.byte 'w',t_int1 ;page width
 	.byte 'x',t_int1	;cancel 1
 	.byte 'z',t_nil	;zap (cancel all)
 	NoMoreParameters
