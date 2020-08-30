@@ -8596,7 +8596,7 @@ no_stop:
 	lda #1
 	rts
 
-.if 1
+.if 0
 ;---------------------------------------------------------
 ; dumphex: Dump out successive bytes of a memory range, given an address
 ; dumphex_ptr: Dump out successive bytes of a memory range, given a pointer to be dereferenced first
