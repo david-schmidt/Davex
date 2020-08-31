@@ -21,15 +21,15 @@ const struct XCHeader gCommandHeader =
 	XC_STARTUP,
 	kMinDavexVersionMinor,
 	0, 0, 0,
-	// Parameters
+	// Parameters (PARM_COUNT of them)
 	{
 		{ 0, t_wildpath },
-		{ 0x80+'a', t_nil }, // ASCII only
-		{ 0x80+'h', t_nil }, // Hex only
-		{ 0x80+'o', t_nil }, // no Offsets displayed
-		{ 0x80+'m', t_nil }, // dump Memory
-		{ 0x80+'s', t_int3 }, // Starting offset
-		{ 0x80+'e', t_int3 }, // Ending offset
+		{ 'a', t_nil }, // ASCII only
+		{ 'h', t_nil }, // Hex only
+		{ 'o', t_nil }, // no Offsets displayed
+		{ 'm', t_nil }, // dump Memory
+		{ 's', t_int3 }, // Starting offset
+		{ 'e', t_int3 }, // Ending offset
 		{ 0, 0 }
 	}
 };

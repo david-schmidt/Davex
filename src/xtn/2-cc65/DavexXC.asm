@@ -38,7 +38,6 @@ _COUT = $fded
 ;	extern _Bool __fastcall__ xgetparm_ch_nil(uint8_t optionCharacter);
 .export _xgetparm_ch_nil
 _xgetparm_ch_nil:
-	ora #$80
 	jsr xgetparm_ch
 	jmp returnTrueForCLC
 
@@ -53,8 +52,7 @@ _xgetparm_ch_nil:
 _xgetparm_ch_int3:
 	stx num+1
 	sta num
-	jsr popa			; option character
-	ora #$80			; [TODO] change shell not to require high bit
+	jsr popa			; option character [TODO] pop just 1 byte, or 2?
 	jsr xgetparm_ch
 getparm_return_int3:
 	bcs :+
