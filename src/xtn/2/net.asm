@@ -34,7 +34,7 @@ OrgAdr	= $9000	;change as necessary (end below $B000)
 BigBuffer	= $A000
 
 MyVersion	= $05
-MinVersion	= $11
+MinVersion	= $14
 ;*********************************************
 	rts
 	.byte $ee,$ee
@@ -45,14 +45,14 @@ MinVersion	= $11
 	.addr start
 	.byte 0,0,0,0
 ; parameters here
-	.byte $80+'l',t_nil
-	.byte $80+'i',t_nil
-	.byte $80+'z',t_string
-	.byte $80+'p',t_nil
-	.byte $80+'k',t_string
-	.byte $80+'s',t_nil
-	.byte $80+'n',t_string
-	.byte $80+'r',t_yesno
+	.byte 'l',t_nil
+	.byte 'i',t_nil
+	.byte 'z',t_string
+	.byte 'p',t_nil
+	.byte 'k',t_string
+	.byte 's',t_nil
+	.byte 'n',t_string
+	.byte 'r',t_yesno
 	.byte 0,0
 descr:	pstr "AppleTalk experimental"
 	
@@ -337,9 +337,8 @@ DoPrinter:
 	jsr xprint_path
 	jsr crout
 	lda dirFlag
-	jsr $fdda
-	jsr crout
-	rts
+	jsr prbyte
+	jmp crout
 
 PrinterP:
 	.byte 0
@@ -355,7 +354,7 @@ DoLookup:
 	lda #'='
 	sta pagebuff+1
 
-	lda #'k'+$80
+	lda #'k'
 	jsr xgetparm_ch
 	bcc use_Kind
 	lda #>Wildcard
@@ -370,7 +369,7 @@ copyKind:
 	dey
 	bpl copyKind
 
-	lda #'z'+$80
+	lda #'z'
 	jsr xgetparm_ch
 	bcs UseMyZone
 	sta str+1
@@ -397,9 +396,7 @@ copyZ:	lda (str),y
 	.addr LookupP
 
 	jsr xmess
-	
 	asc "Number of matches: $"
-	
 	.byte 0
 	lda lkupCount
 	jsr prbyte

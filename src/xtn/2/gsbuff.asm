@@ -72,7 +72,7 @@ badslot:
 ;*********************************************
 start:	sty slotnum
 	sec
-	jsr $fe1f
+	jsr idroutine
 	bcc is_gs
 	jsr xmess
 	.byte cr
@@ -206,9 +206,9 @@ nh_error:
 	asc "*** error allocating memory: $"
 	.byte 0
 	lda error2+1
-	jsr $fdda	;PRBYTE
+	jsr prbyte
 	lda error2
-	jsr $fdda	;PRBYTE
+	jsr prbyte
 	jsr crout
 	jmp my_xerr
 
@@ -248,22 +248,22 @@ PrintBuffInfo:
 	asc ", address=$"
 	.byte 0
 	lda buffadr+3
-	jsr $fdda
+	jsr prbyte
 	lda buffadr+2
-	jsr $fdda
+	jsr prbyte
 	lda buffadr+1
-	jsr $fdda
+	jsr prbyte
 	lda buffadr
-	jsr $fdda
+	jsr prbyte
 	jmp crout
 error:	jsr xmess
 	.byte cr
 	asc "*** extended call returned error $"
 	.byte 0
 	lda result+1
-	jsr $fdda
+	jsr prbyte
 	lda result
-	jsr $fdda
+	jsr prbyte
 	jsr crout
 	jmp my_xerr
 

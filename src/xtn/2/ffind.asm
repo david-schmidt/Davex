@@ -249,9 +249,9 @@ detail:	lda #'d'+$80
 	
 	.byte 0
 	lda catbuff+$20
-	jsr $fdda
+	jsr prbyte
 	lda catbuff+$1f
-	jsr $fdda
+	jsr prbyte
 	jsr xmess
 
 	
@@ -308,7 +308,7 @@ plainpath:
 	ldy #<catbuff
 	jmp xprint_path
 
-abort0:	sta $c010
+abort0:	sta kbdstrb
 abort:	lda #der_abort
 	jmp xProDOS_err
 

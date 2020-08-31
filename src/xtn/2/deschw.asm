@@ -115,37 +115,29 @@ systemtype:
 	asc "System:  "
 	.byte 0
 	sec
-	jsr $fe1f
+	jsr idroutine
 	bcc st_gs
 	jmp IdentNotGS
 ;
 st_gs:	jsr xmess
-
-
 	asc "Apple IIgs, ROM version $"
-
 	.byte 0
 	clc
+; [TODO] Use .p816
 	.byte b_xce,b_rep,$30
-	jsr $fe1f
+	jsr idroutine
 	.byte b_phy
 	sec
 	.byte b_xce
 	pla
-	jsr $fdda
+	jsr prbyte
 	jsr xmess
-
-
 	asc "  (Machine ID=$"
-
 	.byte 0
 	pla
-	jsr $fdda
+	jsr prbyte
 	jsr xmess
-
-
 	asc ")"
-
 	.byte 0
 	jsr my_crout
 	clc
@@ -163,10 +155,7 @@ st_gs:	jsr xmess
 	sec
 	.byte b_xce
 	jsr xmess
-
-
 	asc "Total RAM = "
-
 	.byte 0
 	ldx #10
 div1K:	lsr totalmem+3
@@ -213,29 +202,20 @@ not_2p3:
 	cmp #$ea
 	bne Not2e1
 	jsr xmess
-
-
 	asc "Apple IIe (unenhanced)"
-
 	.byte 0
 	rts
 Not2e1:	cmp #$e0
 	bne not2e2
 	jsr xmess
-
-
 	asc "Apple IIe (enhanced)"
-
 	.byte 0
 	rts
 not2e2:
 	cmp #$e1
 	bne notDbgr
 	jsr xmess
-
-
 	asc "Apple IIe (special ROMs)"
-
 	.byte 0
 	rts
 notDbgr:
@@ -246,10 +226,7 @@ notDbgr:
 	cmp #5
 	beq IIcPlus
 	jsr xmess
-
-
 	asc "Apple IIc, version "
-
 	.byte 0
 	lda $fbbf
 	cmp #$ff
@@ -262,45 +239,28 @@ notDbgr:
 	beq TwoC4
 unkn0:	jmp unknown
 IIcPlus:	jsr xmess
-
-
 	asc "Apple IIc Plus"
-
 	.byte 0
 	rts
 TwoC1:	jsr xmess
-
-
 	asc "1"
-
 	.byte 0
 	rts
 TwoC2:	jsr xmess
-
-
 	asc "2: 3.5"
-
 	.byte $a2
-
-
 	asc " disk ROM"
-
 	.byte 0
 	rts
 TwoC3:	jsr xmess
-
-
 	asc "3: Memory Expandable"
-
 	.byte 0
 	rts
 TwoC4:	jsr xmess
-
-
 	asc "4: Revised Mem. Expandable"
-
 	.byte 0
 	rts
+
 ;****************************************************
 scanslots:
 	lda #1
@@ -313,19 +273,13 @@ ss1:	jsr scan1
 	rts
 ;
 scan1:	jsr xmess
-
-
 	asc "Slot "
-
 	.byte 0
 	lda slot
-	ora #'0'+$80
+	ora #_'0'
 	jsr cout
 	jsr xmess
-
-
 	asc ": "
-
 	.byte 0
 	lda slot
 	ora #$c0
@@ -334,9 +288,8 @@ scan1:	jsr xmess
 	sta rom
 	jsr PrSlotDesc
 	jsr my_crout
-	jsr MaybeATLK
-	rts
-;
+	jmp MaybeATLK
+
 ATLKsig:	asc "ATLK"
 	.byte 0
 MaybeATLK:
@@ -348,10 +301,7 @@ at_chk:	lda (rom),y
 	cpy #$FE
 	bcc at_chk
 	jsr xmess
-
-
 	asc "        AppleTalk card; version="
-
 	.byte 0
 	ldy #$fe
 	lda (rom),y
@@ -377,15 +327,12 @@ prnib:	and #$0F
 	adc #6
 prn_dig:	adc #$B0
 	jmp cout
-;
+
 SlotEmpty:	jsr xmess
-
-
 	asc "empty"
-
 	.byte 0
 	rts
-;
+
 notPasc0:	jmp notPasc
 PrSlotDesc:
 	ldy slot
@@ -408,19 +355,13 @@ PrSlotDesc:
 	lda (rom),y
 	pha
 	jsr xmess
-
-
 	asc "Pascal ID = $"
-
 	.byte 0
 	pla
 	pha
 	jsr prbyte
 	jsr xmess
-
-
 	asc ": "
-
 	.byte 0
 	pla
 	lsr a
@@ -439,31 +380,19 @@ PascTbl:
 	.addr ps8-1,ps9-1,ps10-1,ps0-1,ps0-1,ps0-1,ps0-1,ps0-1
 ;
 ps0:	jsr xmess
-
-
 	asc "???"
-
 	.byte 0
 	rts
 ps1:	jsr xmess
-
-
 	asc "printer"
-
 	.byte 0
 	rts
 ps2:	jsr xmess
-
-
 	asc "joystick/mouse"
-
 	.byte 0
 	rts
 ps3:	jsr xmess
-
-
 	asc "serial or parallel card"
-
 	.byte 0
 	rts
 ps4:	jsr xmess
@@ -614,16 +543,13 @@ desNotSP:	inc slot
 ;
 Descr1SP:
 	jsr xmess
-
-
 	asc "SmartPort controller found in slot "
-
 	.byte 0
 	lda slot
-	ora #'0'+$80
+	ora #_'0'
 	jsr cout
 	jsr xmess
-	.byte $80+'.',cr,0
+	.byte _'.',cr,0
 ; find the entry point
 	ldy #$ff
 	lda (rom),y
@@ -647,10 +573,7 @@ SpStatus:
 	jsr CallSP
 	bcs staterr
 	jsr xmess
-
-
 	asc "Number of devices: "
-
 	.byte 0
 	lda #0
 	ldy NumDevs
@@ -680,10 +603,7 @@ es_done:	rts
 ;
 StatOneUnit:
 	jsr xmess
-
-
 	asc "Unit #"
-
 	.byte 0
 	lda Unit
 	sta UnitNum
@@ -691,10 +611,7 @@ StatOneUnit:
 	lda #0
 	jsr xprdec_2
 	jsr xmess
-
-
 	asc ": "
-
 	.byte 0
 	ldx #sptSTATUS
 	lda #>Stat1parms
@@ -709,10 +626,7 @@ statok:
 	jsr my_crout
 ;
 	jsr xmess
-
-
 	asc "         Blocks: "
-
 	.byte 0
 	lda NumBlocks+2
 	ldx NumBlocks+1
@@ -724,10 +638,7 @@ statok:
 	jsr my_crout
 ;
 	jsr xmess
-
-
 	asc "         Device name: "
-
 	.byte 0
 	ldx #0
 	ldy NameLen
@@ -741,48 +652,32 @@ prname1:	lda NameLen+1,x
 ;
 	jsr PrintType
 	jsr xmess
-
-
 	asc ", subtype=$"
-
 	.byte 0
 	lda DevSubtype
-	jsr $fdda
+	jsr prbyte
 	jsr xmess
-
-
 	asc ", version=$"
-
 	.byte 0
 	lda UnitVersion+1
-	jsr $fdda
+	jsr prbyte
 	lda UnitVersion
-	jsr $fdda
-	jsr my_crout
-	rts
+	jsr prbyte
+	jmp my_crout
 ;
 PrintType:
 	jsr xmess
-
-
 	asc "         Type = "
-
 	.byte 0
 	lda #0
 	ldy DevType
 	jsr xprdec_2
 	jsr xmess
-
-
 	asc " ("
-
 	.byte 0
 	jsr prtype2
 	jsr xmess
-
-
 	asc ")"
-
 	.byte 0
 	rts
 
@@ -803,27 +698,18 @@ PrintStatByte:
 	sta scratch
 	jsr sb7
 	jsr xmess
-
-
 	asc ", "
-
 	.byte 0
 	asl scratch
 	asl scratch
 	jsr ChkNot
 	jsr xmess
-
-
 	asc "online, "
-
 	.byte 0
 	asl scratch
 	jsr ChkNot
 	jsr xmess
-
-
 	asc "write protected"
-
 	.byte 0
 	rts
 ;

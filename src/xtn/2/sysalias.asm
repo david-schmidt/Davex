@@ -52,6 +52,7 @@
 	.include "Common/2/Mli.globals2.asm"
 	.include "Common/Macros.asm"
 
+rdkey = $fd0c
 
 .segment	"CODE_A000"
 
@@ -404,12 +405,12 @@ copyme:	lda $2000,x
 	bne copyme
 	jmp continue ; +diff1
 i_error:	pha
-	jsr $fc58
+	jsr home
 	pla
-	jsr $fdda
-	jsr $fbdd
-	jsr $fbdd
-	jsr $fd0c
+	jsr prbyte
+	jsr bell1
+	jsr bell1
+	jsr rdkey
 	jsr mli
 	.byte mli_bye
 	.addr bye_parms  ; +diff1

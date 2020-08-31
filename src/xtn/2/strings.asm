@@ -24,11 +24,10 @@
 OrgAdr	= $A000	;change as necessary (end below $B000)
 ; org OrgAdr
 
-PrByte = $fdda
 Space = $A0
 ;
-MyVersion	= $10
-MinVersion	= $11
+MyVersion	= $11
+MinVersion	= $14
 ;*********************************************
 	rts
 	.byte $ee,$ee
@@ -40,9 +39,9 @@ MinVersion	= $11
 	.byte 0,0,0,0
 ; parameters here
 	.byte 0,t_wildpath
-	.byte $80+'l',t_int1	;minimum length
-	.byte $80+'o',t_nil	;offsets
-	.byte $80+'m',t_nil	;allow mixed bit 7
+	.byte 'l',t_int1	;minimum length
+	.byte 'o',t_nil	;offsets
+	.byte 'm',t_nil	;allow mixed bit 7
 	.byte 0,0
 descr:	pstr "find printable strings in files"
 	
@@ -69,7 +68,7 @@ start:	nop	;don't let shell print wildcards
 	ldy open_path
 	jsr xprint_path
 	jsr xmess
-	.byte $80+':',cr,0
+	.byte _':',cr,0
 ;
 ; Open the source file
 ;
@@ -272,12 +271,12 @@ DoTheOffset	= *
 	lda #'$'+$80
 	jsr cout
 	lda offset+2
-	jsr PrByte
+	jsr prbyte
 	lda offset+1
-	jsr PrByte
+	jsr prbyte
 	lda offset
-	jsr PrByte
-	lda #':'+$80
+	jsr prbyte
+	lda #_':'
 	jsr cout
 	lda #Space
 	jsr cout

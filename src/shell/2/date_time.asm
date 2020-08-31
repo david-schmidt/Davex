@@ -11,8 +11,8 @@ print_time:
 	jsr validate_year_number
 
 	sec
-	jsr $fe1f	;an RTS in not-IIgs
-	bcs :+		;not IIgs
+	jsr idroutine	;an RTS in not-IIgs
+	bcs :+			;not IIgs
 	lda cfgclock	;Use IIgs clock?
 	bne doGSclk
 :	lda date+1

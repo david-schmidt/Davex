@@ -45,7 +45,6 @@
 
 orgadr	= $9800
 ; org orgadr
-;prbyte = $fdda
 ;
 myversion	= $09
 minversion	= $11

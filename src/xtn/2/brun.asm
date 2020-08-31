@@ -33,11 +33,13 @@
 .segment	"CODE_2000"
 
 orgadr	= $2000
-; sys
 ; org orgadr
 	.include "Common/2/Apple.Globals2.asm"
 	.include "Common/2/Mli.globals2.asm"
-	;
+
+rdkey = $fd0c
+
+.define _(char) char | $80
 
 ;*********************************************
 filebuff	= $bb00
@@ -54,27 +56,27 @@ thePath:	.byte 0,0,0,0,0,0,0,0,0,0 ;10 zeroes
 	.byte 0,0,0,0,0,0,0,0,0,0 ;10 zeroes
 	.byte 0,0,0,0,0,0,0,0,0,0 ;10 zeroes
 image2	= *
-	lda $3f3
-	sta $3f4
-	jsr $fe84
-	jsr $fb2f
-	jsr $fe89
-	jsr $fe93
-	jsr $fc58
+	lda reset+1
+	sta reset+2	; make reset reboot
+	jsr normal
+	jsr f8rom_init
+	jsr setkbd
+	jsr setvid
+	jsr home
 	lda $c000
-	cmp #$b8
+	cmp #_'8'
 	beq yes80
-	cmp #$b3	;"3"?
+	cmp #_'3'
 	bne no80colmn
 yes80:	lda #$c3
 	ldy #0
 	sta $37
 	sty $36
-	sta $c010	;clear kbd
-	jsr $fd8e	;crout
+	sta kbdstrb		;clear kbd
+	jsr crout
 no80colmn	= *
-	lda $3f3
-	sta $3f4
+	lda reset+1
+	sta reset+2
 	lda #0
 	sta level
 	ldx #0
@@ -88,12 +90,12 @@ copyme:	lda $2000,x
 	bne copyme
 	jmp continue+diff1
 i_error:	pha
-	jsr $fc58
+	jsr home
 	pla
-	jsr $fdda
-	jsr $fbdd
-	jsr $fbdd
-	jsr $fd0c
+	jsr prbyte
+	jsr bell1
+	jsr bell1
+	jsr rdkey
 OutaHere	= *
 	jsr mli
 	.byte mli_bye

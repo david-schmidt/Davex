@@ -27,6 +27,7 @@
 	sta level
 .endmacro
 
+; [TODO] use .p816 instead of invoking this macro
 .macro XCE
 	.byte $fb
 .endmacro

@@ -97,7 +97,7 @@ two_e:	ror two_e_flag
 no80xc:	txa
 	pha
 	sec
-	jsr $fe1f	;Contains RTS in not-IIgs
+	jsr idroutine	;Contains RTS in not-IIgs
 	pla
 	bcs no_IIgs
 	ora #%00001000	;IIgs

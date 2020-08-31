@@ -175,12 +175,12 @@ DoTheOffset	= *
 	jsr cout
 	lda offset+2
 ;beq dto_1
-	jsr $fdda
+	jsr prbyte
 dto_1:	lda offset+1
-	jsr $fdda
+	jsr prbyte
 	lda offset
-	jsr $fdda
-	lda #':'+$80
+	jsr prbyte
+	lda #_':'
 	jsr cout
 	lda #Space
 	jsr cout
@@ -218,7 +218,7 @@ DoTheHex	= *
 MoreHex:	cpx count
 	bcs Blanks
 	lda data,x
-	jsr $fdda
+	jsr prbyte
 	lda #Space
 	jsr cout
 	inx

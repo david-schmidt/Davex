@@ -1846,8 +1846,8 @@ go_quit:
 	sta $3fd
 	sty $3fc
 
-	lda $3f3
-	sta $3f4
+	lda reset+1
+	sta reset+2
 ; quitting to S16?
 	bit s16_flag
 	bmi quit_s16
@@ -1883,7 +1883,7 @@ go_boot:
 ; If IIgs, do what the ProDOS-16 PQUIT thinger does
 ; on 'Reboot system'
 	sec
-	jsr $fe1f	;CLC on IIgs
+	jsr idroutine	;CLC on IIgs
 	bcs rb_NotGS
 	sei
 	lda #0
@@ -5910,8 +5910,8 @@ off80:
 .if IsDavex2
 	jsr mess
 	.byte _'U'-ctrl,_'T'-ctrl,_'A',_'1',0	; for an old 80-column card on Apple II+?
-	jsr $fe89
-	jsr $fe93
+	jsr setkbd
+	jsr setvid
 	jsr hook_speech
 .else ; isDavex3
 	jsr on40

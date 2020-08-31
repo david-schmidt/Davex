@@ -67,7 +67,7 @@ find_mydir:
 
 	lda $281
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne fdir_partial
 	lda #0
 	sta mypath
@@ -96,7 +96,7 @@ strip_mp:
 	beq :+
 	lda mypath,x
 	ora #%10000000
-	cmp #$80+'/'
+	cmp #_'/'
 	bne strip_mp
 :	stx mypath
 	stx mydir_len
@@ -174,7 +174,7 @@ pe_fnd:	inc p
 	jmp crout
 
 pe_notfnd:
-	lda #$80+'$'
+	lda #_'$'
 	jsr cout
 	lda errcode
 	jsr prbyte
@@ -189,14 +189,14 @@ bell:
 	lda cfgbell
 	bne sysbell
 	ldy #32
-bell1:	lda #2
+:	lda #2
 	jsr wait
 	sta spkr
 	lda #$24
 	jsr wait
 	sta spkr
 	dey
-	bne bell1
+	bne :-
 	rts
 
 fix_stack:

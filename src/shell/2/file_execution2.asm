@@ -1,3 +1,6 @@
+
+rdkey = $fd0c
+
 ;****************************************
 ;
 ; shell/runcmd -- SYS/BIN/S16 file runner
@@ -7,7 +10,7 @@
 run_s16:
 	jsr notspool
 	sec
-	jsr $fe1f	;IIgs?
+	jsr idroutine	;IIgs?
 	bcs typerr
 	lda #>bridge_name
 	ldy #<bridge_name
@@ -101,8 +104,8 @@ copy280:
 no_return:
 	jsr copy_loader
 	jsr off80
-	jsr $fe89
-	jsr $fe93
+	jsr setkbd
+	jsr setvid
 	start_normal
 	jsr home
 	lda #>cmdpath
@@ -110,8 +113,8 @@ no_return:
 	jsr print_path
 	message_cstr_cr "..."
 	jsr hook_speech
-	lda $3f3
-	sta $3f4	; cause Reset to reboot
+	lda reset+1
+	sta reset+2	; cause Reset to reboot
 
 	lda #$ff	; disconnect NMI
 	ldy #$59
@@ -301,13 +304,13 @@ myqcode:
 	cld
 	lda $c082
 	sta $c00c
-	jsr $fe89
-	jsr $fe93
+	jsr setkbd
+	jsr setvid
 	start_normal
 	jsr f8rom_init
 	jsr home
-	lda $3f3
-	sta $3f4
+	lda reset+1
+	sta reset+2
 ; init brkv
 	lda #$fa
 	sta $3f1
@@ -357,7 +360,7 @@ qtprobx:
 	jsr qtone
 	lda #$e
 	jsr qtone
-	jsr $fd0c
+	jsr rdkey
 	jsr home
 	jmp rtn_again-myqcode+$1000
 
@@ -444,9 +447,9 @@ lderr1:	lda lderrmsg-loader+$1800,x
 	bpl lderr1
 	pla
 	jsr prbyte
-	lda $3f3
-	sta $3f4
-	jsr $fd0c
+	lda reset+1
+	sta reset+2
+	jsr rdkey
 	CALLOS mli_bye, ldbye-loader+$1800
 	jmp ($fffc)
 ldbye:	.byte 4,0,0,0,0,0,0

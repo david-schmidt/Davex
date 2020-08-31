@@ -449,9 +449,9 @@ wait_ac2:	jsr inchar
 debugByte:
 	bit Debug
 	bpl dbbx
-	jsr $fdda
-	lda #$a0
-	jsr $fded
+	jsr prbyte
+	lda #_' '
+	jsr cout
 dbbx:	rts
 ;
 print_status:
@@ -463,10 +463,7 @@ print_status:
 	rts
 stat1:	jsr xmess
 	.byte cr
-
-	
 	asc_hi "S=1"
-	
 	.byte cr,0
 	rts
 ;
