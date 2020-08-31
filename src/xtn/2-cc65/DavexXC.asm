@@ -25,12 +25,22 @@ _XC_STARTUP:
 .export COUT
 COUT = $fded
 
-.export _PRBYTE
-_PRBYTE = $fdda
-
 ; export COUT() for direct use from C: Prints character in inverse if bit 7 is clear.
 .export _COUT
-_COUT = $fded
+_COUT = cout
+
+.export _CROUT
+_CROUT = crout
+
+.export _PRBYTE
+_PRBYTE = prbyte
+
+.export _SETNORM
+_SETNORM = normal
+
+.export _SETINV
+_SETINV = inverse
+
 
 ; __fastcall__ calling convention: last parameter is in sreg+1/sreg/X/A
 ; return value in XA, or sreg+1/sreg/X/A
@@ -41,11 +51,37 @@ _xgetparm_ch_nil:
 	jsr xgetparm_ch
 	jmp returnTrueForCLC
 
-;	extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // int1, filetype, devnum, yesno
-; [TODO]
+;	extern _Bool __fastcall__ xgetparm_ch_int1(uint8_t optionCharacter, uint8_t* outValue); // int1
+.export _xgetparm_ch_int1
+_xgetparm_ch_int1:
+	stx p+1
+	sta p
+	jsr popa			; option character [TODO] pop just 1 byte, or 2?
+	jsr xgetparm_ch		; 1-byte result in Y
+	bcs :+
+	tya
+	ldy #0
+	sta (p),y
+:	jmp returnTrueForCLC
 
 ;	extern _Bool __fastcall__ xgetparm_ch_int2(uint8_t optionCharacter, uint16_t* outValue);
-; [TODO]
+.export _xgetparm_ch_int2
+_xgetparm_ch_int2:
+	stx num+1
+	sta num
+	jsr popa			; option character [TODO] pop just 1 byte, or 2?
+	jsr xgetparm_ch		; 2-byte result in XY
+getparm_return_int2:
+	bcs :+
+; Result is in XY, and we need to store it at (num) as 2 bytes
+	tya
+	ldy #0
+	sta (num),y
+	txa
+	iny
+	sta (num),y
+:	jmp returnTrueForCLC
+
 
 ;	extern _Bool __fastcall__ xgetparm_ch_int3(uint8_t optionCharacter, uint32_t* outValue);
 .export _xgetparm_ch_int3
@@ -71,6 +107,20 @@ getparm_return_int3:
 	iny
 	sta (num),y
 :	jmp returnTrueForCLC
+
+
+;	extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // filetype, devnum, yesno
+.export _xgetparm_ch_byte
+_xgetparm_ch_byte:
+	stx p+1
+	sta p
+	jsr popa			; option character [TODO] pop just 1 byte, or 2?
+	jsr xgetparm_ch		; 1-byte result in A (differs from int1)
+	bcs :+
+	ldy #0
+	sta (p),y
+:	jmp returnTrueForCLC
+
 
 ;	extern _Bool __fastcall__ xgetparm_n_int3(uint8_t index, uint32_t* outValue);
 .export _xgetparm_n_int3
@@ -111,6 +161,7 @@ _xgetparm_n_int3:
 ;	extern void __fastcall__ xmessage(const uint8_t*);
 .export _xmessage
 _xmessage:
+; [TODO] export this from the shell as xmessage ?
 	stx loadCharacter+2
 	sta loadCharacter+1
 	ldy #0
@@ -324,6 +375,19 @@ _xdirty = xdirty
 _xgetnump:
 	jsr xgetnump
 	ldx #0	;extend result to 16 bits
+	rts
+
+;	extern uint8_t __fastcall__ ProDOS(uint8_t call, void* params);
+.export _ProDOS
+_ProDOS:
+	stx @params+1
+	sta @params
+	jsr popa
+	sta @callNum
+	jsr mli
+@callNum: .byte 0
+@params: .addr 0
+	ldx #0		; error in A
 	rts
 
 .segment "ONCE"

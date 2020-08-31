@@ -44,23 +44,27 @@ struct XCHeader
 
 extern void PRBYTE(uint8_t);
 extern void COUT(uint8_t);
-// [TODO] CROUT directly from ROM
+extern void CROUT();
+extern void SETNORM();
+extern void SETINV();
 
 // #define FUNC(addr) ((void __fastcall__ (*)())addr)
 // void __fastcall__ xpoll_io() { FUNC(0xB05B)(); }
 
-
+// [TODO] _Bool -> bool ?
 extern _Bool __fastcall__ xgetparm_ch_nil(uint8_t optionCharacter);
-extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // int1, filetype, devnum, yesno
+extern _Bool __fastcall__ xgetparm_ch_int1(uint8_t optionCharacter, uint8_t* outValue); // not for filetype, devnum, or yesno
 extern _Bool __fastcall__ xgetparm_ch_int2(uint8_t optionCharacter, uint16_t* outValue);
 extern _Bool __fastcall__ xgetparm_ch_int3(uint8_t optionCharacter, uint32_t* outValue);
+extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // filetype, devnum, yesno
 extern _Bool __fastcall__ xgetparm_ch_string(uint8_t optionCharacter, uint8_t** outString);
 extern _Bool __fastcall__ xgetparm_ch_path(uint8_t optionCharacter, uint8_t** outPath);
 extern _Bool __fastcall__ xgetparm_ch_path_and_filetype(uint8_t optionCharacter, uint8_t** outPath, uint8_t* outFiletype);
 
-extern _Bool __fastcall__ xgetparm_n_byte(uint8_t index, uint8_t* outValue); // int1, filetype, devnum, yesno
+extern _Bool __fastcall__ xgetparm_n_int1(uint8_t index, uint8_t* outValue); // not for filetype, devnum, or yesno
 extern _Bool __fastcall__ xgetparm_n_int2(uint8_t index, uint16_t* outValue);
 extern _Bool __fastcall__ xgetparm_n_int3(uint8_t index, uint32_t* outValue);
+extern _Bool __fastcall__ xgetparm_n_byte(uint8_t index, uint8_t* outValue); // filetype, devnum, yesno
 extern _Bool __fastcall__ xgetparm_n_string(uint8_t index, uint8_t** outString);
 extern _Bool __fastcall__ xgetparm_n_path(uint8_t index, uint8_t** outPath);
 extern _Bool __fastcall__ xgetparm_n_path_and_filetype(uint8_t index, uint8_t** outPath, uint8_t* outFiletype);
@@ -106,7 +110,7 @@ extern uint8_t __fastcall__ xrdkey(); // ;v1.1
 extern void __fastcall__ xdirty();	// v1.1
 extern uint8_t __fastcall__ xgetnump(); // v1.1
 
-// [TODO] extern void __fastcall__ xshell_info(unsigned char selector); // v1.25 // [TODO] Return value varies?
+// [TODO] extern void __fastcall__ xshell_info(uint8_t selector); // v1.25 // [TODO] Return value varies?
 //	input:  X=request code
 //	output: CLC, requested information in registers/etc.
 //			SEC, requested information not available
@@ -117,10 +121,29 @@ extern uint8_t __fastcall__ xgetnump(); // v1.1
 //	X=2:  Get history buffer (AY=address, X=size in pages)
 //	X=3:  Get internal filetype table (AY=address)
 //	X=4:  Get internal filetype name table (AY=address)
+//
+// extern uint16_t __fastcall__ xshell_info_version(); -- returns $0abc ($0123 = 1.23)
+// extern uint8_t* __fastcall__ xshell_info_aliases(uint8_t* outPages);
+// extern uint8_t* __fastcall__ xshell_info_history(uint8_t* outPages);
+// extern uint8_t* __fastcall__ xshell_info_filetypes();
+// extern uint8_t* __fastcall__ xshell_info_filetype_names();
 
 //
 
-// [TODO] External commands may use 'filebuff', 'filebuff2', and 'filebuff3', defined in GLOBALS; each one is $400 bytes long.
+#define filebuff	((uint8_t*)0x800)	// size $400
+#define filebuff2	((uint8_t*)0xC00)	// size $400
+#define filebuff3	((uint8_t*)0x1000)	// size $400
+
+#define pagebuff 	((uint8_t*)0x1800)	// size $100
+#define catbuff		((uint8_t*)0x1A02)	// size $80
+
+#define wildstring1	((uint8_t*)0x1C3F)	// size 128
+#define wildstring2	((uint8_t*)0x1CBF)	// size 128
+#define wildseg		((uint8_t*)0x1D3F)	// size 16
 
 // [TODO] The high bit of 'xspeech' is on when a speech synthesizer is being used.
+// [TODO] xnum and others
+
+// ProDOS
+extern uint8_t __fastcall__ ProDOS(uint8_t call, void* params);
 

@@ -7,7 +7,7 @@ const char gDescription[];	// forward declaration, since gCommandHeader must com
 #define kMinDavexVersion 0x14
 #define kMinDavexVersionMinor 0
 
-#define PARM_COUNT 7	// define before including DavexXC.h
+#define PARM_COUNT 8	// define before including DavexXC.h
 #include "DavexXC.h"
 
 const struct XCHeader gCommandHeader =
@@ -24,6 +24,7 @@ const struct XCHeader gCommandHeader =
 	// Parameters (PARM_COUNT of them)
 	{
 		{ 0, t_wildpath },
+		{ 'd', t_devnum },
 		{ 'a', t_nil }, // ASCII only
 		{ 'h', t_nil }, // Hex only
 		{ 'o', t_nil }, // no Offsets displayed
@@ -36,22 +37,27 @@ const struct XCHeader gCommandHeader =
 
 const char gDescription[] = "\x22" "Dump a file or memory in hex/ASCII";
 
-void CROUT() { putchar('\r'); }
 void Space() { putchar(' '); }
 
 uint32_t gStartOffset;
 uint32_t gEndOffset;
+uint8_t gDevNum;
+uint8_t gBlockMode;
 
 uint32_t gOffset;
 uint8_t gBytesPerLine;
 uint16_t gAmountRead;
 
-_Bool gDumpMemory;
+bool gDumpMemory;
+bool gBlockValid;
 
-#define pagebuff ((uint8_t*)0x800)
+uint16_t gCurrentBlock;
+
+
 #define err_eof 0x4C	// ProDOS end of file error
 
 uint8_t ReadSome();
+bool ShouldHighlight(uint8_t);
 
 void main()
 {
@@ -59,6 +65,8 @@ void main()
 	_Bool showHex = xgetparm_ch_nil('h');
 	_Bool showOffsets = !xgetparm_ch_nil('o');
 	gDumpMemory = xgetparm_ch_nil('m');
+	gBlockMode = xgetparm_ch_byte('d', &gDevNum);
+	gBlockValid = false;
 
 	if (!showASCII && !showHex)
 		showASCII = showHex = true;
@@ -69,8 +77,8 @@ void main()
 		gEndOffset = 0xFFFFFF;
 
 	{
-		const uint8_t bytesPerLine = showHex ? 16 : 64;
-		for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += bytesPerLine)
+		gBytesPerLine = showHex ? 16 : 64;
+		for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += gBytesPerLine)
 		{
 			uint8_t err = ReadSome();
 			if (err == err_eof)
@@ -78,25 +86,33 @@ void main()
 			if (err != 0)
 				xProDOS_err(err);	// does not return
 
-#if 0 // using printf() added 1,885 bytes
-			if (showOffsets)
-				printf("%06lX: ", offset);
-#else
+			// "Block n"
+			if (gBlockMode && (gOffset & 511) == 0)
+			{
+				xmessage("Block ");
+				xprdec_2(gOffset / 512);
+				CROUT();
+			}
+
+			// Offset:
 			PRBYTE(gOffset >> 16);
 			if (gDumpMemory)
 				putchar('/');
 			PRBYTE(gOffset >> 8);
 			PRBYTE(gOffset);
-//			fputs(": ", stdout);	// fputs() works, but it adds 80 bytes (in addition to puts() overhead)
 			xmessage(": ");
-#endif
 
 			if (showHex)
 			{
 				uint8_t i;
-				for (i = 0; i < bytesPerLine; ++i)
+				for (i = 0; i < gBytesPerLine; ++i)
 				{
-					PRBYTE(pagebuff[i]);
+					uint8_t ch = pagebuff[i];
+					bool inverse = ShouldHighlight(ch);
+					if (inverse)
+						SETINV();
+					PRBYTE(ch);
+					SETNORM();
 					Space();
 				}
 			}
@@ -104,13 +120,18 @@ void main()
 			if (showASCII)
 			{
 				uint8_t i;
-				for (i = 0; i < bytesPerLine; ++i)
+				for (i = 0; i < gBytesPerLine; ++i)
 				{
-					uint8_t ch = pagebuff[i] | 0x80;
-					if (ch > 0xA0)
-						putchar(ch);
+					uint8_t ch = pagebuff[i];
+					bool inverse = ShouldHighlight(ch);
+					uint8_t ch7 = ch | 0x80;
+					if (inverse)
+						SETINV();
+					if (ch7 > 0xA0)
+						COUT(ch7);
 					else
 						putchar('.');
+					SETNORM();
 				}
 			}
 
@@ -119,6 +140,19 @@ void main()
 				return;
 		}
 	}
+}
+
+
+bool ShouldHighlight(uint8_t ch)
+{
+	// [TODO] parse command-line options to specify what data to highlight
+	if (gDumpMemory)
+		return ch >= 0x80;
+
+	if (gBlockMode)
+		return ch == 0x4C;
+
+	return false;
 }
 
 
@@ -144,17 +178,57 @@ uint8_t ByteFromMemory(uint32_t addr)
 	return *(uint8_t*)addr;
 }
 
-// Returns a ProDOS error code; [TODO] sets gAmountRead? so we can stop at the end of the file
+
+uint8_t GetBlockIntoFileBuff(uint16_t block)
+{
+	struct RWBlockParams { uint8_t count; uint8_t devnum; uint8_t* buffer; uint16_t block; };
+	static struct RWBlockParams blockParams = { 3, 0 /* dev */, filebuff, 0 };
+
+	if (gBlockValid && block == gCurrentBlock)
+		return 0;
+
+	#define READ_BLOCK 0x80
+	blockParams.devnum = gDevNum;
+	blockParams.block = block;
+	{
+		uint8_t err = ProDOS(READ_BLOCK, &blockParams);
+		if (err == 0)
+		{
+			gBlockValid = true;
+			gCurrentBlock = block;
+		}
+		return err;
+	}
+}
+
+// Returns a ProDOS error code. Sets gAmountRead so we can stop at the end of the file.
 uint8_t ReadSome()
 {
 	if (gDumpMemory)
 	{
-		// Read from offset to offset+bytesPerLine-1
+		// Read from gOffset to gOffset+gBytesPerLine-1
 		uint8_t i;
 		for (i = 0; i < gBytesPerLine; ++i)
 			pagebuff[i] = ByteFromMemory(gOffset + i);
 		gAmountRead = gBytesPerLine;
 		return 0; // noErr
+	}
+
+	if (gBlockMode)
+	{
+		uint8_t i;
+		for (i = 0; i < gBytesPerLine; ++i)
+		{
+			uint32_t offset = gOffset + i;
+			uint16_t withinBlock = offset & 511;
+			uint8_t err = GetBlockIntoFileBuff(offset / 512);
+			if (err)
+				xProDOS_err(err);
+
+			pagebuff[i] = filebuff[withinBlock];
+		}
+		gAmountRead = gBytesPerLine;
+		return 0;
 	}
 
 	xProDOS_err(0xFF);	// [TODO] files not supported yet

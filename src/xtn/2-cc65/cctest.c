@@ -39,7 +39,6 @@ const char gDescription[] = "\x17This is the description";
 
 const int kFive = 5;
 
-void CROUT() { putchar('\r'); }
 void Space() { putchar(' '); }
 
 void main()

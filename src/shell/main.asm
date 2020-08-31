@@ -889,7 +889,7 @@ pv_yesno:
 @yn:	pha
 	jsr calc_pindex
 	pla
-	sta parms+3,x
+	sta parms+3,x	; retrieved result will be in A
 	jmp chrget
 
 ;
@@ -1269,7 +1269,7 @@ pv_devnum:
 	pha
 	jsr calc_pindex
 	pla
-	sta parms+3,x
+	sta parms+3,x	; retrieved result will be in A
 	jmp chrget
 dvnerr:	lda #der_baddev
 	jmp ProDOS_err
