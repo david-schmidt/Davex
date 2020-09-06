@@ -7,7 +7,7 @@ extern const char gDescription[];	// forward declaration, because gCommandHeader
 #define kMinDavexVersion 0x14
 #define kMinDavexVersionMinor 0
 
-#define PARM_COUNT 8	// define before including DavexXC.h
+#define PARM_COUNT 9	// define before including DavexXC.h
 #include "DavexXC.h"
 
 const struct XCHeader gCommandHeader =
@@ -24,18 +24,18 @@ const struct XCHeader gCommandHeader =
 	// Parameters
 	{
 		{ 0, t_string },		// string
-		{ 0x80+'x', t_nil },	// optional -x
-		{ 0x80+'y', t_yesno },
-		{ 0x80+'1', t_int1 },
-		{ 0x80+'2', t_int2 },
-		{ 0x80+'3', t_int3 },
-		{ 0x80+'d', t_devnum },
-		{ 0x80+'f', t_ftype },
+		{ '1', t_int1 },
+		{ '2', t_int2 },
+		{ '3', t_int3 },
+		{ 'X', t_yesno },		// 1.4: 'X' can be distinct from 'x' -- capital option must come before lowercase version
+		{ 'x', t_nil },			// optional -x
+		{ 'd', t_devnum },
+		{ 'f', t_ftype },
 		{ 0, 0 }
 	}
 };
 
-const char gDescription[] = "\x17This is the description";
+const char gDescription[] = "\x1B" "Davex XC compiled with cc65";
 
 const int kFive = 5;
 
@@ -43,8 +43,6 @@ void Space() { putchar(' '); }
 
 void main()
 {
-	xmessage("Testing 2 3 4");	// [TODO] _puts is forcing to uppercase -- library not initialized?
-	CROUT();
 	xprint_ver(0x42); CROUT();
 	xprint_sd(0xE0); CROUT();
 	xpr_date(0); Space(); xpr_date(0x3333); CROUT();
@@ -53,11 +51,30 @@ void main()
 	xprdec_2(520); CROUT();
 	xprdec_3(67890L); CROUT();
 	xprdec_pad(78901); CROUT();
-	xprint_ver(strlen((char*)0x200)); CROUT();
 	xpoll_io();
 	xprint_ver(xgetnump());	CROUT();
-	xprint_path(xbuild_local("\006config")); CROUT();	// [TODO] "Pascal" strings vs. C strings
+	xprint_path(xbuild_local("\x06" "config")); CROUT();	// [TODO] "Pascal" strings vs. C strings
 
 	if (xgetparm_ch_nil('x'))
 		xmessage("Passed -x");
+
+	{
+		uint8_t yesNo;
+		if (xgetparm_ch_byte('X', &yesNo))
+		{
+			xmessage("Found -X = ");
+			PRBYTE(yesNo);
+			CROUT();
+		}
+	}
+
+	{
+		uint8_t filetype;
+		if (xgetparm_ch_byte('f', &filetype))
+		{
+			xmessage("Filetype = $");
+			PRBYTE(filetype);
+			CROUT();
+		}
+	}
 }

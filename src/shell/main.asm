@@ -638,8 +638,10 @@ one_parm:
 	bne posit_parm
 	jsr chrget
 	beq to_illeg_parm 	;"-" at end of line
-opt_ok:	jsr downcase
+opt_ok:
 	sta optchar
+	jsr downcase
+	sta optcharLowercase
 	jsr chrget	;point to char after option
 	ldy #0
 chk_allowed:
@@ -660,29 +662,26 @@ p_legal:
 	ora #$80		; 1.4: the high bit is no longer required to be set on the "option" characters
 	cmp optchar
 	beq this_parm
+	cmp optcharLowercase
+	beq this_parm
 	iny
 	iny
 	bne chk_allowed
 this_parm:
+	pha				; remember actual option character from parameter table
 	iny
 	lda (cmd_ptr),y
 	tax
 	stx last_type
-; 24-Jan-90
-	beq noMunch98
+	beq :+
 	jsr munch_space
 	ldx last_type
-noMunch98:
-;
-	lda optchar
+:	pla				; actual option character from parameter table
 	jsr pval_ax
-; 24-Jan-90
 	lda last_type
-	beq noMunchEm
+	beq :+
 	jsr munch_space
-noMunchEm:
-
-	jsr chrgot
+:	jsr chrgot
 	beq fudgex
 	cmp #_'-'
 	beq fudgex
@@ -698,6 +697,8 @@ fudgex:	clc
 	rts
 
 last_type:
+	.byte 0
+optcharLowercase:
 	.byte 0
 
 ;***********************************************
