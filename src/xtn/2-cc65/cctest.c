@@ -56,7 +56,10 @@ void main()
 	xprint_path(xbuild_local("\x06" "config")); CROUT();	// [TODO] "Pascal" strings vs. C strings
 
 	if (xgetparm_ch_nil('x'))
+	{
 		xmessage("Passed -x");
+		CROUT();
+	}
 
 	{
 		uint8_t yesNo;

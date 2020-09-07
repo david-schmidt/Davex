@@ -128,7 +128,6 @@ _xgetparm_n_int3:
 	stx num+1
 	sta num
 	jsr popa			; option character
-	ora #$80			; [TODO] change shell not to require high bit
 	jsr xgetparm_n
 	jmp getparm_return_int3	;[TODO] Better to turn this into a library, and just let this code be not-linked-in
 
@@ -152,7 +151,23 @@ _xgetparm_n_int3:
 ; [TODO]
 
 ;	extern _Bool __fastcall__ xgetparm_n_path(uint8_t index, uint8_t** outPath);
-; [TODO]
+.export _xgetparm_n_path
+_xgetparm_n_path:
+	stx num+1
+	sta num
+	jsr popa			; param index number [TODO] pop just 1 byte, or 2?
+	jsr xgetparm_n		; 2-byte result in AY
+	bcs :+
+; Result is in AY, and we need to store it at (num) as 2 bytes
+	tax
+	tya
+	ldy #0
+	sta (num),y
+	iny
+	txa
+	sta (num),y
+:	jmp returnTrueForCLC
+
 
 ;	extern _Bool __fastcall__ xgetparm_n_path_and_filetype(uint8_t index, uint8_t** outPath, uint8_t* outFiletype);
 ; [TODO]

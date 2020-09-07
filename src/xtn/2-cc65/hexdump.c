@@ -39,6 +39,9 @@ const char gDescription[] = "\x22" "Dump a file or memory in hex/ASCII";
 
 void Space() { putchar(' '); }
 
+uint8_t* gPathname;
+uint8_t gRefnum;
+
 uint32_t gStartOffset;
 uint32_t gEndOffset;
 uint8_t gDevNum;
@@ -57,6 +60,8 @@ uint16_t gCurrentBlock;
 #define err_eof 0x4C	// ProDOS end of file error
 
 uint8_t ReadSome();
+void BailOnError(uint8_t error);
+uint8_t Open(uint8_t* pathname, uint8_t* outRefnum);
 bool ShouldHighlight(uint8_t);
 
 void main()
@@ -76,15 +81,24 @@ void main()
 	if (!xgetparm_ch_int3('e', &gEndOffset))
 		gEndOffset = 0xFFFFFF;
 
+	if (!xgetparm_n_path(0, &gPathname) || gPathname[0] == 0)
+		gPathname = NULL;
+
+	// Exactly 1 of: Pathname, -m, -d.xx
+	if ((gPathname != NULL) + gDumpMemory + gBlockMode != 1)
+		xProDOS_err(0x80);	// [TODO] der_illegalOption
+
+	if (gPathname != NULL)
+		BailOnError(Open(gPathname, &gRefnum));
+
 	{
 		gBytesPerLine = showHex ? 16 : 64;
-		for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += gBytesPerLine)
+		for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += gAmountRead)
 		{
 			uint8_t err = ReadSome();
 			if (err == err_eof)
 				break;
-			if (err != 0)
-				xProDOS_err(err);	// does not return
+			BailOnError(err);
 
 			// "Block n"
 			if (gBlockMode && (gOffset & 511) == 0)
@@ -105,7 +119,7 @@ void main()
 			if (showHex)
 			{
 				uint8_t i;
-				for (i = 0; i < gBytesPerLine; ++i)
+				for (i = 0; i < gAmountRead; ++i)
 				{
 					uint8_t ch = pagebuff[i];
 					bool inverse = ShouldHighlight(ch);
@@ -115,12 +129,14 @@ void main()
 					SETNORM();
 					Space();
 				}
+				while (i++ < gBytesPerLine)
+					xmessage("   ");
 			}
 
 			if (showASCII)
 			{
 				uint8_t i;
-				for (i = 0; i < gBytesPerLine; ++i)
+				for (i = 0; i < gAmountRead; ++i)
 				{
 					uint8_t ch = pagebuff[i];
 					bool inverse = ShouldHighlight(ch);
@@ -145,12 +161,15 @@ void main()
 
 bool ShouldHighlight(uint8_t ch)
 {
+#if 0
 	// [TODO] parse command-line options to specify what data to highlight
 	if (gDumpMemory)
 		return ch >= 0x80;
 
 	if (gBlockMode)
 		return ch == 0x4C;
+#endif
+	(void) ch;
 
 	return false;
 }
@@ -179,10 +198,59 @@ uint8_t ByteFromMemory(uint32_t addr)
 }
 
 
-uint8_t GetBlockIntoFileBuff(uint16_t block)
+void BailOnError(uint8_t error)
+{
+	if (error)
+		xProDOS_err(error);
+}
+
+uint8_t Open(uint8_t* pathname, uint8_t* outRefnum)
+{
+	//	Open = $C8, pcount=3, pathname, io_buffer, refnum (result)
+	struct OpenParams { uint8_t count; uint8_t* pathname; uint8_t* ioBuffer; uint8_t refnum; };
+	static struct OpenParams openParams = { 3, 0 /* pathname */, 0 /* filebuff */, 0 };
+	openParams.pathname = pathname;
+	openParams.ioBuffer = filebuff;
+	{
+		#define OPEN 0xC8
+		uint8_t err = ProDOS(OPEN, &openParams);
+		*outRefnum = openParams.refnum;
+		return err;
+	}
+}
+
+uint8_t SetMark(uint8_t refnum, uint32_t position)
+{
+	//	SetMark = $CE; pcount=2, ref_num, position
+	struct MarkParams { uint8_t count; uint8_t refnum; uint32_t position; };
+	static struct MarkParams markParams = { 2, 0 /* refnum */, 0 /* position */ };
+	markParams.refnum = refnum;
+	markParams.position = position;
+	#define SET_MARK 0xCE
+	return ProDOS(SET_MARK, &markParams);
+}
+
+uint8_t Read(uint8_t refnum, uint8_t* dataBuffer, uint16_t requestCount, uint16_t* outTransferCount)
+{
+	//	Read = $CA, pcount=4, ref_num, data_buffer(2), request_count(2), trans_count(2)
+	struct ReadParams { uint8_t count; uint8_t refnum; uint8_t* buffer; uint16_t requestCount; uint16_t transferCount; };
+	static struct ReadParams readParams = { 4, 0 /* refnum */, 0 /* buffer */, 0 /* requestCount */, 0 };
+	readParams.refnum = refnum;
+	readParams.buffer = dataBuffer;
+	readParams.requestCount = requestCount;
+	{
+		#define READ 0xCA
+		uint8_t err = ProDOS(READ, &readParams);
+		*outTransferCount = readParams.transferCount;
+		return err;
+	}
+}
+
+
+uint8_t GetBlockIntoFileBuff2(uint16_t block)
 {
 	struct RWBlockParams { uint8_t count; uint8_t devnum; uint8_t* buffer; uint16_t block; };
-	static struct RWBlockParams blockParams = { 3, 0 /* dev */, filebuff, 0 };
+	static struct RWBlockParams blockParams = { 3, 0 /* dev */, filebuff2, 0 };
 
 	if (gBlockValid && block == gCurrentBlock)
 		return 0;
@@ -221,16 +289,16 @@ uint8_t ReadSome()
 		{
 			uint32_t offset = gOffset + i;
 			uint16_t withinBlock = offset & 511;
-			uint8_t err = GetBlockIntoFileBuff(offset / 512);
+			uint8_t err = GetBlockIntoFileBuff2(offset / 512);
 			if (err)
 				xProDOS_err(err);
 
-			pagebuff[i] = filebuff[withinBlock];
+			pagebuff[i] = filebuff2[withinBlock];
 		}
 		gAmountRead = gBytesPerLine;
 		return 0;
 	}
 
-	xProDOS_err(0xFF);	// [TODO] files not supported yet
+	BailOnError(SetMark(gRefnum, gOffset));
+	return Read(gRefnum, pagebuff, gBytesPerLine, &gAmountRead);
 }
-
