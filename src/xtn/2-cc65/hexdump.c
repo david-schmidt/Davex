@@ -186,11 +186,10 @@ bool HandleIdenticalRow()
 	}
 
 	if (identical && !gIdenticalRowMode)
-	{
 		xmessage("*\r");
-		if (!xcheck_wait())
-			xerr();
-	}
+
+	if (identical && !xcheck_wait())	// allow aborting during a very long stream of identical rows
+		xerr();
 
 	gIdenticalRowMode = identical;
 	return gIdenticalRowMode;
