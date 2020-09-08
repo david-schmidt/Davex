@@ -7,7 +7,7 @@ const char gDescription[];	// forward declaration, since gCommandHeader must com
 #define kMinDavexVersion 0x14
 #define kMinDavexVersionMinor 0
 
-#define PARM_COUNT 8	// define before including DavexXC.h
+#define PARM_COUNT 9	// define before including DavexXC.h
 #include "DavexXC.h"
 
 const struct XCHeader gCommandHeader =
@@ -24,6 +24,7 @@ const struct XCHeader gCommandHeader =
 	// Parameters (PARM_COUNT of them)
 	{
 		{ 0, t_wildpath },
+		{ 'H', t_int2 },	// Highlight a specific byte ($bb) or mask-and-compare ($mmbb)
 		{ 'd', t_devnum },
 		{ 'a', t_nil }, // ASCII only
 		{ 'h', t_nil }, // Hex only
@@ -50,19 +51,29 @@ uint8_t gBlockMode;
 uint32_t gOffset;
 uint8_t gBytesPerLine;
 uint16_t gAmountRead;
+bool gIdenticalRowMode;	// current row matches previous row
 
 bool gDumpMemory;
 bool gBlockValid;
-
 uint16_t gCurrentBlock;
 
+#define currentRow pagebuff
+#define previousRow (pagebuff+128)
+bool gFirstRow;
 
 #define err_eof 0x4C	// ProDOS end of file error
+
+uint8_t gHighlightMask;
+uint8_t gHighlightValue;
 
 uint8_t ReadSome();
 void BailOnError(uint8_t error);
 uint8_t Open(uint8_t* pathname, uint8_t* outRefnum);
 bool ShouldHighlight(uint8_t);
+void ParseHighlightParameter();
+bool HandleIdenticalRow();
+void PrintOffset();
+
 
 void main()
 {
@@ -72,6 +83,7 @@ void main()
 	gDumpMemory = xgetparm_ch_nil('m');
 	gBlockMode = xgetparm_ch_byte('d', &gDevNum);
 	gBlockValid = false;
+	ParseHighlightParameter();
 
 	if (!showASCII && !showHex)
 		showASCII = showHex = true;
@@ -91,87 +103,134 @@ void main()
 	if (gPathname != NULL)
 		BailOnError(Open(gPathname, &gRefnum));
 
+	gFirstRow = true;
+	gBytesPerLine = showHex ? 16 : 64;
+	for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += gAmountRead)
 	{
-		gBytesPerLine = showHex ? 16 : 64;
-		for (gOffset = gStartOffset; gOffset < gEndOffset; gOffset += gAmountRead)
+		uint8_t err = ReadSome();
+		if (err == err_eof)
+			break;
+		BailOnError(err);
+
+		if (HandleIdenticalRow())
+			continue;
+
+		// "Block n" header if we are right at the start of a block
+		if (gBlockMode && (gOffset & 511) == 0)
 		{
-			uint8_t err = ReadSome();
-			if (err == err_eof)
-				break;
-			BailOnError(err);
-
-			// "Block n"
-			if (gBlockMode && (gOffset & 511) == 0)
-			{
-				xmessage("Block ");
-				xprdec_2(gOffset / 512);
-				CROUT();
-			}
-
-			// Offset:
-			PRBYTE(gOffset >> 16);
-			if (gDumpMemory)
-				putchar('/');
-			PRBYTE(gOffset >> 8);
-			PRBYTE(gOffset);
-			xmessage(": ");
-
-			if (showHex)
-			{
-				uint8_t i;
-				for (i = 0; i < gAmountRead; ++i)
-				{
-					uint8_t ch = pagebuff[i];
-					bool inverse = ShouldHighlight(ch);
-					if (inverse)
-						SETINV();
-					PRBYTE(ch);
-					SETNORM();
-					Space();
-				}
-				while (i++ < gBytesPerLine)
-					xmessage("   ");
-			}
-
-			if (showASCII)
-			{
-				uint8_t i;
-				for (i = 0; i < gAmountRead; ++i)
-				{
-					uint8_t ch = pagebuff[i];
-					bool inverse = ShouldHighlight(ch);
-					uint8_t ch7 = ch | 0x80;
-					if (inverse)
-						SETINV();
-					if (ch7 > 0xA0)
-						COUT(ch7);
-					else
-						putchar('.');
-					SETNORM();
-				}
-			}
-
+			xmessage("Block ");
+			xprdec_2(gOffset / 512);
 			CROUT();
-			if (!xcheck_wait())
-				return;
 		}
+
+		PrintOffset();
+		xmessage(": ");
+
+		if (showHex)
+		{
+			uint8_t i;
+			for (i = 0; i < gAmountRead; ++i)
+			{
+				uint8_t ch = currentRow[i];
+				bool inverse = ShouldHighlight(ch);
+				if (inverse)
+					SETINV();
+				PRBYTE(ch);
+				SETNORM();
+				Space();
+			}
+			while (i++ < gBytesPerLine)
+				xmessage("   ");
+		}
+
+		if (showASCII)
+		{
+			uint8_t i;
+			for (i = 0; i < gAmountRead; ++i)
+			{
+				uint8_t ch = currentRow[i];
+				bool inverse = ShouldHighlight(ch);
+				uint8_t ch7 = ch | 0x80;
+				if (inverse)
+					SETINV();
+				if (ch7 > 0xA0)
+					COUT(ch7);
+				else
+					putchar('.');
+				SETNORM();
+			}
+		}
+
+		CROUT();
+		if (!xcheck_wait())
+			return;
+	}
+	PrintOffset();
+	CROUT();
+}
+
+
+// Prints a "*" if we are entering gIdenticalRowMode.
+// Returns true if there is no need to output this row.
+bool HandleIdenticalRow()
+{
+	const bool identical = !gFirstRow && memcmp(currentRow, previousRow, gBytesPerLine) == 0;
+	gFirstRow = false;
+	if (!identical)
+		memcpy(previousRow, currentRow, gBytesPerLine);
+
+	if (gAmountRead != gBytesPerLine)
+	{
+		gIdenticalRowMode = false;		// last line, partial
+		return false;
+	}
+
+	if (identical && !gIdenticalRowMode)
+	{
+		xmessage("*\r");
+		if (!xcheck_wait())
+			xerr();
+	}
+
+	gIdenticalRowMode = identical;
+	return gIdenticalRowMode;
+}
+
+
+// Prints gOffset: "xxxxxx" (or for Memory, "xx/xxxx")
+void PrintOffset()
+{
+	PRBYTE(gOffset >> 16);
+	if (gDumpMemory)
+		putchar('/');
+	PRBYTE(gOffset >> 8);
+	PRBYTE(gOffset);
+}
+
+
+// Sets gHighlightMask and gHighlightValue from -H$mmvv
+// If the mask is unspecified, use $FF.
+void ParseHighlightParameter()
+{
+	uint16_t value;
+	if (xgetparm_ch_int2('H', &value))
+	{
+		gHighlightMask = value >> 8;
+		if (gHighlightMask == 0)
+			gHighlightMask = 0xFF;
+		gHighlightValue = value;
+	}
+	else
+	{
+		gHighlightMask = 0;
+		gHighlightValue = 1;	 // will never match anything
 	}
 }
 
 
 bool ShouldHighlight(uint8_t ch)
 {
-#if 0
-	// [TODO] parse command-line options to specify what data to highlight
-	if (gDumpMemory)
-		return ch >= 0x80;
-
-	if (gBlockMode)
-		return ch == 0x4C;
-#endif
-	(void) ch;
-
-	return false;
+	return (ch & gHighlightMask) == gHighlightValue;
 }
 
 
@@ -277,7 +336,7 @@ uint8_t ReadSome()
 		// Read from gOffset to gOffset+gBytesPerLine-1
 		uint8_t i;
 		for (i = 0; i < gBytesPerLine; ++i)
-			pagebuff[i] = ByteFromMemory(gOffset + i);
+			currentRow[i] = ByteFromMemory(gOffset + i);
 		gAmountRead = gBytesPerLine;
 		return 0; // noErr
 	}
@@ -289,16 +348,14 @@ uint8_t ReadSome()
 		{
 			uint32_t offset = gOffset + i;
 			uint16_t withinBlock = offset & 511;
-			uint8_t err = GetBlockIntoFileBuff2(offset / 512);
-			if (err)
-				xProDOS_err(err);
+			BailOnError(GetBlockIntoFileBuff2(offset / 512));
 
-			pagebuff[i] = filebuff2[withinBlock];
+			currentRow[i] = filebuff2[withinBlock];
 		}
 		gAmountRead = gBytesPerLine;
 		return 0;
 	}
 
 	BailOnError(SetMark(gRefnum, gOffset));
-	return Read(gRefnum, pagebuff, gBytesPerLine, &gAmountRead);
+	return Read(gRefnum, currentRow, gBytesPerLine, &gAmountRead);
 }
