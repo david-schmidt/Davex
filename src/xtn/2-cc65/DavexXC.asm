@@ -42,6 +42,14 @@ _SETNORM = normal
 _SETINV = inverse
 
 
+.macro returnTrueForCLC
+	ldx #0
+	txa
+	rol a
+	eor #1
+	rts
+.endmacro
+
 ; __fastcall__ calling convention: last parameter is in sreg+1/sreg/X/A
 ; return value in XA, or sreg+1/sreg/X/A
 
@@ -49,7 +57,7 @@ _SETINV = inverse
 .export _xgetparm_ch_nil
 _xgetparm_ch_nil:
 	jsr xgetparm_ch
-	jmp returnTrueForCLC
+	returnTrueForCLC
 
 ;	extern _Bool __fastcall__ xgetparm_ch_int1(uint8_t optionCharacter, uint8_t* outValue); // int1
 .export _xgetparm_ch_int1
@@ -62,7 +70,7 @@ _xgetparm_ch_int1:
 	tya
 	ldy #0
 	sta (p),y
-:	jmp returnTrueForCLC
+:	returnTrueForCLC
 
 ;	extern _Bool __fastcall__ xgetparm_ch_int2(uint8_t optionCharacter, uint16_t* outValue);
 .export _xgetparm_ch_int2
@@ -80,7 +88,7 @@ getparm_return_int2:
 	txa
 	iny
 	sta (num),y
-:	jmp returnTrueForCLC
+:	returnTrueForCLC
 
 
 ;	extern _Bool __fastcall__ xgetparm_ch_int3(uint8_t optionCharacter, uint32_t* outValue);
@@ -106,7 +114,7 @@ getparm_return_int3:
 	lda #0
 	iny
 	sta (num),y
-:	jmp returnTrueForCLC
+:	returnTrueForCLC
 
 
 ;	extern _Bool __fastcall__ xgetparm_ch_byte(uint8_t optionCharacter, uint8_t* outValue); // filetype, devnum, yesno
@@ -119,7 +127,7 @@ _xgetparm_ch_byte:
 	bcs :+
 	ldy #0
 	sta (p),y
-:	jmp returnTrueForCLC
+:	returnTrueForCLC
 
 
 ;	extern _Bool __fastcall__ xgetparm_n_int3(uint8_t index, uint32_t* outValue);
@@ -166,7 +174,7 @@ _xgetparm_n_path:
 	iny
 	txa
 	sta (num),y
-:	jmp returnTrueForCLC
+:	returnTrueForCLC
 
 
 ;	extern _Bool __fastcall__ xgetparm_n_path_and_filetype(uint8_t index, uint8_t** outPath, uint8_t* outFiletype);
@@ -199,13 +207,16 @@ _xprint_ftype = xprint_ftype
 _xprint_access = xprint_access
 
 ;	extern void __fastcall__ xprdec_2(uint16_t); // print 2-byte value in decimal
+.proc _xprdec_2
 .export _xprdec_2
 _xprdec_2:
 	tay
 	txa
 	jmp xprdec_2
+.endproc
 
 ;	extern void __fastcall__ xprdec_3(uint32_t); // print 3-byte value in decimal
+.proc _xprdec_3
 .export _xprdec_3
 _xprdec_3:
 	sta xnum
@@ -213,8 +224,10 @@ _xprdec_3:
 	lda sreg
 	sta xnum+2
 	jmp xprdec_3	; wants A/X/Y
+.endproc
 
 ;	extern void __fastcall__ xprdec_pad(uint32_t); // print 3-byte value in decimal, right-justified in a 7-character field
+.proc _xprdec_pad
 .export _xprdec_pad
 _xprdec_pad:
 	sta xnum
@@ -222,15 +235,19 @@ _xprdec_pad:
 	lda sreg
 	sta xnum+2
 	jmp xprdec_pad
+.endproc
 
 ;	extern void __fastcall__ xprint_path(const uint8_t*);
+.proc _xprint_path
 .export _xprint_path
 _xprint_path:
 	tay
 	txa
 	jmp xprint_path
+.endproc
 
 ;	extern uint8_t* __fastcall__ xbuild_local(uint8_t* path);	// builds a path relative to the "%" directory -- C uses XA
+.proc _xbuild_local
 .export _xbuild_local
 _xbuild_local:
 	tay
@@ -239,22 +256,26 @@ _xbuild_local:
 	tax
 	tya
 	rts
+.endproc
 
 ;	extern void __fastcall__ xprint_sd(uint8_t slotAndDrive);
 .export _xprint_sd
 _xprint_sd = xprint_sd
 
 ;	extern uint8_t __fastcall__ xredirect(int8_t adjustment);
+.proc _xredirect
 .export _xredirect
 _xredirect:
 	jsr xredirect
 	ldx #0
 	rts
+.endproc
 
 ;	extern uint8_t __fastcall__ xpercent(uint32_t value, uint32_t total);
 ; [TODO] A/X/Y? and num+2,num+1,num
 
 ;	extern _Bool __fastcall__ xyesno();
+.proc _xyesno
 .export _xyesno
 _xyesno:
 	jsr xyesno
@@ -262,8 +283,10 @@ _xyesno:
 	lda #1
 :	ldx #0
 	rts
+.endproc
 
 ;	extern uint8_t __fastcall__ xyesno2(uint8_t defaultChar); // v1.2
+.proc _xyesno2
 .export _xyesno2
 _xyesno2:
 	jsr xyesno2
@@ -271,50 +294,63 @@ _xyesno2:
 	lda #1
 :	ldx #0
 	rts
+.endproc
 
 ;	extern _Bool __fastcall__ xgetln(); // result is in "string" (TODO: call it "xString" or something?)
+.proc _xgetln
 .export _xgetln
 _xgetln:
 	jsr xgetln
-	jmp returnTrueForCLC
+	returnTrueForCLC
+.endproc
 
 ;	extern void __fastcall__ xbell();
 .export _xbell
 _xbell = xbell
 
 ;	extern uint8_t __fastcall__ xdowncase(uint8_t ch);
+.proc _xdowncase
 .export _xdowncase
 _xdowncase:
 	jsr xdowncase
 	ldx #0
 	rts
+.endproc
 
 ;	extern void __fastcall__ xplural(uint16_t value);
+.proc _xplural
 .export _xplural
 _xplural:
 	tay
 	txa
 	jmp xplural	; wants AY
+.endproc
 
 ;	extern _Bool __fastcall__ xcheck_wait();
+.proc _xcheck_wait
 .export _xcheck_wait
 _xcheck_wait:
 	jsr xcheck_wait
-	jmp returnTrueForCLC
+	returnTrueForCLC
+.endproc
 
 ;	extern void __fastcall__ xpr_date(uint16_t date);
+.proc _xpr_date
 .export _xpr_date
 _xpr_date:
 	tay
 	txa
 	jmp xpr_date_ay
+.endproc
 
 ;	extern void __fastcall__ xpr_time(uint16_t time);
+.proc _xpr_time
 .export _xpr_time
 _xpr_time:
 	tay
 	txa
 	jmp xpr_time_ay
+.endproc
 
 ;	extern void __fastcall__ xProDOS_err(uint8_t err);	// does not return
 .export _xProDOS_err
@@ -332,33 +368,34 @@ _xerr = xerr
 ; [TODO]
 
 ;	extern void __fastcall__ xdir_setup(uint8_t* path); // path is complete, or relative to the prefix (see xdir_setup2)
+.proc _xdir_setup
 .export _xdir_setup
 _xdir_setup:
 	tay
 	txa
 	jmp xdir_setup
+.endproc
 
 ;	extern void __fastcall__ xdir_setup2(uint8_t* path); // v1.23 - path is complete, or relative to the already-open directory
+.proc _xdir_setup2
 .export _xdir_setup2
 _xdir_setup2:
 	tay
 	txa
 	jmp xdir_setup2
+.endproc
 
 ;	extern void __fastcall__ xdir_finish();
 .export _xdir_finish
 _xdir_finish = xdir_finish
 
 ;	extern _Bool __fastcall__ xread1dir(); // if returns true, result is in "catbuff"
+.proc _read1dir
 .export _xread1dir
 _xread1dir:
 	jsr xread1dir
-returnTrueForCLC:
-	ldx #0
-	txa
-	rol a
-	eor #1
-	rts
+	returnTrueForCLC
+.endproc
 
 ;	extern void __fastcall__ xpoll_io();
 .export _xpoll_io
@@ -386,15 +423,18 @@ _xrdkey = xrdkey
 _xdirty = xdirty
 
 ;	extern uint8_t __fastcall__ xgetnump(); // v1.1
+.proc _xgetnump
 .export _xgetnump
 _xgetnump:
 	jsr xgetnump
 	ldx #0	;extend result to 16 bits
 	rts
+.endproc
 
 ;	extern uint8_t __fastcall__ ProDOS(uint8_t call, void* params);
+.proc _ProDOS
 .export _ProDOS
-_ProDOS:
+;;_ProDOS:
 	stx @params+1
 	sta @params
 	jsr popa
@@ -404,6 +444,7 @@ _ProDOS:
 @params: .addr 0
 	ldx #0		; error in A
 	rts
+.endproc
 
 .segment "ONCE"
 .segment "INIT"
